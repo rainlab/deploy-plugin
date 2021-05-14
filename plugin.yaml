@@ -1,0 +1,26 @@
+#
+# Plugin Registration
+#
+
+plugin:
+  name: Deploy
+  description: A simple way to deploy your application to a remote location.
+  author: Alexey Bobkov, Samuel Georges
+  icon: icon-cloud
+  homepage: https://github.com/rainlab/deploy-plugin
+
+settings:
+  deploy:
+    label: Deploy
+    description: Manage deployments
+    category: CATEGORY_SYSTEM
+    icon: icon-cloud
+    url: rainlab/deploy/servers
+    order: 500
+    keywords: deploy
+    permissions: [rainlab.deploy.manage_deployments]
+
+permissions:
+  rainlab.deploy.manage_deployments:
+    tab: Deploy
+    label: Manage deployments

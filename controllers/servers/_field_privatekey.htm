@@ -1,0 +1,34 @@
+<!-- Textarea -->
+
+<textarea
+    name="<?= $field->getName() ?>"
+    id="<?= $field->getId() ?>"
+    autocomplete="off"
+    class="form-control field-textarea size-<?= $field->size ?>"
+    placeholder="<?= e(trans($field->placeholder)) ?>"
+    <?= $field->getAttributes() ?>><?= e($field->value) ?></textarea>
+
+<p class="help-block">
+    <?= __("Paste an existing RSA private key in here or :action.", [
+        'action' => '<a href="javascript:generatePrivateKey()">'.__("generate a new one").'</a>'
+    ]) ?>
+</p>
+
+<!--
+    This is a highly sensitive key and should not be shared with anyone.
+
+    For the ultimate security, you can generate your own RSA private key and paste it here.
+
+    Alternatively, you may <a href="javascript:generatePrivateKey()">generate a new key</a> using your browser
+-->
+
+<script>
+function generatePrivateKey() {
+    var $field = $('#<?= $field->getId() ?>');
+    $field.val('<?= __('Please wait...') ?>').attr('disabled', true);
+
+    generatePrivateKeyFromForge(function(privateKey){
+        $field.val(privateKey).attr('disabled', false);
+    });
+}
+</script>

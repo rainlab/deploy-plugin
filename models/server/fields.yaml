@@ -1,0 +1,38 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+  _section1:
+    label: 1. Specify a Location
+    type: section
+
+  server_name:
+    label: Server Name
+    placeholder: Production Environment
+    comment: Give this server a name.
+    span: left
+
+  endpoint_url:
+    label: Base URL
+    placeholder: https://
+    comment: Public web address for the deployment.
+    span: right
+
+  _section2:
+    label: 2. Create a Secure Channel
+    type: section
+
+  private_key:
+    label: Deployment Key
+    type: partial
+    path: field_privatekey
+
+  _section3:
+    label: 3. Deploy the Beacon
+    type: section
+
+  _download_beacon:
+    commentAbove: Grab this zip archive, extract the files and upload them to the location where the website can be reached at the Website URL specified above.
+    type: partial
+    path: field_download_beacon

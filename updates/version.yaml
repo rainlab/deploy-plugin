@@ -1,0 +1,4 @@
+1.0.1:
+  - First version of Deploy plugin
+  - create_servers_table.php
+  - create_server_keys_table.php

@@ -1,0 +1,23 @@
+{
+    "Deploy": "Deploy",
+    "A simple way to deploy your application to a remote location.": "A simple way to deploy your application to a remote location.",
+    "Manage deployments": "Manage deployments",
+    "Create Server": "Create Server",
+    "Deploy sites directly to production from your development environment.": "Deploy sites directly to production from your development environment.",
+    "To get started, click Create Server.": "To get started, click Create Server.",
+    "Paste an existing RSA private key in here or :action.": "Paste an existing RSA private key in here or :action.",
+    "generate a new one": "generate a new one",
+    "Please wait...": "Please wait...",
+    "1. Specify a Location": "1. Specify a Location",
+    "Server Name": "Server Name",
+    "Production Environment": "Production Environment",
+    "Give this server a name.": "Give this server a name.",
+    "Base URL": "Base URL",
+    "Public web address for the deployment.": "Public web address for the deployment.",
+    "2. Create a Secure Channel": "2. Create a Secure Channel",
+    "Deployment Key": "Deployment Key",
+    "3. Deploy the Beacon": "3. Deploy the Beacon",
+    "Grab this zip archive, extract the files and upload them to the location where the website can be reached at the Website URL specified above.": "Grab this zip archive, extract the files and upload them to the location where the website can be reached at the Website URL specified above.",
+    "Continue to Server Management": "Continue to Server Management",
+    "Download Beacon Files": "Download Beacon Files"
+}

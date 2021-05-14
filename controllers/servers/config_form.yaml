@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Server
+
+# Model Form Field configuration
+form: $/rainlab/deploy/models/server/fields.yaml
+
+# Model Class name
+modelClass: RainLab\Deploy\Models\Server
+
+# Default redirect location
+defaultRedirect: rainlab/deploy/servers
+
+# Create page
+create:
+    title: backend::lang.form.create_title
+    redirect: rainlab/deploy/servers/update/:id
+    redirectClose: rainlab/deploy/servers
+
+# Update page
+update:
+    title: backend::lang.form.update_title
+    redirect: rainlab/deploy/servers
+    redirectClose: rainlab/deploy/servers
+
+# Preview page
+preview:
+    title: backend::lang.form.preview_title
