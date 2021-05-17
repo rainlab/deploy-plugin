@@ -3,6 +3,10 @@
 # ===================================
 
 columns:
-  endpoint_url:
-    label: URL
-    searchable: true
+    server_name:
+        label: Name
+        searchable: true
+
+    endpoint_url:
+        label: URL
+        searchable: true

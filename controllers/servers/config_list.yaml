@@ -12,7 +12,7 @@ modelClass: RainLab\Deploy\Models\Server
 title: Manage Servers
 
 # Link URL for each record
-recordUrl: rainlab/deploy/servers/update/:id
+recordUrl: rainlab/deploy/servers/preview/:id
 
 # Message to display if the list is empty
 noRecordsMessage: backend::lang.list.no_records
@@ -33,9 +33,6 @@ showSorting: true
 # defaultSort:
 #     column: created_at
 #     direction: desc
-
-# Display checkboxes next to each record
-showCheckboxes: true
 
 # Toolbar widget configuration
 toolbar:

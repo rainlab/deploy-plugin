@@ -1,6 +1,9 @@
 <?php namespace RainLab\Deploy\Controllers;
 
 use Backend\Classes\SettingsController;
+use ApplicationException;
+use Exception;
+use Flash;
 
 /**
  * Servers Backend Controller
@@ -37,5 +40,21 @@ class Servers extends SettingsController
         $this->addJs('/plugins/rainlab/deploy/assets/vendor/forge/forge.min.js', 'RainLab.Deploy');
 
         return $this->asExtension('FormController')->create();
+    }
+
+    public function preview_onTestBeacon($recordId = null)
+    {
+        if (!$server = $this->formFindModelObject($recordId)) {
+            throw new ApplicationException('Could not find server');
+        }
+
+        try {
+            $response = $server->transmit('healthCheck');
+            traceLog($response);
+            Flash::success('Beacon is alive!');
+        }
+        catch (Exception $ex) {
+            Flash::error('Could not contact beacon');
+        }
     }
 }

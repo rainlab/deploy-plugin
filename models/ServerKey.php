@@ -28,6 +28,14 @@ class ServerKey extends Model
     ];
 
     /**
+     * keyId returns a unique ID for this key
+     */
+    public function keyId(): string
+    {
+        return md5($this->pubkey);
+    }
+
+    /**
      * validatePrivateKey will check the private keypair for validity
      */
     public function validatePrivateKey()
@@ -53,8 +61,9 @@ class ServerKey extends Model
 
     /**
      * verifySignature matches the server key
+     * Returns 1 if the signature is correct, 0 if it is incorrect, and -1 or false on error.
      */
-    public function verifySignature($data, $signature)
+    public function verifySignature(string $data, string $signature)
     {
         $sigBin = base64_decode($signature);
 
@@ -72,16 +81,7 @@ class ServerKey extends Model
 
         if ($resource === false) {
             throw new SystemException(sprintf(
-                "Could not process private key: '%s'",
-                openssl_error_string()
-            ));
-        }
-
-        $privateKey = null;
-        $export = openssl_pkey_export($resource, $privateKey);
-        if ($export === false) {
-            throw new SystemException(sprintf(
-                "Could not export private key: '%s'",
+                "Could not validate private key: '%s'",
                 openssl_error_string()
             ));
         }
