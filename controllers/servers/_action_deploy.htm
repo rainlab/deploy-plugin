@@ -1,0 +1,21 @@
+
+<div class="deploy-action">
+    <div class="row">
+        <div class="col-md-8">
+            <h5>Deploy Files to Server</h5>
+            <p>Transfers files from this computer to the server</p>
+        </div>
+        <div class="col-md-4">
+            <div class="deploy-action-button">
+                <button
+                    class="btn btn-primary"
+                    data-control="popup"
+                    data-size="huge"
+                    data-request-data="server_id: '<?= $formModel->id ?>'"
+                    data-handler="onDeployToServer">
+                    Deploy to Server
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

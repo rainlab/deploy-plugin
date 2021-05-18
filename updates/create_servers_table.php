@@ -12,6 +12,7 @@ class CreateServersTable extends Migration
             $table->increments('id');
             $table->string('server_name')->nullable();
             $table->string('endpoint_url')->nullable();
+            $table->mediumText('deploy_preferences')->nullable();
             $table->timestamps();
         });
     }

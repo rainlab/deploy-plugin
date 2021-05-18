@@ -12,7 +12,7 @@ modelClass: RainLab\Deploy\Models\Server
 title: Manage Servers
 
 # Link URL for each record
-recordUrl: rainlab/deploy/servers/preview/:id
+recordUrl: rainlab/deploy/servers/manage/:id
 
 # Message to display if the list is empty
 noRecordsMessage: backend::lang.list.no_records

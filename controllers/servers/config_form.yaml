@@ -26,6 +26,7 @@ update:
     redirect: rainlab/deploy/servers
     redirectClose: rainlab/deploy/servers
 
-# Preview page
-preview:
-    title: backend::lang.form.preview_title
+# Manage page
+manage:
+    title: Manage Server
+    form: $/rainlab/deploy/models/server/fields_preview.yaml

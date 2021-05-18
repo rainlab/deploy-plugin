@@ -1,0 +1,31 @@
+<?php Block::put('breadcrumb') ?>
+    <ul>
+        <li><a href="<?= Backend::url('rainlab/deploy/servers') ?>">Servers</a></li>
+        <li><?= e($this->pageTitle) ?></li>
+    </ul>
+<?php Block::endPut() ?>
+
+<?php if (!$this->fatalError): ?>
+
+    <div class="flex-layout-row full-height">
+        <div class="form-preview mw-950 flex-layout-column">
+            <div class="flex-layout-item">
+                <div class="scoreboard">
+                    <div data-control="toolbar">
+                        <?= $this->makePartial('manage_scoreboard') ?>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-layout-item stretch">
+                <?= $this->formRender() ?>
+            </div>
+        </div>
+    </div>
+
+<?php else: ?>
+
+    <p class="flash-message static error"><?= e($this->fatalError) ?></p>
+    <p><a href="<?= Backend::url('rainlab/deploy/servers') ?>" class="btn btn-default">Return to servers list</a></p>
+
+<?php endif ?>

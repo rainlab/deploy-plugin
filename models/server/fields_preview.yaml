@@ -1,0 +1,26 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    # _beacon_status:
+    #     tab: Beacon
+    #     # label: Beacon Status
+    #     type: partial
+    #     path: field_beacon_status
+
+    _tip1:
+        type: tip
+        label: Server is Ready to Deploy
+
+    _action_deploy:
+        type: partial
+        path: action_deploy
+
+    _action_update_config:
+        type: partial
+        path: action_update_config
+
+    _action_view_key:
+        type: partial
+        path: action_view_key

@@ -1,0 +1,4 @@
+.deploy-action{border-bottom:1px solid #d7e1ea;padding:10px 0 5px;margin-top:-20px}
+.deploy-action p{color:#999}
+.deploy-action .deploy-action-button{margin-top:15px;margin-bottom:10px}
+@media (min-width:992px){.deploy-action .deploy-action-button{text-align:right}}

@@ -1,0 +1,52 @@
+<?= Form::ajax('onHandleAction', [
+    'data-popup-load-indicator' => true
+]) ?>
+
+    <input type="hidden" name="server_id" value="<?= post('server_id') ?>" />
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="popup">&times;</button>
+        <h4 class="modal-title"><?= e($actionTitle) ?></h4>
+    </div>
+
+    <?php if (!$this->fatalError): ?>
+
+        <div class="modal-body">
+            <?= $widget->render() ?>
+        </div>
+        <div class="modal-footer">
+            <?php if (isset($submitText)): ?>
+                <button
+                    type="submit"
+                    class="btn btn-primary">
+                    <?= e($submitText) ?>
+                </button>
+            <?php endif ?>
+
+            <?php if (isset($closeText)): ?>
+                <button
+                    type="button"
+                    class="btn btn-default"
+                    data-dismiss="popup">
+                    <?= e($closeText) ?>
+                </button>
+            <?php endif ?>
+        </div>
+
+    <?php else: ?>
+
+        <div class="modal-body">
+            <p class="flash-message static error"><?= e(trans($this->fatalError)) ?></p>
+        </div>
+        <div class="modal-footer">
+            <button
+                type="button"
+                class="btn btn-default"
+                data-dismiss="popup">
+                <?= e(trans('backend::lang.form.close')) ?>
+            </button>
+        </div>
+
+    <?php endif ?>
+
+<?= Form::close() ?>

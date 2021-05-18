@@ -1,0 +1,7 @@
+fields:
+    env_config:
+        type: codeeditor
+        label: Environment Variables
+        tab: Config
+        size: giant
+        language: plain_text

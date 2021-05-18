@@ -1,0 +1,21 @@
+
+<div class="deploy-action">
+    <div class="row">
+        <div class="col-md-8">
+            <h5>View Deployment Key</h5>
+            <p>Display the private key used to deploy to this server</p>
+        </div>
+        <div class="col-md-4">
+            <div class="deploy-action-button">
+                <button
+                    class="btn btn-secondary"
+                    data-control="popup"
+                    data-size="huge"
+                    data-request-data="server_id: '<?= $formModel->id ?>'"
+                    data-handler="onShowDeployKey">
+                    Show Key
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

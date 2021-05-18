@@ -1,0 +1,20 @@
+fields:
+    deploy_core:
+        tab: Deploy
+        label: Deploy Core Files
+        commentAbove: Includes all core modules and vendor libraries
+        type: checkbox
+
+    plugins:
+        tab: Deploy
+        span: left
+        label: Deploy Plugins
+        type: checkboxlist
+        quickselect: true
+
+    themes:
+        tab: Deploy
+        span: auto
+        label: Deploy Themes
+        type: checkboxlist
+        quickselect: true

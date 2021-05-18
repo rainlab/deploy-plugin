@@ -26,6 +26,11 @@ class Server extends Model
     ];
 
     /**
+     * @var array jsonable attribute names that are json encoded and decoded from the database
+     */
+    protected $jsonable = ['deploy_preferences'];
+
+    /**
      * @var array hasOne and other relations
      */
     public $hasOne = [
@@ -37,9 +42,7 @@ class Server extends Model
      */
     public function beforeValidate()
     {
-        if ($this->private_key) {
-            $this->processLocalPrivateKey();
-        }
+        $this->processLocalPrivateKey();
     }
 
     /**
@@ -117,5 +120,34 @@ class Server extends Model
         catch (Exception $ex) {
             throw new ValidationException(['private_key' => $ex->getMessage()]);
         }
+    }
+
+    /**
+     * getPluginsOptions returns an array of available plugins to deploy
+     */
+    public function getPluginsOptions(): array
+    {
+        return \System\Models\PluginVersion::all()->lists('code', 'code');
+    }
+
+    /**
+     * getThemesOptions returns an array of available themes to deploy
+     */
+    public function getThemesOptions(): array
+    {
+        $result = [];
+
+        foreach (\Cms\Classes\Theme::all() as $theme) {
+            if ($theme->isLocked()) {
+                $label = $theme->getConfigValue('name').' ('.$theme->getDirName().'*)';
+            }
+            else {
+                $label = $theme->getConfigValue('name').' ('.$theme->getDirName().')';
+            }
+
+            $result[$theme->getDirName()] = $label;
+        }
+
+        return $result;
     }
 }
