@@ -96,6 +96,23 @@ class Servers extends SettingsController
     {
         $widget = $this->formWidgetInstances['env_config'];
 
+        try {
+
+            $response = $widget->model->transmitScript('get_env_file');
+
+            $envContents = $response['contents'] ?? null;
+
+            if ($envContents === null) {
+                throw new ApplicationException('Beacon did not respond with a valid file');
+            }
+
+            $widget->model->env_config = base64_decode($envContents);
+
+        }
+        catch (Exception $ex) {
+            $this->handleError($ex);
+        }
+
         $this->vars['actionTitle'] = 'Update Server Config';
         $this->vars['submitText'] = 'Save Config';
         $this->vars['closeText'] = 'Cancel';

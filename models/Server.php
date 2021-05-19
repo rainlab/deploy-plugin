@@ -2,8 +2,8 @@
 
 use Http;
 use Model;
-use Exception;
 use ValidationException;
+use Exception;
 
 /**
  * Server Model
@@ -46,21 +46,73 @@ class Server extends Model
     }
 
     /**
+     * transmitArtisan command to the server
+     */
+    public function transmitArtisan($command): array
+    {
+        return $this->transmit('artisanCommand', ['artisan' => $command]);
+    }
+
+    /**
+     * transmitScript to execute on the server
+     */
+    public function transmitScript($scriptName): array
+    {
+        $scriptPath = plugins_path("rainlab/deploy/beacon/scripts/${scriptName}.txt");
+
+        $scriptContents = base64_encode(file_get_contents($scriptPath));
+
+        return $this->transmit('evalScript', ['script' => $scriptContents]);
+    }
+
+    /**
+     * transmitFile to the server
+     */
+    public function transmitFile(string $filePath, array $params = []): array
+    {
+        $response = Http::post($this->buildUrl('fileUpload', $params), function($http) use ($filePath) {
+            $http->dataFile('file', $filePath);
+            $http->data('filename', md5($filePath));
+            $http->data('filehash', md5_file($filePath));
+        });
+
+        return $this->processTransmitResponse($response);
+    }
+
+    /**
      * transmit data to the server
      */
     public function transmit(string $cmd, array $params = []): array
     {
         $response = Http::get($this->buildUrl($cmd, $params));
 
+        return $this->processTransmitResponse($response);
+    }
+
+    /**
+     * processTransmitResponse handles the beacon response
+     */
+    protected function processTransmitResponse($response)
+    {
         if ($response->code !== 201) {
             throw new Exception('Invalid response from Beacon');
         }
 
-        return json_decode($response->body, true);
+        $body = json_decode($response->body, true);
+
+        if ($response->code === 400) {
+            throw new Exception($body['error'] ?? 'Unspecified error from beacon');
+        }
+
+        if (!is_array($body)) {
+            throw new Exception('Invalid object from Beacon');
+        }
+
+        return $body;
     }
 
     /**
-     * buildUrl
+     * buildUrl for the beacon with GET vars
      */
     protected function buildUrl(string $cmd, array $params = []): string
     {
@@ -68,7 +120,7 @@ class Server extends Model
     }
 
     /**
-     * preparePayload
+     * preparePayload for the beacon to process
      */
     protected function preparePayload(string $cmd, array $params = []): array
     {
