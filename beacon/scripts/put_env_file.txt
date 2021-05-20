@@ -1,0 +1,16 @@
+// Ouptut
+$result = [
+    'status' => 'error',
+];
+
+// Locate file contents
+$contents = $VARS['contents'] ?? null;
+
+// Write contents
+if ($contents !== null) {
+    $saveFlag = file_put_contents(__DIR__ . '/../.env', $contents);
+    $result['status'] = $saveFlag !== false ? 'ok' : 'error';
+}
+
+// Return result
+return $result;

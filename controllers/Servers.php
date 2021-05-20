@@ -1,5 +1,6 @@
 <?php namespace RainLab\Deploy\Controllers;
 
+use RainLab\Deploy\Widgets\Deployer;
 use Backend\Classes\SettingsController;
 use ApplicationException;
 use Exception;
@@ -45,6 +46,11 @@ class Servers extends SettingsController
     protected $formWidgetInstances = [];
 
     /**
+     * @var RainLab\Deploy\Widgets\Deployer
+     */
+    protected $deployerWidget;
+
+    /**
      * __construct
      */
     public function __construct()
@@ -52,6 +58,9 @@ class Servers extends SettingsController
         parent::__construct();
 
         $this->makeAllFormWidgets();
+
+        $this->deployerWidget = new Deployer($this);
+        $this->deployerWidget->bindToController();
     }
 
     /**
@@ -90,9 +99,9 @@ class Servers extends SettingsController
     }
 
     /**
-     * manage_onUpdateEnvConfig shows the environment variables
+     * manage_onLoadEnvConfig shows the environment variables
      */
-    public function manage_onUpdateEnvConfig()
+    public function manage_onLoadEnvConfig()
     {
         $widget = $this->formWidgetInstances['env_config'];
 
@@ -114,6 +123,7 @@ class Servers extends SettingsController
         }
 
         $this->vars['actionTitle'] = 'Update Server Config';
+        $this->vars['actionHandler'] = 'onSaveEnvConfig';
         $this->vars['submitText'] = 'Save Config';
         $this->vars['closeText'] = 'Cancel';
         $this->vars['widget'] = $widget;
@@ -122,9 +132,32 @@ class Servers extends SettingsController
     }
 
     /**
+     * manage_onSaveEnvConfig
+     */
+    public function manage_onSaveEnvConfig($serverId)
+    {
+        $contents = post('env_config');
+
+        $deployActions = [
+            [
+                'label' => 'Saving File',
+                'action' => 'transmitScript',
+                'script' => 'put_env_file',
+                'vars' => ['contents' => $contents]
+            ],
+            [
+                'label' => 'Finishing Up',
+                'action' => 'final'
+            ]
+        ];
+
+        return $this->deployerWidget->executeSteps($serverId, $deployActions);
+    }
+
+    /**
      * manage_onDeployToServer shows the deployment form
      */
-    public function manage_onDeployToServer()
+    public function manage_onLoadDeployToServer()
     {
         $widget = $this->formWidgetInstances['deploy'];
 
@@ -134,6 +167,47 @@ class Servers extends SettingsController
         $this->vars['widget'] = $widget;
 
         return $this->makePartial('action_form');
+    }
+
+    /**
+     * manage_onSaveEnvConfig
+     */
+    public function manage_onSaveDeployToServer($serverId)
+    {
+        $fileId = md5(uniqid());
+        $filePath = temp_path("ocbl-${fileId}.arc");
+        $contents = post('env_config');
+
+        $deployActions = [
+            [
+                'label' => 'Building Archive',
+                'action' => 'archiveBuilder',
+                'func' => 'buildEnvVariables',
+                'args' => [$filePath, $contents]
+            ],
+            [
+                'label' => 'Deploying Archive',
+                'action' => 'transmitFile',
+                'file' => $filePath
+            ],
+            [
+                'label' => 'Extracting Files',
+                'action' => 'extractFiles',
+                'files' => [$filePath]
+            ],
+            [
+                'label' => 'Migrating Database',
+                'action' => 'transmitArtisan',
+                'artisan' => 'october:migrate'
+            ],
+            [
+                'label' => 'Finishing Up',
+                'action' => 'final',
+                'files' => [$filePath]
+            ]
+        ];
+
+        return $this->deployerWidget->executeSteps($serverId, $deployActions);
     }
 
     /**

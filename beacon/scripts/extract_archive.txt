@@ -1,0 +1,38 @@
+// Ouptut
+$result = [
+    'status' => 'error',
+    'files' => []
+];
+
+// Files to extract
+$files = $VARS['files'] ?? [];
+
+// Base path
+$basePath = __DIR__ . '/..';
+
+// Extract files
+if (is_array($files)) {
+    foreach ($files as $localFile => $file) {
+        $result['files'][$localFile] = extractZip($file, $basePath) ? 1 : 0;
+        @unlink($file);
+    }
+
+    $result['status'] = 'ok';
+}
+
+// Zip helper
+function extractZip($source, $destination) {
+    if (file_exists($destination) || mkdir($destination, 0777, true)) {
+        $zip = new ZipArchive;
+        if ($zip->open($source) === true) {
+            $zip->extractTo($destination);
+            $zip->close();
+            return true;
+        }
+    }
+
+    return false;
+}
+
+// Return result
+return $result;

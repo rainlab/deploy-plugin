@@ -1,6 +1,7 @@
-<?= Form::ajax('onHandleAction', [
-    'data-popup-load-indicator' => true
-]) ?>
+<?php
+    $actionHandler = isset($actionHandler) ? $actionHandler : 'onAjax';
+?>
+<?= Form::open(['data-popup-load-indicator' => true]) ?>
 
     <input type="hidden" name="server_id" value="<?= post('server_id') ?>" />
 
@@ -18,6 +19,10 @@
             <?php if (isset($submitText)): ?>
                 <button
                     type="submit"
+                    data-dismiss="popup"
+                    data-control="popup"
+                    data-handler="<?= e($actionHandler) ?>"
+                    data-keyboard="false"
                     class="btn btn-primary">
                     <?= e($submitText) ?>
                 </button>

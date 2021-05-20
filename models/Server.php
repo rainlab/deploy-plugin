@@ -3,6 +3,7 @@
 use Http;
 use Model;
 use ValidationException;
+use ApplicationException;
 use Exception;
 
 /**
@@ -42,7 +43,11 @@ class Server extends Model
      */
     public function beforeValidate()
     {
-        $this->processLocalPrivateKey();
+        if (!$this->exists || ($this->isDirty('private_key') && $this->private_key)) {
+            $this->processLocalPrivateKey();
+        }
+
+        unset($this->private_key);
     }
 
     /**
@@ -56,13 +61,13 @@ class Server extends Model
     /**
      * transmitScript to execute on the server
      */
-    public function transmitScript($scriptName): array
+    public function transmitScript($scriptName, array $vars = []): array
     {
         $scriptPath = plugins_path("rainlab/deploy/beacon/scripts/${scriptName}.txt");
 
         $scriptContents = base64_encode(file_get_contents($scriptPath));
 
-        return $this->transmit('evalScript', ['script' => $scriptContents]);
+        return $this->transmit('evalScript', ['script' => $scriptContents, 'scriptVars' => $vars]);
     }
 
     /**
@@ -95,17 +100,17 @@ class Server extends Model
     protected function processTransmitResponse($response)
     {
         if ($response->code !== 201) {
-            throw new Exception('Invalid response from Beacon');
+            throw new ApplicationException('A Beacon could not be found at the specified address');
         }
 
         $body = json_decode($response->body, true);
 
         if ($response->code === 400) {
-            throw new Exception($body['error'] ?? 'Unspecified error from beacon');
+            throw new ApplicationException($body['error'] ?? 'Unspecified error from beacon');
         }
 
         if (!is_array($body)) {
-            throw new Exception('Invalid object from Beacon');
+            throw new ApplicationException('Invalid object from Beacon');
         }
 
         return $body;
@@ -166,7 +171,6 @@ class Server extends Model
             $serverKey->validatePrivateKey();
 
             // Set key relationship instead of attribute
-            unset($this->private_key);
             $this->key = $serverKey;
         }
         catch (Exception $ex) {
