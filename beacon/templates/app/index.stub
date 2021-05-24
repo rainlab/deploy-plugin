@@ -8,17 +8,6 @@
 
 /*
 |--------------------------------------------------------------------------
-| Register composer
-|--------------------------------------------------------------------------
-|
-| Composer provides a generated class loader for the application.
-|
-*/
-
-require __DIR__.'/bootstrap/autoload.php';
-
-/*
-|--------------------------------------------------------------------------
 | Load deployment beacon
 |--------------------------------------------------------------------------
 |
@@ -27,6 +16,17 @@ require __DIR__.'/bootstrap/autoload.php';
 */
 
 require __DIR__.'/bootstrap/beacon.php';
+
+/*
+|--------------------------------------------------------------------------
+| Register composer
+|--------------------------------------------------------------------------
+|
+| Composer provides a generated class loader for the application.
+|
+*/
+
+require __DIR__.'/bootstrap/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
