@@ -1,12 +1,30 @@
 <div class="scoreboard-item title-value">
     <h4>Server Name</h4>
     <p class="oc-icon-server"><?= e($formModel->server_name) ?></p>
-    <p class="description"><a href="<?= $formModel->endpoint_url ?>" target="_blank"><?= e($formModel->endpoint_url) ?></a></p>
+    <p class="description">
+        <a href="<?= $formModel->endpoint_url ?>" target="_blank"><?= e(Str::limit($formModel->endpoint_url, 50)) ?></a>
+        (<a href="<?= Backend::url('rainlab/deploy/servers/update/'.$formModel->id) ?>">update</a>)
+    </p>
 </div>
 <div class="scoreboard-item title-value">
     <h4>Beacon Status</h4>
-    <p class="oc-icon-check">Active</p>
-    <p class="description"><a href="javascript:;" data-request="onTestBeacon">Check Beacon</a></p>
+    <?php if ($formModel->status_code === $formModel::STATUS_ACTIVE): ?>
+        <p class="oc-icon-check">Active</p>
+    <?php endif ?>
+    <?php if ($formModel->status_code === $formModel::STATUS_READY): ?>
+        <p class="oc-icon-cloud-upload">Ready</p>
+    <?php endif ?>
+    <?php if ($formModel->status_code === $formModel::STATUS_UNREACHABLE): ?>
+        <p class="oc-icon-chain-broken">Unreachable</p>
+    <?php endif ?>
+    <p class="description">
+        <a
+            href="javascript:;"
+            data-request="onTestBeacon"
+            data-stripe-load-indicator>
+            Check Beacon
+        </a>
+    </p>
 </div>
 <div class="scoreboard-item title-value">
     <h4>Current Version</h4>

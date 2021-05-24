@@ -1,0 +1,83 @@
+fields:
+    app_url:
+        span: left
+        # Backend URI
+        label: system::lang.installer.app_url_label
+
+    backend_uri:
+        span: right
+        # Backend URI
+        label: system::lang.installer.backend_uri_label
+
+    db_type:
+        # Database Engine
+        label: system::lang.installer.database_engine_label
+        type: radio
+        cssClass: inline-options
+        options:
+            sqlite: SQLite
+            mysql: MySQL
+            pgsql: Postgres
+            sqlsrv: SQL Server
+
+    # _ruler1:
+    #     type: ruler
+
+    db_host:
+        # Database Host
+        label: system::lang.installer.database_host_label
+        comment: system::lang.installer.database_host_comment
+        span: auto
+        trigger:
+            action: hide
+            field: db_type
+            condition: value[sqlite]
+
+    db_port:
+        # Database Port
+        label: system::lang.installer.database_port_label
+        comment: system::lang.installer.database_port_comment
+        span: auto
+        trigger:
+            action: hide
+            field: db_type
+            condition: value[sqlite]
+
+    db_name:
+        # Database Name
+        label: system::lang.installer.database_name_label
+        comment: system::lang.installer.database_name_comment
+        span: auto
+        trigger:
+            action: hide
+            field: db_type
+            condition: value[sqlite]
+
+    db_user:
+        # Database Login
+        label: system::lang.installer.database_login_label
+        comment: system::lang.installer.database_login_comment
+        span: auto
+        trigger:
+            action: hide
+            field: db_type
+            condition: value[sqlite]
+
+    db_pass:
+        # Database Password
+        label: system::lang.installer.database_pass_label
+        comment: system::lang.installer.database_pass_comment
+        span: auto
+        trigger:
+            action: hide
+            field: db_type
+            condition: value[sqlite]
+
+    db_filename:
+        # Database Path
+        label: system::lang.installer.database_path_label
+        comment: system::lang.installer.database_path_comment
+        trigger:
+            action: show
+            field: db_type
+            condition: value[sqlite]

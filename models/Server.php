@@ -13,6 +13,10 @@ class Server extends Model
 {
     use \October\Rain\Database\Traits\Validation;
 
+    const STATUS_ACTIVE = 'active';
+    const STATUS_READY = 'ready';
+    const STATUS_UNREACHABLE = 'unreachable';
+
     /**
      * @var string table associated with the model
      */
@@ -39,6 +43,14 @@ class Server extends Model
     ];
 
     /**
+     * beforeCreate
+     */
+    public function beforeCreate()
+    {
+        $this->status_code = self::STATUS_UNREACHABLE;
+    }
+
+    /**
      * beforeValidate event
      */
     public function beforeValidate()
@@ -48,6 +60,14 @@ class Server extends Model
         }
 
         unset($this->private_key);
+    }
+
+    /**
+     * setDeployPreferences manages the deployment preferences as a multidimensional array
+     */
+    public function setDeployPreferences(string $key, array $data)
+    {
+        $this->deploy_preferences = [$key => $data] + (array) $this->deploy_preferences;
     }
 
     /**
@@ -99,6 +119,10 @@ class Server extends Model
      */
     protected function processTransmitResponse($response)
     {
+        if (get('debug') === '1') {
+            traceLog($response);
+        }
+
         if ($response->code !== 201) {
             throw new ApplicationException('A Beacon could not be found at the specified address');
         }

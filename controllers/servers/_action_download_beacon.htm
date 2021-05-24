@@ -7,12 +7,13 @@
         </div>
         <div class="col-md-4">
             <div class="deploy-action-button">
-                <button
+                <a
+                    href="<?= Backend::url('rainlab/deploy/servers/download/'.$formModel->id) ?>"
                     class="btn btn-primary"
-                    data-request-data="server_id: '<?= $formModel->id ?>'"
-                    data-request="onDownloadBeacon">
+                    download
+                >
                     Download Beacon Files
-                </button>
+                </a>
             </div>
         </div>
     </div>

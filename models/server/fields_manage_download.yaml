@@ -1,0 +1,21 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    _tip1:
+        type: hint
+        mode: warning
+        label: Beacon is Not Found at Server
+
+    _action_download_beacon:
+        type: partial
+        path: action_download_beacon
+
+    _action_check_beacon:
+        type: partial
+        path: action_check_beacon
+
+    _action_view_key:
+        type: partial
+        path: action_view_key

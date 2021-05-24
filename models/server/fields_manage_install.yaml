@@ -1,0 +1,17 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    _tip1:
+        type: hint
+        mode: info
+        label: Found Beacon without October CMS installed
+
+    _action_install:
+        type: partial
+        path: action_install
+
+    _action_view_key:
+        type: partial
+        path: action_view_key

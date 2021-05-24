@@ -18,7 +18,8 @@ fields:
     _warning1:
         label: Always Protect The Deployment Key
         comment: Anyone who has the private deployment key can deploy files to this server. Make sure it is kept a secret.
-        type: warning
+        type: hint
+        mode: warning
 
     private_key:
         label: Deployment Key

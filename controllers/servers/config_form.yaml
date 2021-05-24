@@ -24,9 +24,14 @@ create:
 update:
     title: backend::lang.form.update_title
     redirect: rainlab/deploy/servers
-    redirectClose: rainlab/deploy/servers
+    redirectClose: rainlab/deploy/servers/manage/:id
 
-# Manage page
+# Manage pages
 manage:
-    title: Manage Server
-    form: $/rainlab/deploy/models/server/fields_preview.yaml
+    form: $/rainlab/deploy/models/server/fields_manage.yaml
+
+manage_download:
+    form: $/rainlab/deploy/models/server/fields_manage_download.yaml
+
+manage_install:
+    form: $/rainlab/deploy/models/server/fields_manage_install.yaml

@@ -1,10 +1,16 @@
 <?php namespace RainLab\Deploy\Controllers;
 
-use RainLab\Deploy\Widgets\Deployer;
+use Db;
+use Str;
+use Flash;
+use Backend;
+use Redirect;
+use Response;
 use Backend\Classes\SettingsController;
+use RainLab\Deploy\Classes\ArchiveBuilder;
+use RainLab\Deploy\Widgets\Deployer;
 use ApplicationException;
 use Exception;
-use Flash;
 
 /**
  * Servers Backend Controller
@@ -35,9 +41,10 @@ class Servers extends SettingsController
      * formWidgetDefinitions
      */
     public $formWidgetDefinitions = [
+        'deploy' => '/plugins/rainlab/deploy/models/server/fields_deploy.yaml',
+        'install' => '/plugins/rainlab/deploy/models/server/fields_install.yaml',
         'privkey' => '/plugins/rainlab/deploy/models/server/fields_privkey.yaml',
         'env_config' => '/plugins/rainlab/deploy/models/server/fields_env_config.yaml',
-        'deploy' => '/plugins/rainlab/deploy/models/server/fields_deploy.yaml',
     ];
 
     /**
@@ -51,12 +58,10 @@ class Servers extends SettingsController
     protected $deployerWidget;
 
     /**
-     * __construct
+     * beforeDisplay runs before all page actions and handlers
      */
-    public function __construct()
+    public function beforeDisplay()
     {
-        parent::__construct();
-
         $this->makeAllFormWidgets();
 
         $this->deployerWidget = new Deployer($this);
@@ -81,7 +86,49 @@ class Servers extends SettingsController
     {
         $this->addCss('/plugins/rainlab/deploy/assets/css/deploy.css', 'RainLab.Deploy');
 
-        return $this->asExtension('FormController')->update($recordId, 'manage');
+        $this->pageTitle = 'Manage Server';
+
+        $model = $this->formFindModelObject($recordId);
+
+        switch ($model->status_code) {
+            case $model::STATUS_READY:
+                $context = 'manage_install';
+                break;
+
+            case $model::STATUS_UNREACHABLE:
+                $context = 'manage_download';
+                break;
+
+            default:
+                $context = 'manage';
+                break;
+        }
+
+        $this->initForm($model, $context);
+    }
+
+    /**
+     * download action
+     */
+    public function download($recordId = null)
+    {
+        if (!$server = $this->formFindModelObject($recordId)) {
+            throw new ApplicationException('Could not find server');
+        }
+
+        $pubKey = $server->key->pubkey ?? null;
+        if (!$pubKey) {
+            throw new ApplicationException('Could not find public key');
+        }
+
+        $fileId = md5(uniqid());
+        $filePath = temp_path("ocbl-${fileId}.arc");
+
+        ArchiveBuilder::instance()->buildBeaconFiles($filePath, $pubKey);
+
+        $outputName = Str::slug($server->server_name) . '-beacon.zip';
+
+        return Response::download($filePath, $outputName)->deleteFileAfterSend(true);
     }
 
     /**
@@ -140,7 +187,7 @@ class Servers extends SettingsController
 
         $deployActions = [
             [
-                'label' => 'Saving File',
+                'label' => 'Saving Configuration Values',
                 'action' => 'transmitScript',
                 'script' => 'put_env_file',
                 'vars' => ['contents' => $contents]
@@ -160,8 +207,13 @@ class Servers extends SettingsController
     public function manage_onLoadDeployToServer()
     {
         $widget = $this->formWidgetInstances['deploy'];
+        $model = $widget->model;
+
+        $deployPrefs = $model->deploy_preferences['deploy_config'] ?? [];
+        $widget->setFormValues($deployPrefs);
 
         $this->vars['actionTitle'] = 'Deploy Files to Server';
+        $this->vars['actionHandler'] = 'onSaveDeployToServer';
         $this->vars['submitText'] = 'Deploy';
         $this->vars['closeText'] = 'Cancel';
         $this->vars['widget'] = $widget;
@@ -174,40 +226,147 @@ class Servers extends SettingsController
      */
     public function manage_onSaveDeployToServer($serverId)
     {
-        $fileId = md5(uniqid());
-        $filePath = temp_path("ocbl-${fileId}.arc");
-        $contents = post('env_config');
+        $widget = $this->formWidgetInstances['deploy'];
+        $model = $widget->model;
 
-        $deployActions = [
-            [
-                'label' => 'Building Archive',
-                'action' => 'archiveBuilder',
-                'func' => 'buildEnvVariables',
-                'args' => [$filePath, $contents]
-            ],
-            [
-                'label' => 'Deploying Archive',
-                'action' => 'transmitFile',
-                'file' => $filePath
-            ],
-            [
-                'label' => 'Extracting Files',
-                'action' => 'extractFiles',
-                'files' => [$filePath]
-            ],
-            [
-                'label' => 'Migrating Database',
-                'action' => 'transmitArtisan',
-                'artisan' => 'october:migrate'
-            ],
-            [
-                'label' => 'Finishing Up',
-                'action' => 'final',
-                'files' => [$filePath]
-            ]
+        // Save preferences
+        $model->setDeployPreferences('deploy_config', post());
+        $model->save();
+
+        // Create deployment chain
+        $deployActions = [];
+        $useFiles = [];
+        $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Core', 'buildCoreModules');
+        $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Vendor', 'buildVendorPackages');
+
+        $deployActions[] = [
+            'label' => 'Extracting Files',
+            'action' => 'extractFiles',
+            'files' => $useFiles
+        ];
+
+        $deployActions[] = [
+            'label' => 'Migrating Database',
+            'action' => 'transmitArtisan',
+            'artisan' => 'october:migrate'
+        ];
+
+        $deployActions[] = [
+            'label' => 'Finishing Up',
+            'action' => 'final',
+            'files' => $useFiles
         ];
 
         return $this->deployerWidget->executeSteps($serverId, $deployActions);
+    }
+
+    /**
+     * manage_onLoadInstallToServer shows the installation form
+     */
+    public function manage_onLoadInstallToServer()
+    {
+        $widget = $this->formWidgetInstances['install'];
+        $model = $widget->model;
+
+        $deployPrefs = $model->deploy_preferences['install_config'] ?? [];
+        $widget->setFormValues($deployPrefs + [
+            'app_url' => $model->endpoint_url,
+            'backend_uri' => Backend::uri(),
+            'db_type' => Db::getDriverName(),
+            'db_host' => Db::getConfig('host'),
+            'db_port' => Db::getConfig('port'),
+            'db_name' => Db::getConfig('database'),
+            'db_user' => Db::getConfig('username'),
+            'db_filename' => 'storage/database.sqlite',
+        ]);
+
+        $this->vars['actionTitle'] = 'Install October CMS to Server';
+        $this->vars['actionHandler'] = 'onSaveInstallToServer';
+        $this->vars['submitText'] = 'Install';
+        $this->vars['closeText'] = 'Cancel';
+        $this->vars['widget'] = $widget;
+
+        return $this->makePartial('action_form');
+    }
+
+    /**
+     * manage_onSaveInstallToServer
+     */
+    public function manage_onSaveInstallToServer($serverId)
+    {
+        $widget = $this->formWidgetInstances['install'];
+        $model = $widget->model;
+
+        // Save preferences
+        $model->setDeployPreferences('install_config', post());
+        $model->save();
+
+        // Build environment variables
+        $envValues = post();
+        if ($envValues['db_type'] === 'sqlite') {
+            $envValues['db_name'] = $envValues['db_filename'];
+        }
+        $envValues['app_key'] = env('APP_KEY');
+
+        // Create deployment chain
+        $deployActions = [];
+
+        $envContents = ArchiveBuilder::instance()->buildEnvContents($envValues);
+        $deployActions[] = [
+            'label' => 'Saving Configuration Values',
+            'action' => 'transmitScript',
+            'script' => 'put_env_file',
+            'vars' => ['contents' => $envContents]
+        ];
+
+        $useFiles = [];
+        $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Installer', 'buildInstallBundle');
+        $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Core', 'buildCoreModules');
+        $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Vendor', 'buildVendorPackages');
+
+        $deployActions[] = [
+            'label' => 'Extracting Files',
+            'action' => 'extractFiles',
+            'files' => $useFiles
+        ];
+
+        $deployActions[] = [
+            'label' => 'Migrating Database',
+            'action' => 'transmitArtisan',
+            'artisan' => 'october:migrate'
+        ];
+
+        $deployActions[] = [
+            'label' => 'Finishing Up',
+            'action' => 'final',
+            'files' => $useFiles
+        ];
+
+        return $this->deployerWidget->executeSteps($serverId, $deployActions);
+    }
+
+    /**
+     * buildArchiveDeployStep
+     */
+    protected function buildArchiveDeployStep(&$steps, $typeLabel, $buildFunc): string
+    {
+        $fileId = md5(uniqid());
+        $filePath = temp_path("ocbl-${fileId}.arc");
+
+        $steps[] = [
+            'label' => __('Building :type Archive', ['type' => $typeLabel]),
+            'action' => 'archiveBuilder',
+            'func' => $buildFunc,
+            'args' => [$filePath]
+        ];
+
+        $steps[] = [
+            'label' => __('Deploying :type Archive', ['type' => $typeLabel]),
+            'action' => 'transmitFile',
+            'file' => $filePath
+        ];
+
+        return $filePath;
     }
 
     /**
@@ -219,13 +378,25 @@ class Servers extends SettingsController
             throw new ApplicationException('Could not find server');
         }
 
+        $wantCode = null;
+
         try {
             $response = $server->transmit('healthCheck');
-            traceLog($response);
+            $isInstalled = $response['appInstalled'] ?? false;
+            $wantCode = $isInstalled ? $server::STATUS_ACTIVE : $server::STATUS_READY;
             Flash::success('Beacon is alive!');
         }
         catch (Exception $ex) {
-            Flash::error('Could not contact beacon');
+            $wantCode = $server::STATUS_UNREACHABLE;
+            Flash::warning('Could not contact beacon');
+        }
+
+        // Status differs
+        if ($wantCode !== null && $wantCode !== $server->status_code) {
+            $server->status_code = $wantCode;
+            $server->save();
+
+            return Redirect::refresh();
         }
     }
 

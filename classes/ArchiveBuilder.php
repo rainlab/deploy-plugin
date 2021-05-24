@@ -37,6 +37,35 @@ class ArchiveBuilder
     }
 
     /**
+     * buildInstallBundle builds files for a new install
+     */
+    public function buildInstallBundle(string $outputFilePath)
+    {
+        static::instance()->buildArchive($outputFilePath, [
+            'dirs' => [
+                'config',
+                'storage',
+                'tests'
+            ],
+            'dirsSrc' => [
+                'plugins/october/demo' => base_path('plugins/october/demo'),
+                'themes/demo' => base_path('themes/demo'),
+                'storage' => plugins_path('rainlab/deploy/beacon/templates/storage'),
+                'config' => base_path('config'),
+                'tests' => base_path('tests'),
+            ],
+            'filesSrc' => [
+                'artisan' => base_path('artisan'),
+                '.htaccess' => base_path('.htaccess'),
+                'server.php' => base_path('server.php'),
+                'phpunit.xml' => base_path('phpunit.xml'),
+                'composer.json' => base_path('composer.json'),
+                'composer.lock' => base_path('composer.lock'),
+            ]
+        ]);
+    }
+
+    /**
      * buildCoreModules builds the core modules
      */
     public function buildCoreModules(string $outputFilePath)
@@ -67,6 +96,16 @@ class ArchiveBuilder
     }
 
     /**
+     * buildEnvContents builds environment variable file from values
+     */
+    public static function buildEnvContents(array $values)
+    {
+        $templatePath = plugins_path('rainlab/deploy/beacon/templates/app');
+
+        return Bracket::parse(file_get_contents($templatePath . '/.env.stub'), $values);
+    }
+
+    /**
      * buildEnvVariables builds an archive with the environment variable file in it
      */
     public static function buildEnvVariables(string $outputFilePath, string $contents): void
@@ -91,6 +130,10 @@ class ArchiveBuilder
         $uniqueId = uniqid();
         $tmpPath = $this->createTempPath($uniqueId);
 
+        if (!class_exists('System')) {
+            $options = [];
+        }
+
         try {
             // Build directories
             $dirs = $options['dirs'] ?? [];
@@ -110,12 +153,16 @@ class ArchiveBuilder
 
                 $filesSrc = $options['filesSrc'] ?? [];
                 foreach ($filesSrc as $fileSrc) {
-                    $zip->add($fileSrc);
+                    if (file_exists($fileSrc)) {
+                        $zip->add($fileSrc);
+                    }
                 }
 
                 $dirsSrc = $options['dirsSrc'] ?? [];
                 foreach ($dirsSrc as $folderName => $dirSrc) {
-                    $zip->folder($folderName, rtrim($dirSrc, '/') . '/*');
+                    if (file_exists($dirSrc)) {
+                        $zip->folder($folderName, rtrim($dirSrc, '/') . '/*');
+                    }
                 }
             });
         }
@@ -139,6 +186,7 @@ class ArchiveBuilder
     public function createTempPath($uniqueId)
     {
         $path = $this->getTempPath() . '/' . $uniqueId;
+
         if (!File::exists($path)) {
             File::makeDirectory($path, 0777, true);
         }
@@ -155,7 +203,8 @@ class ArchiveBuilder
     public function destroyTempPath($uniqueId)
     {
         try {
-            $path = $this->createTempPath($uniqueId);
+            $path = $this->getTempPath() . '/' . $uniqueId;
+
             return File::deleteDirectory($path);
         }
         catch (Exception $ex) {

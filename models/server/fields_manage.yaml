@@ -3,14 +3,9 @@
 # ===================================
 
 fields:
-    # _beacon_status:
-    #     tab: Beacon
-    #     # label: Beacon Status
-    #     type: partial
-    #     path: field_beacon_status
-
     _tip1:
-        type: tip
+        type: hint
+        mode: success
         label: Server is Ready to Deploy
 
     _action_deploy:
