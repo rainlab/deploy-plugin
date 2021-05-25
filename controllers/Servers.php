@@ -365,10 +365,13 @@ class Servers extends SettingsController
         $model->setDeployPreferences('install_config', post());
         $model->save();
 
+        // Special SQLite logic
+        $sqlitePath = null;
+
         // Build environment variables
         $envValues = post();
         if ($envValues['db_type'] === 'sqlite') {
-            $envValues['db_name'] = $envValues['db_filename'];
+            $sqlitePath = $envValues['db_name'] = $envValues['db_filename'];
         }
         $envValues['app_key'] = env('APP_KEY');
 
@@ -384,7 +387,7 @@ class Servers extends SettingsController
         ];
 
         $useFiles = [];
-        $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Installer', 'buildInstallBundle');
+        $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Installer', 'buildInstallBundle', [$sqlitePath]);
         $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Core', 'buildCoreModules');
         $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Vendor', 'buildVendorPackages');
 
@@ -442,24 +445,16 @@ class Servers extends SettingsController
             throw new ApplicationException('Could not find server');
         }
 
-        $wantCode = null;
+        $statusDiffers = $server->testBeacon();
 
-        try {
-            $response = $server->transmit('healthCheck');
-            $isInstalled = $response['appInstalled'] ?? false;
-            $wantCode = $isInstalled ? $server::STATUS_ACTIVE : $server::STATUS_READY;
-            Flash::success('Beacon is alive!');
-        }
-        catch (Exception $ex) {
-            $wantCode = $server::STATUS_UNREACHABLE;
+        if ($server->status_code === $server::STATUS_UNREACHABLE) {
             Flash::warning('Could not contact beacon');
         }
+        else {
+            Flash::success('Beacon is alive!');
+        }
 
-        // Status differs
-        if ($wantCode !== null && $wantCode !== $server->status_code) {
-            $server->status_code = $wantCode;
-            $server->save();
-
+        if ($statusDiffers) {
             return Redirect::refresh();
         }
     }

@@ -63,6 +63,32 @@ class Server extends Model
     }
 
     /**
+     * testBeacon and return true if the status differs
+     */
+    public function testBeacon(): bool
+    {
+        $wantCode = null;
+
+        try {
+            $response = $this->transmit('healthCheck');
+            $isInstalled = $response['appInstalled'] ?? false;
+            $wantCode = $isInstalled ? static::STATUS_ACTIVE : static::STATUS_READY;
+        }
+        catch (Exception $ex) {
+            $wantCode = static::STATUS_UNREACHABLE;
+        }
+
+        // Status differs
+        if ($wantCode !== null && $wantCode !== $this->status_code) {
+            $this->status_code = $wantCode;
+            $this->save();
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * setDeployPreferences manages the deployment preferences as a multidimensional array
      */
     public function setDeployPreferences(string $key, $data)

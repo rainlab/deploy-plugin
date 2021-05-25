@@ -136,6 +136,7 @@ class Deployer extends WidgetBase
 
             case 'final':
                 $this->cleanupFiles(post('files'));
+                $this->findServerModelObject()->testBeacon();
                 Flash::success('Deployment Successful');
                 return Redirect::refresh();
         }

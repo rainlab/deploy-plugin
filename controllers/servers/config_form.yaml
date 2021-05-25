@@ -17,8 +17,8 @@ defaultRedirect: rainlab/deploy/servers
 # Create page
 create:
     title: backend::lang.form.create_title
-    redirect: rainlab/deploy/servers/update/:id
-    redirectClose: rainlab/deploy/servers
+    redirect: rainlab/deploy/servers/manage/:id
+    redirectClose: rainlab/deploy/servers/manage/:id
 
 # Update page
 update:
