@@ -179,7 +179,7 @@ class Servers extends SettingsController
     }
 
     /**
-     * manage_onSaveEnvConfig
+     * manage_onSaveEnvConfig saves environment variables
      */
     public function manage_onSaveEnvConfig($serverId)
     {
@@ -200,7 +200,6 @@ class Servers extends SettingsController
 
         return $this->deployerWidget->executeSteps($serverId, $deployActions);
     }
-
 
     /**
      * manage_onLoadRunShell shows the shell script form
@@ -223,7 +222,7 @@ class Servers extends SettingsController
     }
 
     /**
-     * manage_onRunShellScript
+     * manage_onRunShellScript runs a shell script
      */
     public function manage_onRunShellScript()
     {
@@ -273,7 +272,7 @@ class Servers extends SettingsController
     }
 
     /**
-     * manage_onSaveEnvConfig
+     * manage_onSaveDeployToServer deploys selected objects to the server
      */
     public function manage_onSaveDeployToServer($serverId)
     {
@@ -358,7 +357,7 @@ class Servers extends SettingsController
     }
 
     /**
-     * manage_onSaveInstallToServer
+     * manage_onSaveInstallToServer runs the installation process
      */
     public function manage_onSaveInstallToServer($serverId)
     {
@@ -369,18 +368,29 @@ class Servers extends SettingsController
         $model->setDeployPreferences('install_config', post());
         $model->save();
 
-        // Special SQLite logic
-        $sqlitePath = null;
-
         // Build environment variables
         $envValues = post();
         if ($envValues['db_type'] === 'sqlite') {
-            $sqlitePath = $envValues['db_name'] = $envValues['db_filename'];
+            $envValues['db_name'] = $envValues['db_filename'];
         }
         $envValues['app_key'] = env('APP_KEY');
 
         // Create deployment chain
         $deployActions = [];
+
+        $deployActions[] = [
+            'label' => 'Checking Database Config',
+            'action' => 'transmitScript',
+            'script' => 'check_database',
+            'vars' => [
+                'type' => post('db_type'),
+                'host' => post('db_host'),
+                'port' => post('db_port'),
+                'name' => post('db_name'),
+                'user' => post('db_user'),
+                'pass' => post('db_type') === 'sqlite' ? post('db_filename') : post('db_pass')
+            ]
+        ];
 
         $envContents = ArchiveBuilder::instance()->buildEnvContents($envValues);
         $deployActions[] = [
@@ -391,7 +401,7 @@ class Servers extends SettingsController
         ];
 
         $useFiles = [];
-        $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Installer', 'buildInstallBundle', [$sqlitePath]);
+        $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Installer', 'buildInstallBundle');
         $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Core', 'buildCoreModules');
         $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Vendor', 'buildVendorPackages');
 
@@ -417,7 +427,7 @@ class Servers extends SettingsController
     }
 
     /**
-     * buildArchiveDeployStep
+     * buildArchiveDeployStep builds a single archive step used for deployment
      */
     protected function buildArchiveDeployStep(&$steps, string $typeLabel, string $buildFunc, array $funcArgs = []): string
     {
@@ -464,7 +474,7 @@ class Servers extends SettingsController
     }
 
     /**
-     * makeAllFormWidgets
+     * makeAllFormWidgets generates all form widgets used by the controller
      */
     protected function makeAllFormWidgets()
     {

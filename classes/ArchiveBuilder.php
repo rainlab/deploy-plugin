@@ -51,9 +51,9 @@ class ArchiveBuilder
     /**
      * buildInstallBundle builds files for a new install
      */
-    public function buildInstallBundle(string $outputFilePath, string $sqlitePath = null)
+    public function buildInstallBundle(string $outputFilePath)
     {
-        $definition = [
+        static::instance()->buildArchive($outputFilePath, [
             'dirs' => [
                 'config',
                 'storage',
@@ -74,14 +74,7 @@ class ArchiveBuilder
                 'composer.json' => base_path('composer.json'),
                 'composer.lock' => base_path('composer.lock'),
             ]
-        ];
-
-        // Include relative sqlite path
-        if ($sqlitePath && substr($sqlitePath, 0, 1) !== '/') {
-            $definition['files'][$sqlitePath] = '';
-        }
-
-        static::instance()->buildArchive($outputFilePath, $definition);
+        ]);
     }
 
     /**
