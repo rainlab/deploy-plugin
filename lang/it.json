@@ -71,5 +71,6 @@
   "Finishing Up": "Terminando",
   "Extracting Files": "Estrazione di file",
   "Migrating Database": "Database in migrazione",
-  "Building :type Archive": "Edificio :type Archivio"
+  "Building :type Archive": "Edificio :type Archivio",
+  "Checking Database Config": "Controllo della configurazione del database"
 }

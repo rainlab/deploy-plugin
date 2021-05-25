@@ -71,5 +71,6 @@
   "Finishing Up": "Почти готово",
   "Extracting Files": "Извлечения файлов",
   "Migrating Database": "Перенос базы данных",
-  "Building :type Archive": "type: тип Архив"
+  "Building :type Archive": "type: тип Архив",
+  "Checking Database Config": "Проверка конфигурации базы данных"
 }

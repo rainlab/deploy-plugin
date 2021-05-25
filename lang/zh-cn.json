@@ -71,5 +71,6 @@
   "Finishing Up": "整理起来",
   "Extracting Files": "提取文件",
   "Migrating Database": "迁移数据库",
-  "Building :type Archive": ":type类型档案"
+  "Building :type Archive": ":type类型档案",
+  "Checking Database Config": "检查数据库配置"
 }

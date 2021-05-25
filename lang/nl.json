@@ -71,5 +71,6 @@
   "Finishing Up": "Afronden",
   "Extracting Files": "Uitpakken van bestanden",
   "Migrating Database": "Database migreren",
-  "Building :type Archive": "Gebouw :type Archief"
+  "Building :type Archive": "Gebouw :type Archief",
+  "Checking Database Config": "Databaseconfiguratie controleren"
 }

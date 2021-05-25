@@ -71,5 +71,6 @@
   "Finishing Up": "الانتهاء",
   "Extracting Files": "استخراج ملفات",
   "Migrating Database": "ترحيل قاعدة البيانات",
-  "Building :type Archive": "المبنى: نوع الأرشيف"
+  "Building :type Archive": "المبنى: نوع الأرشيف",
+  "Checking Database Config": "التحقق من تكوين قاعدة البيانات"
 }
