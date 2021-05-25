@@ -86,7 +86,14 @@ class Deployer extends WidgetBase
                 }
 
                 $response = $this->findServerModelObject()->transmitArtisan($artisanCmd);
-                return ['output' => base64_decode($response['output'])];
+
+                $errCode = $response['errCode'] ?? null;
+                $output = isset($response['output']) ? base64_decode($response['output']) : 'Missing output';
+                if ((int) $errCode !== 0) {
+                    throw new ApplicationException($output);
+                }
+
+                return ['output' => $output];
 
             case 'transmitScript':
                 $scriptName = post('script');
@@ -98,7 +105,7 @@ class Deployer extends WidgetBase
                 $response = $this->findServerModelObject()->transmitScript($scriptName, $scriptVars);
                 $statusCode = $response['status'] ?? null;
                 if ($statusCode !== 'ok') {
-                    throw new ApplicationException('Script failed');
+                    throw new ApplicationException($response['error'] ?? 'Script failed');
                 }
                 break;
 
@@ -123,7 +130,7 @@ class Deployer extends WidgetBase
 
                 $statusCode = $response['status'] ?? null;
                 if ($statusCode !== 'ok') {
-                    throw new ApplicationException('Unzip failed');
+                    throw new ApplicationException($response['error'] ?? 'Unzip failed');
                 }
                 break;
 

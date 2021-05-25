@@ -14,24 +14,35 @@ class ArchiveBuilder
     use \October\Rain\Support\Traits\Singleton;
 
     /**
+     * @var string templatePath for application stub files
+     */
+    protected $templatePath;
+
+    /**
+     * init initializes the plugin manager
+     */
+    protected function init()
+    {
+        $this->templatePath = plugins_path('rainlab/deploy/beacon/templates/app');
+    }
+
+    /**
      * buildBeaconFiles builds the beacon files for deployment
      */
     public function buildBeaconFiles(string $outputFilePath, string $pubKey)
     {
-        $templatePath = plugins_path('rainlab/deploy/beacon/templates/app');
-
-        $beaconContents = Bracket::parse(file_get_contents($templatePath . '/bootstrap/beacon.stub'), [
+        $beaconContents = Bracket::parse(file_get_contents($this->templatePath . '/bootstrap/beacon.stub'), [
             'pub_key_encoded' => base64_encode($pubKey)
         ]);
 
-        static::instance()->buildArchive($outputFilePath, [
+        $this->buildArchive($outputFilePath, [
             'dirs' => [
                 'bootstrap'
             ],
             'files' => [
-                'index.php' => file_get_contents($templatePath . '/index.stub'),
-                'bootstrap/app.php' => file_get_contents($templatePath . '/bootstrap/app.stub'),
-                'bootstrap/autoload.php' => file_get_contents($templatePath . '/bootstrap/autoload.stub'),
+                'index.php' => file_get_contents($this->templatePath . '/index.stub'),
+                'bootstrap/app.php' => file_get_contents($this->templatePath . '/bootstrap/app.stub'),
+                'bootstrap/autoload.php' => file_get_contents($this->templatePath . '/bootstrap/autoload.stub'),
                 'bootstrap/beacon.php' => $beaconContents,
             ]
         ]);
@@ -91,7 +102,7 @@ class ArchiveBuilder
             $definition['dirsSrc'][$localPath] = $path;
         }
 
-        static::instance()->buildArchive($outputFilePath, $definition);
+        $this->buildArchive($outputFilePath, $definition);
     }
 
     /**
@@ -112,7 +123,7 @@ class ArchiveBuilder
             $definition['dirsSrc'][$localPath] = themes_path($themeCode);
         }
 
-        static::instance()->buildArchive($outputFilePath, $definition);
+        $this->buildArchive($outputFilePath, $definition);
     }
 
     /**
@@ -120,7 +131,7 @@ class ArchiveBuilder
      */
     public function buildCoreModules(string $outputFilePath)
     {
-        static::instance()->buildArchive($outputFilePath, [
+        $this->buildArchive($outputFilePath, [
             'dirs' => [
                 'modules'
             ],
@@ -135,7 +146,7 @@ class ArchiveBuilder
      */
     public function buildVendorPackages(string $outputFilePath)
     {
-        static::instance()->buildArchive($outputFilePath, [
+        $this->buildArchive($outputFilePath, [
             'dirs' => [
                 'vendor'
             ],
@@ -148,19 +159,17 @@ class ArchiveBuilder
     /**
      * buildEnvContents builds environment variable file from values
      */
-    public static function buildEnvContents(array $values)
+    public function buildEnvContents(array $values)
     {
-        $templatePath = plugins_path('rainlab/deploy/beacon/templates/app');
-
-        return Bracket::parse(file_get_contents($templatePath . '/.env.stub'), $values);
+        return Bracket::parse(file_get_contents($this->templatePath . '/.env.stub'), $values);
     }
 
     /**
      * buildEnvVariables builds an archive with the environment variable file in it
      */
-    public static function buildEnvVariables(string $outputFilePath, string $contents): void
+    public function buildEnvVariables(string $outputFilePath, string $contents): void
     {
-        static::instance()->buildArchive($outputFilePath, [
+        $this->buildArchive($outputFilePath, [
             'files' => [
                 '.env' => $contents
             ]
@@ -225,7 +234,7 @@ class ArchiveBuilder
     /**
      * getTempPath returns a temporary working directory
      */
-    public function getTempPath()
+    protected function getTempPath(): string
     {
         return temp_path();
     }
@@ -233,7 +242,7 @@ class ArchiveBuilder
     /**
      * createTempPath creates the working path on the disk
      */
-    public function createTempPath($uniqueId)
+    protected function createTempPath(string $uniqueId): string
     {
         $path = $this->getTempPath() . '/' . $uniqueId;
 
@@ -250,12 +259,12 @@ class ArchiveBuilder
     /**
      * destroyTempPath removes the working path and files from disk
      */
-    public function destroyTempPath($uniqueId)
+    protected function destroyTempPath($uniqueId): void
     {
         try {
             $path = $this->getTempPath() . '/' . $uniqueId;
 
-            return File::deleteDirectory($path);
+            File::deleteDirectory($path);
         }
         catch (Exception $ex) {
             traceLog('Warning: unable to delete temporary path: ' . $path);

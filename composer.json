@@ -2,6 +2,7 @@
     "name": "rainlab/deploy-plugin",
     "type": "october-plugin",
     "description": "A simple way to deploy your application to a remote location.",
+    "license": "proprietary",
     "require": {
         "october/system": "^2.0.16",
         "composer/installers": "~1.0"

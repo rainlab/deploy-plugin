@@ -133,8 +133,12 @@ class Server extends Model
             traceLog($response);
         }
 
-        if ($response->code !== 201) {
-            throw new ApplicationException('A Beacon could not be found at the specified address');
+        if ($response->code !== 201 && $response->code !== 400) {
+            throw new ApplicationException(
+                'A valid response from a beacon was not found.'
+                .' '.
+                'Add ?debug=1 to your URL, try again and check the logs.'
+            );
         }
 
         $body = json_decode($response->body, true);
