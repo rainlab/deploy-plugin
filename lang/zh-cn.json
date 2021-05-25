@@ -10,7 +10,7 @@
   "Manage Server": "管理服务器",
   "Deploy sites directly to production from your development environment.": "从您的开发环境直接将站点部署到生产中。",
   "To get started, click Create Server.": "首先，单击创建服务器。",
-  "Paste an existing RSA private key in here or :action.": "将现有的RSA私钥粘贴到此处或：action中。",
+  "Paste an existing RSA private key in here or :action.": "将现有的RSA私钥粘贴到此处或:action中。",
   "generate a new one": "产生一个新的",
   "Please wait...": "请稍等...",
   "Server Name": "服务器名称",
@@ -71,5 +71,5 @@
   "Finishing Up": "整理起来",
   "Extracting Files": "提取文件",
   "Migrating Database": "迁移数据库",
-  "Building :type Archive": "type：类型档案"
+  "Building :type Archive": ":type类型档案"
 }

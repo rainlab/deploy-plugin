@@ -10,7 +10,7 @@
   "Manage Server": "Управлять сервером",
   "Deploy sites directly to production from your development environment.": "Развертывайте сайты прямо в рабочей среде из среды разработки.",
   "To get started, click Create Server.": "Для начала нажмите Create Server.",
-  "Paste an existing RSA private key in here or :action.": "Вставьте сюда существующий закрытый ключ RSA или: действие.",
+  "Paste an existing RSA private key in here or :action.": "Вставьте сюда существующий закрытый ключ RSA или :action.",
   "generate a new one": "создать новый",
   "Please wait...": "Пожалуйста, подождите...",
   "Server Name": "Имя сервера",

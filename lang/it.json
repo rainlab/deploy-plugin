@@ -10,7 +10,7 @@
   "Manage Server": "Gestisci server",
   "Deploy sites directly to production from your development environment.": "Distribuisci i siti direttamente alla produzione dal tuo ambiente di sviluppo.",
   "To get started, click Create Server.": "Per iniziare, fai clic su Crea server.",
-  "Paste an existing RSA private key in here or :action.": "Incolla qui una chiave privata RSA esistente oppure: action.",
+  "Paste an existing RSA private key in here or :action.": "Incolla qui una chiave privata RSA esistente oppure :action.",
   "generate a new one": "generarne uno nuovo",
   "Please wait...": "Attendere prego...",
   "Server Name": "Nome del server",

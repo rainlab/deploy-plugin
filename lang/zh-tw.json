@@ -10,7 +10,7 @@
   "Manage Server": "管理服務器",
   "Deploy sites directly to production from your development environment.": "從您的開發環境直接將站點部署到生產中。",
   "To get started, click Create Server.": "首先，單擊創建服務器。",
-  "Paste an existing RSA private key in here or :action.": "將現有的RSA私鑰粘貼到此處或：action中。",
+  "Paste an existing RSA private key in here or :action.": "將現有的RSA私鑰粘貼到此處或:action中。",
   "generate a new one": "產生一個新的",
   "Please wait...": "請稍等...",
   "Server Name": "服務器名稱",
@@ -71,5 +71,5 @@
   "Finishing Up": "整理起來",
   "Extracting Files": "提取文件",
   "Migrating Database": "遷移數據庫",
-  "Building :type Archive": "type：類型檔案"
+  "Building :type Archive": ":type類型檔案"
 }

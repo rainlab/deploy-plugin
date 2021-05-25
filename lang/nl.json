@@ -10,7 +10,7 @@
   "Manage Server": "Beheer server",
   "Deploy sites directly to production from your development environment.": "Zet sites rechtstreeks in productie vanuit uw ontwikkelomgeving.",
   "To get started, click Create Server.": "Klik op Create Server om aan de slag te gaan.",
-  "Paste an existing RSA private key in here or :action.": "Plak hier een bestaande RSA-privésleutel of: actie.",
+  "Paste an existing RSA private key in here or :action.": "Plak hier een bestaande RSA-privésleutel of :action.",
   "generate a new one": "genereer een nieuwe",
   "Please wait...": "Wacht alsjeblieft...",
   "Server Name": "Server naam",

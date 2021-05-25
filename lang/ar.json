@@ -10,7 +10,7 @@
   "Manage Server": "إدارة الخادم",
   "Deploy sites directly to production from your development environment.": "انشر المواقع مباشرة إلى الإنتاج من بيئة التطوير الخاصة بك.",
   "To get started, click Create Server.": "للبدء ، انقر فوق إنشاء خادم.",
-  "Paste an existing RSA private key in here or :action.": "الصق مفتاح RSA الخاص الموجود هنا أو: action.",
+  "Paste an existing RSA private key in here or :action.": "الصق مفتاح RSA الخاص الموجود هنا أو :action.",
   "generate a new one": "إنشاء واحدة جديدة",
   "Please wait...": "أرجو الإنتظار...",
   "Server Name": "اسم الخادم",
