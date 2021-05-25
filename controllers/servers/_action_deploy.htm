@@ -2,8 +2,8 @@
 <div class="deploy-action">
     <div class="row">
         <div class="col-md-8">
-            <h5>Deploy Files to Server</h5>
-            <p>Transfers files from this computer to the server</p>
+            <h5><?= __("Deploy Files to Server") ?></h5>
+            <p><?= __("Transfers files from this computer to the server") ?></p>
         </div>
         <div class="col-md-4">
             <div class="deploy-action-button">
@@ -13,7 +13,7 @@
                     data-size="huge"
                     data-request-data="server_id: '<?= $formModel->id ?>'"
                     data-handler="onLoadDeployToServer">
-                    Deploy to Server
+                    <?= __("Deploy to Server") ?>
                 </button>
             </div>
         </div>

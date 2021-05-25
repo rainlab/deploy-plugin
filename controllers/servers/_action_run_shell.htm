@@ -2,8 +2,8 @@
 <div class="deploy-action">
     <div class="row">
         <div class="col-md-8">
-            <h5>Run PHP Script</h5>
-            <p>Execute any PHP code on the server and inspect the variables</p>
+            <h5><?= __("Run PHP Script") ?></h5>
+            <p><?= __("Execute any PHP code on the server and inspect the variables") ?></p>
         </div>
         <div class="col-md-4">
             <div class="deploy-action-button">
@@ -13,7 +13,7 @@
                     data-size="adaptive"
                     data-request-data="server_id: '<?= $formModel->id ?>'"
                     data-handler="onLoadRunShell">
-                    Open Console
+                    <?= __("Open Console") ?>
                 </button>
             </div>
         </div>
