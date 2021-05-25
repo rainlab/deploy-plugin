@@ -23,8 +23,6 @@ $pubKey = base64_decode('{pub_key_encoded}');
  * Program Logic
  */
 
-error_reporting(0);
-
 // Cheap flag check
 if (!isBeaconRequest($pubKey)) {
     return;
@@ -40,6 +38,9 @@ if (!isPayloadNonceValid($manifestFile)) {
     return;
 }
 
+error_reporting(0);
+
+// Perform action
 switch (getPayloadCommand()) {
     case 'healthCheck': processHealthCheck(); break;
     case 'fileUpload': processFileUpload(); break;
