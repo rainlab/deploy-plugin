@@ -12,6 +12,10 @@ fields:
         type: partial
         path: action_deploy
 
+    _action_run_shell:
+        type: partial
+        path: action_run_shell
+
     _action_update_config:
         type: partial
         path: action_update_config

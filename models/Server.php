@@ -65,7 +65,7 @@ class Server extends Model
     /**
      * setDeployPreferences manages the deployment preferences as a multidimensional array
      */
-    public function setDeployPreferences(string $key, array $data)
+    public function setDeployPreferences(string $key, $data)
     {
         $this->deploy_preferences = [$key => $data] + (array) $this->deploy_preferences;
     }
@@ -88,6 +88,16 @@ class Server extends Model
         $scriptContents = base64_encode(file_get_contents($scriptPath));
 
         return $this->transmit('evalScript', ['script' => $scriptContents, 'scriptVars' => $vars]);
+    }
+
+    /**
+     * transmitShell command to the server
+     */
+    public function transmitShell($contents): array
+    {
+        $scriptContents = base64_encode($contents);
+
+        return $this->transmit('shellScript', ['script' => $scriptContents]);
     }
 
     /**
@@ -134,7 +144,7 @@ class Server extends Model
         }
 
         if (!is_array($body)) {
-            throw new ApplicationException('Invalid object from Beacon');
+            throw new ApplicationException('Empty response from beacon');
         }
 
         return $body;

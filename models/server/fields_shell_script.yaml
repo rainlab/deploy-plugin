@@ -1,0 +1,15 @@
+fields:
+    shell_script:
+        span: left
+        type: codeeditor
+        label: Run
+        size: giant
+        language: php
+
+    shell_output:
+        span: right
+        type: codeeditor
+        label: Output
+        size: giant
+        language: php
+        readOnly: true

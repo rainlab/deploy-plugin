@@ -45,6 +45,7 @@ class Servers extends SettingsController
         'install' => '/plugins/rainlab/deploy/models/server/fields_install.yaml',
         'privkey' => '/plugins/rainlab/deploy/models/server/fields_privkey.yaml',
         'env_config' => '/plugins/rainlab/deploy/models/server/fields_env_config.yaml',
+        'shell_script' => '/plugins/rainlab/deploy/models/server/fields_shell_script.yaml',
     ];
 
     /**
@@ -199,6 +200,57 @@ class Servers extends SettingsController
         ];
 
         return $this->deployerWidget->executeSteps($serverId, $deployActions);
+    }
+
+
+    /**
+     * manage_onLoadRunShell shows the shell script form
+     */
+    public function manage_onLoadRunShell()
+    {
+        $widget = $this->formWidgetInstances['shell_script'];
+
+        $lastScript = $widget->model->deploy_preferences['last_shell_script'] ?? "echo 'Hello World';";
+
+        $widget->setFormValues(['shell_script' => $lastScript]);
+
+        $this->vars['actionTitle'] = 'Run PHP Script';
+        $this->vars['actionHandler'] = 'onRunShellScript';
+        $this->vars['submitText'] = 'Run';
+        $this->vars['closeText'] = 'Close';
+        $this->vars['widget'] = $widget;
+
+        return $this->makePartial('shell_form');
+    }
+
+    /**
+     * manage_onRunShellScript
+     */
+    public function manage_onRunShellScript()
+    {
+        $widget = $this->formWidgetInstances['shell_script'];
+        $model = $widget->model;
+
+        // Save preferences
+        $model->setDeployPreferences('last_shell_script', post('shell_script'));
+        $model->save();
+
+        try {
+            $response = $model->transmitShell(post('shell_script'));
+            $output = $response['output'] ?? '';
+            $output = base64_decode($output);
+        }
+        catch (Exception $ex) {
+            $output = $ex->getMessage();
+        }
+
+        $widget->setFormValues([
+            'shell_output' => $output
+        ]);
+
+        $fieldObject = $widget->getField('shell_output');
+
+        return ['#'.$fieldObject->getId('group') => $widget->makePartial('field', ['field' => $fieldObject])];
     }
 
     /**
@@ -413,6 +465,8 @@ class Servers extends SettingsController
             $config = $this->makeConfig(base_path($definition));
 
             $config->model = $server;
+
+            $config->alias = Str::camel($key);
 
             $widget = $this->makeWidget(\Backend\Widgets\Form::class, $config);
 
