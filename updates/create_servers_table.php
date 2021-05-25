@@ -14,6 +14,8 @@ class CreateServersTable extends Migration
             $table->string('endpoint_url')->nullable();
             $table->string('status_code')->nullable();
             $table->mediumText('deploy_preferences')->nullable();
+            $table->string('last_version')->nullable();
+            $table->timestamp('last_deploy_at')->nullable();
             $table->timestamps();
         });
     }
