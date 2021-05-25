@@ -293,6 +293,10 @@ class Servers extends SettingsController
             $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Vendor', 'buildVendorPackages');
         }
 
+        if (post('deploy_config')) {
+            $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Config', 'buildConfigFiles');
+        }
+
         if ($plugins = post('plugins')) {
             $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Plugins', 'buildPluginsBundle', [(array) $plugins]);
         }

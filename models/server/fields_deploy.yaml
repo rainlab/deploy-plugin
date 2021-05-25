@@ -1,8 +1,16 @@
 fields:
     deploy_core:
         tab: Deploy
+        span: left
         label: Deploy Core Files
         commentAbove: Includes all core modules and vendor libraries
+        type: checkbox
+
+    deploy_config:
+        tab: Deploy
+        span: right
+        label: Deploy Config Files
+        commentAbove: Includes everything in the config directory
         type: checkbox
 
     plugins:

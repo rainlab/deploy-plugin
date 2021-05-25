@@ -77,7 +77,7 @@ class ArchiveBuilder
         ];
 
         // Include relative sqlite path
-        if (is_string($sqlitePath) && substr($sqlitePath, 0, 1) !== '/') {
+        if ($sqlitePath !== null && substr($sqlitePath, 0, 1) !== '/') {
             $definition['files'][$sqlitePath] = '';
         }
 
@@ -131,6 +131,21 @@ class ArchiveBuilder
         }
 
         $this->buildArchive($outputFilePath, $definition);
+    }
+
+    /**
+     * buildConfigFiles builds the config files
+     */
+    public function buildConfigFiles(string $outputFilePath)
+    {
+        $this->buildArchive($outputFilePath, [
+            'dirs' => [
+                'config'
+            ],
+            'dirsSrc' => [
+                'config' => base_path('config')
+            ]
+        ]);
     }
 
     /**
