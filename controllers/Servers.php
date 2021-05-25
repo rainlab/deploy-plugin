@@ -154,7 +154,6 @@ class Servers extends SettingsController
         $widget = $this->formWidgetInstances['env_config'];
 
         try {
-
             $response = $widget->model->transmitScript('get_env_file');
 
             $envContents = $response['contents'] ?? null;
@@ -288,14 +287,27 @@ class Servers extends SettingsController
         // Create deployment chain
         $deployActions = [];
         $useFiles = [];
-        $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Core', 'buildCoreModules');
-        $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Vendor', 'buildVendorPackages');
 
-        $deployActions[] = [
-            'label' => 'Extracting Files',
-            'action' => 'extractFiles',
-            'files' => $useFiles
-        ];
+        if (post('deploy_core')) {
+            $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Core', 'buildCoreModules');
+            $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Vendor', 'buildVendorPackages');
+        }
+
+        if ($plugins = post('plugins')) {
+            $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Plugins', 'buildPluginsBundle', [(array) $plugins]);
+        }
+
+        if ($themes = post('themes')) {
+            $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Themes', 'buildThemesBundle', [(array) $themes]);
+        }
+
+        if (count($useFiles)) {
+            $deployActions[] = [
+                'label' => 'Extracting Files',
+                'action' => 'extractFiles',
+                'files' => $useFiles
+            ];
+        }
 
         $deployActions[] = [
             'label' => 'Migrating Database',
@@ -400,7 +412,7 @@ class Servers extends SettingsController
     /**
      * buildArchiveDeployStep
      */
-    protected function buildArchiveDeployStep(&$steps, $typeLabel, $buildFunc): string
+    protected function buildArchiveDeployStep(&$steps, string $typeLabel, string $buildFunc, array $funcArgs = []): string
     {
         $fileId = md5(uniqid());
         $filePath = temp_path("ocbl-${fileId}.arc");
@@ -409,7 +421,7 @@ class Servers extends SettingsController
             'label' => __('Building :type Archive', ['type' => $typeLabel]),
             'action' => 'archiveBuilder',
             'func' => $buildFunc,
-            'args' => [$filePath]
+            'args' => [$filePath, ...$funcArgs]
         ];
 
         $steps[] = [

@@ -2,6 +2,7 @@
 
 use File;
 use Exception;
+use System\Classes\PluginManager;
 use October\Rain\Filesystem\Zip;
 use October\Rain\Parse\Bracket;
 
@@ -63,6 +64,55 @@ class ArchiveBuilder
                 'composer.lock' => base_path('composer.lock'),
             ]
         ]);
+    }
+
+    /**
+     * buildPluginsBundle builds a bundle of plugins from their codes
+     */
+    public function buildPluginsBundle(string $outputFilePath, array $pluginCodes)
+    {
+        $definition = [
+            'dirs' => [
+                'plugins'
+            ],
+            'dirsSrc' => []
+        ];
+
+        // Find plugin paths
+        $pluginManager = PluginManager::instance();
+        foreach ($pluginCodes as $pluginCode) {
+            $path = $pluginManager->getPluginPath($pluginCode);
+            if (!$path) {
+                traceLog('Could not find plugin path for code: '.$pluginCode);
+                continue;
+            }
+
+            $localPath = 'plugins/'.strtolower(str_replace('.', '/', $pluginCode));
+            $definition['dirsSrc'][$localPath] = $path;
+        }
+
+        static::instance()->buildArchive($outputFilePath, $definition);
+    }
+
+    /**
+     * buildThemesBundle builds a bundle of themes from their codes
+     */
+    public function buildThemesBundle(string $outputFilePath, array $themeCodes)
+    {
+        $definition = [
+            'dirs' => [
+                'themes'
+            ],
+            'dirsSrc' => []
+        ];
+
+        // Find themes paths
+        foreach ($themeCodes as $themeCode) {
+            $localPath = 'themes/'.$themeCode;
+            $definition['dirsSrc'][$localPath] = themes_path($themeCode);
+        }
+
+        static::instance()->buildArchive($outputFilePath, $definition);
     }
 
     /**

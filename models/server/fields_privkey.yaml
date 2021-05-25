@@ -2,8 +2,8 @@ fields:
     _warning1:
         tab: Key
         type: hint
-        mode: warning
-        label: Danger Zone!
+        mode: danger
+        label: Danger Zone
         comment: Anyone who has the private deployment key can deploy files to this server. Make sure it is kept a secret.
 
     key[privkey]:

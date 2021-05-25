@@ -114,7 +114,7 @@ class Deployer extends WidgetBase
             case 'extractFiles':
                 $fileMap = post('fileMap');
                 if (!$fileMap || !is_array($fileMap)) {
-                    throw new ApplicationException('Missing file map');
+                    throw new ApplicationException('Missing file map. Nothing to deploy?');
                 }
 
                 $response = $this->findServerModelObject()->transmitScript('extract_archive', [

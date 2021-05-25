@@ -2,9 +2,11 @@
 
 A simple way to deploy your application to a remote location.
 
-## Currently in Active Development
+## Requirements
 
-**This plugin is incomplete. This plugin is not ready for use. Please do not contact us about this. Please wait for the first release. Thanks**
+- October CMS 2.0.16 or above
+- PHP openssl extension
+- PHP eval function
 
 ### Why is This Plugin Needed?
 
