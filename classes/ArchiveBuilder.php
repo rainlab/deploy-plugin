@@ -77,7 +77,7 @@ class ArchiveBuilder
         ];
 
         // Include relative sqlite path
-        if ($sqlitePath !== null && substr($sqlitePath, 0, 1) !== '/') {
+        if ($sqlitePath && substr($sqlitePath, 0, 1) !== '/') {
             $definition['files'][$sqlitePath] = '';
         }
 
