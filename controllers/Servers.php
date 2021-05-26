@@ -81,6 +81,17 @@ class Servers extends SettingsController
     }
 
     /**
+     * update action
+     */
+    public function update($recordId = null)
+    {
+        $this->addJs('/plugins/rainlab/deploy/assets/js/servers.js', 'RainLab.Deploy');
+        $this->addJs('/plugins/rainlab/deploy/assets/vendor/forge/forge.min.js', 'RainLab.Deploy');
+
+        return $this->asExtension('FormController')->update($recordId);
+    }
+
+    /**
      * manage action
      */
     public function manage($recordId = null)

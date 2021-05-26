@@ -63,6 +63,14 @@ class Server extends Model
     }
 
     /**
+     * getStatusLabelAttribute shows a human version of status code
+     */
+    public function getStatusLabelAttribute()
+    {
+        return title_case($this->status_code);
+    }
+
+    /**
      * testBeacon and return true if the status differs
      */
     public function testBeacon(): bool

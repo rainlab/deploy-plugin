@@ -9,6 +9,7 @@ use SystemException;
 class ServerKey extends Model
 {
     use \October\Rain\Database\Traits\Validation;
+    use \October\Rain\Database\Traits\Encryptable;
 
     /**
      * @var string table associated with the model
@@ -19,6 +20,11 @@ class ServerKey extends Model
      * @var array rules for validation
      */
     public $rules = [];
+
+    /**
+     * @var array List of attributes to encrypt.
+     */
+    protected $encryptable = ['privkey'];
 
     /**
      * @var array belongsTo and other relations

@@ -41,10 +41,14 @@
                     data-request-confirm="Delete this server?">
                 </button>
                 <span class="btn-text">
-                    or <a href="<?= Backend::url('rainlab/deploy/servers') ?>"><?= trans('backend::lang.form.cancel') ?></a>
+                    or <a href="<?= Backend::url('rainlab/deploy/servers/manage/'.$formModel->id) ?>"><?= trans('backend::lang.form.cancel') ?></a>
                 </span>
             </div>
         </div>
+
+        <script>
+            var RAINLAB_DEPLOY_WORKER_PATH = '<?= Url::asset('plugins/rainlab/deploy/assets/vendor/forge/prime.worker.min.js') ?>';
+        </script>
 
     <?= Form::close() ?>
 

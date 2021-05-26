@@ -10,3 +10,7 @@ columns:
     endpoint_url:
         label: URL
         searchable: true
+
+    status_code:
+        label: Status
+        displayFrom: status_label
