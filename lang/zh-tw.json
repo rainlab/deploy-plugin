@@ -72,5 +72,6 @@
   "Extracting Files": "提取文件",
   "Migrating Database": "遷移數據庫",
   "Building :type Archive": ":type類型檔案",
-  "Checking Database Config": "檢查數據庫配置"
+  "Checking Database Config": "檢查數據庫配置",
+  "Setting Build Number": "設置內部版本號"
 }

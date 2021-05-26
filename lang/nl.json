@@ -72,5 +72,6 @@
   "Extracting Files": "Uitpakken van bestanden",
   "Migrating Database": "Database migreren",
   "Building :type Archive": "Gebouw :type Archief",
-  "Checking Database Config": "Databaseconfiguratie controleren"
+  "Checking Database Config": "Databaseconfiguratie controleren",
+  "Setting Build Number": "Build-nummer instellen"
 }

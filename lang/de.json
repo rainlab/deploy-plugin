@@ -72,5 +72,6 @@
   "Extracting Files": "Entpacke Dateien",
   "Migrating Database": "Datenbank migrieren",
   "Building :type Archive": "Gebäude :type Archiv",
-  "Checking Database Config": "Überprüfen der Datenbankkonfiguration"
+  "Checking Database Config": "Überprüfen der Datenbankkonfiguration",
+  "Setting Build Number": "Build-Nummer einstellen"
 }

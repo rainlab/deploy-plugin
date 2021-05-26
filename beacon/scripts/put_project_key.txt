@@ -1,0 +1,23 @@
+// Ouptut
+$result = [
+    'status' => 'error',
+];
+
+// Locate file contents
+$project = $VARS['project'] ?? null;
+
+// Write contents
+if ($project !== null) {
+    $contents = json_encode(['project' => $project], JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT);
+    $saveFlag = file_put_contents(__DIR__ . '/../storage/cms/project.json', $contents);
+    if ($saveFlag !== false) {
+        $result['status'] = 'ok';
+    }
+    else {
+        $result['status'] = 'error';
+        $result['error'] = 'Could not write to storage/cms directory. Check that the file permissions are writable.';
+    }
+}
+
+// Return result
+return $result;

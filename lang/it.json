@@ -72,5 +72,6 @@
   "Extracting Files": "Estrazione di file",
   "Migrating Database": "Database in migrazione",
   "Building :type Archive": "Edificio :type Archivio",
-  "Checking Database Config": "Controllo della configurazione del database"
+  "Checking Database Config": "Controllo della configurazione del database",
+  "Setting Build Number": "Impostazione del numero di build"
 }

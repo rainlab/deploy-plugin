@@ -72,5 +72,6 @@
   "Extracting Files": "Extracting Files",
   "Migrating Database": "Migrating Database",
   "Building :type Archive": "Building :type Archive",
-  "Checking Database Config": "Checking Database Config"
+  "Checking Database Config": "Checking Database Config",
+  "Setting Build Number": "Setting Build Number"
 }

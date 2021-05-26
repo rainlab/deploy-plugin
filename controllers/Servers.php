@@ -318,6 +318,14 @@ class Servers extends SettingsController
             'artisan' => 'october:migrate'
         ];
 
+        if (post('deploy_core')) {
+            $deployActions[] = [
+                'label' => 'Setting Build Number',
+                'action' => 'transmitArtisan',
+                'artisan' => 'october:util set build'
+            ];
+        }
+
         $deployActions[] = [
             'label' => 'Finishing Up',
             'action' => 'final',
@@ -397,7 +405,9 @@ class Servers extends SettingsController
             'label' => 'Saving Configuration Values',
             'action' => 'transmitScript',
             'script' => 'put_env_file',
-            'vars' => ['contents' => $envContents]
+            'vars' => [
+                'contents' => $envContents
+            ]
         ];
 
         $useFiles = [];
@@ -411,10 +421,26 @@ class Servers extends SettingsController
             'files' => $useFiles
         ];
 
+        $projectKey = \System\Models\Parameter::get('system::project.key');
+        $deployActions[] = [
+            'label' => 'Saving Configuration Values',
+            'action' => 'transmitScript',
+            'script' => 'put_project_key',
+            'vars' => [
+                'project' => $projectKey
+            ]
+        ];
+
         $deployActions[] = [
             'label' => 'Migrating Database',
             'action' => 'transmitArtisan',
             'artisan' => 'october:migrate'
+        ];
+
+        $deployActions[] = [
+            'label' => 'Setting Build Number',
+            'action' => 'transmitArtisan',
+            'artisan' => 'october:util set build'
         ];
 
         $deployActions[] = [

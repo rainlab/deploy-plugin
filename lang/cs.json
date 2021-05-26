@@ -72,5 +72,6 @@
   "Extracting Files": "Extrahování souborů",
   "Migrating Database": "Migrace databáze",
   "Building :type Archive": "Budova :type Archiv",
-  "Checking Database Config": "Kontrola konfigurace databáze"
+  "Checking Database Config": "Kontrola konfigurace databáze",
+  "Setting Build Number": "Nastavení čísla sestavení"
 }
