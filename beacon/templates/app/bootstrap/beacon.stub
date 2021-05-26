@@ -61,9 +61,7 @@ function processHealthCheck()
     outputResponse([
         'appWritable' => isAppWritable(),
         'appInstalled' => isAppInstalled(),
-        'storageWritable' => isStorageWritable(),
-        'appVersion' => '2.0.0',
-        'appUpdatedAt' => time(),
+        'storageWritable' => isStorageWritable()
     ]);
 }
 

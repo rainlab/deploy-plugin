@@ -169,7 +169,7 @@ class Servers extends SettingsController
             $this->handleError($ex);
         }
 
-        $this->vars['actionTitle'] = 'Update Server Config';
+        $this->vars['actionTitle'] = 'Update Environment Variables';
         $this->vars['actionHandler'] = 'onSaveEnvConfig';
         $this->vars['submitText'] = 'Save Config';
         $this->vars['closeText'] = 'Cancel';
@@ -212,7 +212,7 @@ class Servers extends SettingsController
 
         $widget->setFormValues(['shell_script' => $lastScript]);
 
-        $this->vars['actionTitle'] = 'Run PHP Script';
+        $this->vars['actionTitle'] = 'Run Console Script';
         $this->vars['actionHandler'] = 'onRunShellScript';
         $this->vars['submitText'] = 'Run';
         $this->vars['closeText'] = 'Close';
