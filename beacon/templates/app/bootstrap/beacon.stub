@@ -73,7 +73,7 @@ function processFileUpload()
     $fileName = $_POST['filename'] ?? null;
     $fileHash = $_POST['filehash'] ?? null;
 
-    if ($fileName === null || $fileHash === null) {
+    if (!$fileName || !$fileHash) {
         outputResponseError('Missing filename or filehash');
     }
 
@@ -108,7 +108,7 @@ function processEvalScript()
     $scriptContents = decodePayload()['script'] ?? null;
     $scriptVars = decodePayload()['scriptVars'] ?? [];
 
-    if ($scriptContents === null) {
+    if (!$scriptContents) {
         outputResponseError('Missing script');
     }
 
@@ -141,7 +141,7 @@ function processShellScript()
 {
     $scriptContents = decodePayload()['script'] ?? null;
 
-    if ($scriptContents === null) {
+    if (!$scriptContents) {
         outputResponseError('Missing script');
     }
 
@@ -270,7 +270,7 @@ function processArtisanCommand()
 {
     $artisanCmd = decodePayload()['artisan'] ?? null;
 
-    if ($artisanCmd === null) {
+    if (!$artisanCmd) {
         outputResponseError('Missing artisan command');
     }
 
@@ -306,7 +306,7 @@ function isBeaconRequest($pubKey): bool
 {
     $userInput = $_GET['X_OCTOBER_BEACON'] ?? null;
 
-    if ($userInput === null) {
+    if (!$userInput) {
         return false;
     }
 
@@ -329,7 +329,7 @@ function isPayloadSignatureValid($pubKey): bool
     $userPayload = $_GET['X_OCTOBER_BEACON_PAYLOAD'] ?? null;
     $userSignature = $_GET['X_OCTOBER_BEACON_SIGNATURE'] ?? null;
 
-    if ($userPayload === null || $userSignature === null) {
+    if (!$userPayload || !$userSignature) {
         return false;
     }
 
@@ -355,11 +355,11 @@ function isPayloadSignatureValid($pubKey): bool
  */
 function isPayloadNonceValid(string $manifestFile): bool
 {
-    $lastNonce = getManifestValue($manifestFile, 'nonce') ?: 0;
+    $lastNonce = getManifestValue($manifestFile, 'nonce') ?: 1;
 
     $nonce = decodePayload()['nonce'] ?? null;
 
-    if ($nonce === null) {
+    if (!$nonce) {
         return false;
     }
 
