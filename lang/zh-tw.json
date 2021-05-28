@@ -35,12 +35,13 @@
   "Open Console": "打開控制台",
   "Update Environment Variables": "更新環境變量",
   "Modify the configuration values on the server": "修改服務器上的配置值",
-  "Update Config": "更新配置",
+  "Update Environment": "更新配置",
   "View Deployment Key": "查看部署密鑰",
   "Display the private key used to deploy to this server": "顯示用於部署到此服務器的私鑰",
   "Show Key": "顯示密鑰",
   "Current Version": "當前版本",
   "Active": "積極的",
+  "Legacy": "遺產",
   "Ready": "準備好",
   "Unreachable": "無法到達",
   "Beacon Status": "信標狀態",
@@ -73,5 +74,11 @@
   "Migrating Database": "遷移數據庫",
   "Building :type Archive": ":type類型檔案",
   "Checking Database Config": "檢查數據庫配置",
-  "Setting Build Number": "設置內部版本號"
+  "Setting Build Number": "設置內部版本號",
+  "A Legacy Version of October CMS is Detected": "檢測到傳統版本的十月CMS",
+  "Upgrade Configuration Files": "轉換配置文件",
+  "Runs the artisan command to create an environment file": "運行artisan命令以創建環境文件",
+  "Upgrade Config": "轉換配置",
+  "Upgrading Legacy Site": "升級舊版網站",
+  "Clearing Cache": "清除緩存"
 }

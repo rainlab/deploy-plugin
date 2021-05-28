@@ -35,12 +35,13 @@
   "Open Console": "Otevřete konzolu",
   "Update Environment Variables": "Aktualizujte proměnné prostředí",
   "Modify the configuration values on the server": "Upravte konfigurační hodnoty na serveru",
-  "Update Config": "Aktualizovat konfiguraci",
+  "Update Environment": "Aktualizovat konfiguraci",
   "View Deployment Key": "Zobrazit klíč nasazení",
   "Display the private key used to deploy to this server": "Zobrazit soukromý klíč použitý k nasazení na tento server",
   "Show Key": "Zobrazit klíč",
   "Current Version": "Současná verze",
   "Active": "Aktivní",
+  "Legacy": "Dědictví",
   "Ready": "Připraven",
   "Unreachable": "Nedostupný",
   "Beacon Status": "Stav majáku",
@@ -73,5 +74,11 @@
   "Migrating Database": "Migrace databáze",
   "Building :type Archive": "Budova :type Archiv",
   "Checking Database Config": "Kontrola konfigurace databáze",
-  "Setting Build Number": "Nastavení čísla sestavení"
+  "Setting Build Number": "Nastavení čísla sestavení",
+  "A Legacy Version of October CMS is Detected": "Byla zjištěna starší verze říjnového CMS",
+  "Upgrade Configuration Files": "Převést konfigurační soubory",
+  "Runs the artisan command to create an environment file": "Spustí příkaz řemeslník a vytvoří soubor prostředí",
+  "Upgrade Config": "Převést konfiguraci",
+  "Upgrading Legacy Site": "Aktualizace starších stránek",
+  "Clearing Cache": "Vymazání mezipaměti"
 }

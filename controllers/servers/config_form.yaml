@@ -35,3 +35,6 @@ manage_download:
 
 manage_install:
     form: $/rainlab/deploy/models/server/fields_manage_install.yaml
+
+manage_legacy:
+    form: $/rainlab/deploy/models/server/fields_manage_legacy.yaml

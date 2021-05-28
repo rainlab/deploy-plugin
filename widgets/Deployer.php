@@ -98,8 +98,12 @@ class Deployer extends WidgetBase
             case 'transmitScript':
                 $scriptName = post('script');
                 $scriptVars = post('vars');
-                if (!$scriptName || !$scriptVars) {
+                if (!$scriptName) {
                     throw new ApplicationException('Missing script or vars');
+                }
+
+                if (!$scriptVars) {
+                    $scriptVars = [];
                 }
 
                 $response = $this->findServerModelObject()->transmitScript($scriptName, $scriptVars);

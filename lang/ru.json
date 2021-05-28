@@ -35,12 +35,13 @@
   "Open Console": "Открыть консоль",
   "Update Environment Variables": "Обновить переменные среды",
   "Modify the configuration values on the server": "Измените значения конфигурации на сервере",
-  "Update Config": "Обновить конфигурацию",
+  "Update Environment": "Обновить конфигурацию",
   "View Deployment Key": "Просмотреть ключ развертывания",
   "Display the private key used to deploy to this server": "Показать закрытый ключ, используемый для развертывания на этом сервере",
   "Show Key": "Показать ключ",
   "Current Version": "Текущая версия",
   "Active": "Активный",
+  "Legacy": "Наследие",
   "Ready": "Готов",
   "Unreachable": "Недоступен",
   "Beacon Status": "Статус маяка",
@@ -73,5 +74,11 @@
   "Migrating Database": "Перенос базы данных",
   "Building :type Archive": "type: тип Архив",
   "Checking Database Config": "Проверка конфигурации базы данных",
-  "Setting Build Number": "Установка номера сборки"
+  "Setting Build Number": "Установка номера сборки",
+  "A Legacy Version of October CMS is Detected": "Обнаружена устаревшая версия October CMS",
+  "Upgrade Configuration Files": "Конвертировать файлы конфигурации",
+  "Runs the artisan command to create an environment file": "Запускает команду artisan для создания файла среды",
+  "Upgrade Config": "Конвертировать конфигурацию",
+  "Upgrading Legacy Site": "Обновление устаревшего сайта",
+  "Clearing Cache": "Очистка кеша"
 }

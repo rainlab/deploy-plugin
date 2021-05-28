@@ -14,6 +14,9 @@
     <?php if ($formModel->status_code === $formModel::STATUS_READY): ?>
         <p class="oc-icon-cloud-upload"><?= __("Ready") ?></p>
     <?php endif ?>
+    <?php if ($formModel->status_code === $formModel::STATUS_LEGACY): ?>
+        <p class="oc-icon-life-ring"><?= __("Legacy") ?></p>
+    <?php endif ?>
     <?php if ($formModel->status_code === $formModel::STATUS_UNREACHABLE): ?>
         <p class="oc-icon-chain-broken"><?= __("Unreachable") ?></p>
     <?php endif ?>

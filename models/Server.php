@@ -15,6 +15,7 @@ class Server extends Model
 
     const STATUS_ACTIVE = 'active';
     const STATUS_READY = 'ready';
+    const STATUS_LEGACY = 'legacy';
     const STATUS_UNREACHABLE = 'unreachable';
 
     /**
@@ -80,7 +81,16 @@ class Server extends Model
         try {
             $response = $this->transmit('healthCheck');
             $isInstalled = $response['appInstalled'] ?? false;
-            $wantCode = $isInstalled ? static::STATUS_ACTIVE : static::STATUS_READY;
+            $envFound = $response['envFound'] ?? false;
+            if (!$envFound) {
+                $wantCode = static::STATUS_LEGACY;
+            }
+            elseif (!$isInstalled) {
+                $wantCode = static::STATUS_READY;
+            }
+            else {
+                $wantCode = static::STATUS_ACTIVE;
+            }
         }
         catch (Exception $ex) {
             $wantCode = static::STATUS_UNREACHABLE;
@@ -140,6 +150,7 @@ class Server extends Model
     public function transmitFile(string $filePath, array $params = []): array
     {
         $response = Http::post($this->buildUrl('fileUpload', $params), function($http) use ($filePath) {
+            $http->maxRedirects = 0;
             $http->dataFile('file', $filePath);
             $http->data('filename', md5($filePath));
             $http->data('filehash', md5_file($filePath));
@@ -167,11 +178,21 @@ class Server extends Model
             traceLog($response);
         }
 
+        // Redirects seem to drop the POST variables and this is a security precaution
+        if (in_array($response->code, [301, 302])) {
+            $redirectTo = array_get($response->info, 'redirect_url');
+            $redirectTo = explode("?", $redirectTo)[0];
+            throw new ApplicationException(
+                'Server responded with redirect ('.$redirectTo.')'
+                . ' please update the server address to exactly this and try again.'
+            );
+        }
+
         if ($response->code !== 201 && $response->code !== 400) {
             throw new ApplicationException(
                 'A valid response from a beacon was not found.'
-                .' '.
-                'Add ?debug=1 to your URL, try again and check the logs.'
+                . ' '
+                . 'Add ?debug=1 to your URL, try again and check the logs.'
             );
         }
 

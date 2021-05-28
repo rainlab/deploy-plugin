@@ -35,12 +35,13 @@
   "Open Console": "Open de console",
   "Update Environment Variables": "Werk omgevingsvariabelen bij",
   "Modify the configuration values on the server": "Wijzig de configuratiewaarden op de server",
-  "Update Config": "Update Config",
+  "Update Environment": "Update Environment",
   "View Deployment Key": "Bekijk implementatiesleutel",
   "Display the private key used to deploy to this server": "Geef de persoonlijke sleutel weer die wordt gebruikt om op deze server te implementeren",
   "Show Key": "Toon sleutel",
   "Current Version": "Huidige versie",
   "Active": "Actief",
+  "Legacy": "Legacy",
   "Ready": "Klaar",
   "Unreachable": "Onbereikbaar",
   "Beacon Status": "Bakenstatus",
@@ -73,5 +74,11 @@
   "Migrating Database": "Database migreren",
   "Building :type Archive": "Gebouw :type Archief",
   "Checking Database Config": "Databaseconfiguratie controleren",
-  "Setting Build Number": "Build-nummer instellen"
+  "Setting Build Number": "Build-nummer instellen",
+  "A Legacy Version of October CMS is Detected": "Er is een oudere versie van October CMS gedetecteerd",
+  "Upgrade Configuration Files": "Converteer configuratiebestanden",
+  "Runs the artisan command to create an environment file": "Voert de artisan-opdracht uit om een omgevingsbestand te maken",
+  "Upgrade Config": "Converteer Config",
+  "Upgrading Legacy Site": "Verouderde site upgraden",
+  "Clearing Cache": "Cache wissen"
 }

@@ -61,7 +61,9 @@ function processHealthCheck()
     outputResponse([
         'appWritable' => isAppWritable(),
         'appInstalled' => isAppInstalled(),
-        'storageWritable' => isStorageWritable()
+        'storageWritable' => isStorageWritable(),
+        'envFound' => isEnvFound(),
+        'phpVersion' => PHP_VERSION
     ]);
 }
 
@@ -447,6 +449,14 @@ function outputResponseError(string $message, array $data = []): void
 function isAppInstalled(): bool
 {
     return file_exists(__DIR__.'/../vendor/october/rain/src/Support/helpers.php');
+}
+
+/**
+ * isEnvFound checks if an environment variable file is found
+ */
+function isEnvFound(): bool
+{
+    return file_exists(__DIR__.'/../.env');
 }
 
 /**

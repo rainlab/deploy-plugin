@@ -46,6 +46,7 @@ class Servers extends SettingsController
         'privkey' => '/plugins/rainlab/deploy/models/server/fields_privkey.yaml',
         'env_config' => '/plugins/rainlab/deploy/models/server/fields_env_config.yaml',
         'shell_script' => '/plugins/rainlab/deploy/models/server/fields_shell_script.yaml',
+        'upgrade_legacy' => '/plugins/rainlab/deploy/models/server/fields_upgrade_legacy.yaml',
     ];
 
     /**
@@ -109,6 +110,10 @@ class Servers extends SettingsController
 
             case $model::STATUS_UNREACHABLE:
                 $context = 'manage_download';
+                break;
+
+            case $model::STATUS_LEGACY:
+                $context = 'manage_legacy';
                 break;
 
             default:
@@ -324,6 +329,12 @@ class Servers extends SettingsController
         }
 
         $deployActions[] = [
+            'label' => 'Clearing Cache',
+            'action' => 'transmitScript',
+            'script' => 'clear_cache'
+        ];
+
+        $deployActions[] = [
             'label' => 'Migrating Database',
             'action' => 'transmitArtisan',
             'artisan' => 'october:migrate'
@@ -458,6 +469,45 @@ class Servers extends SettingsController
             'label' => 'Finishing Up',
             'action' => 'final',
             'files' => $useFiles
+        ];
+
+        return $this->deployerWidget->executeSteps($serverId, $deployActions);
+    }
+
+
+    /**
+     * manage_onLoadUpgradeLegacy upgrades a legacy version
+     */
+    public function manage_onLoadUpgradeLegacy()
+    {
+        $widget = $this->formWidgetInstances['upgrade_legacy'];
+
+        $this->vars['actionTitle'] = 'Upgrade Config';
+        $this->vars['actionHandler'] = 'onRunUpgradeLegacy';
+        $this->vars['submitText'] = 'Run';
+        $this->vars['closeText'] = 'Close';
+        $this->vars['widget'] = $widget;
+
+        return $this->makePartial('action_form');
+    }
+
+    /**
+     * manage_onRunUpgradeLegacy deploys selected objects to the server
+     */
+    public function manage_onRunUpgradeLegacy($serverId)
+    {
+        // Create deployment chain
+        $deployActions = [];
+
+        $deployActions[] = [
+            'label' => 'Upgrading Legacy Site',
+            'action' => 'transmitArtisan',
+            'artisan' => 'october:env'
+        ];
+
+        $deployActions[] = [
+            'label' => 'Finishing Up',
+            'action' => 'final'
         ];
 
         return $this->deployerWidget->executeSteps($serverId, $deployActions);

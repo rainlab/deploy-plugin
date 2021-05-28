@@ -6,7 +6,7 @@ plugin:
   name: Deploy
   description: A simple way to deploy your application to a remote location.
   author: Alexey Bobkov, Samuel Georges
-  icon: icon-cloud
+  icon: icon-hdd-o
   homepage: https://github.com/rainlab/deploy-plugin
 
 settings:
@@ -14,7 +14,7 @@ settings:
     label: Deploy
     description: Manage deployments
     category: CATEGORY_SYSTEM
-    icon: icon-cloud
+    icon: icon-hdd-o
     url: rainlab/deploy/servers
     order: 500
     keywords: deploy

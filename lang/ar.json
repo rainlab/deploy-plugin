@@ -35,12 +35,13 @@
   "Open Console": "افتح وحدة التحكم",
   "Update Environment Variables": "تحديث متغيرات البيئة",
   "Modify the configuration values on the server": "قم بتعديل قيم التكوين على الخادم",
-  "Update Config": "تحديث التكوين",
+  "Update Environment": "تحديث التكوين",
   "View Deployment Key": "عرض مفتاح النشر",
   "Display the private key used to deploy to this server": "اعرض المفتاح الخاص المستخدم للنشر على هذا الخادم",
   "Show Key": "اظهر المفتاح",
   "Current Version": "النسخة الحالية",
   "Active": "نشيط",
+  "Legacy": "ميراث",
   "Ready": "مستعد",
   "Unreachable": "لا يمكن الوصول إليه",
   "Beacon Status": "حالة منارة",
@@ -73,5 +74,11 @@
   "Migrating Database": "ترحيل قاعدة البيانات",
   "Building :type Archive": "المبنى: نوع الأرشيف",
   "Checking Database Config": "التحقق من تكوين قاعدة البيانات",
-  "Setting Build Number": "تحديد رقم البنية"
+  "Setting Build Number": "تحديد رقم البنية",
+  "A Legacy Version of October CMS is Detected": "تم اكتشاف إصدار قديم من October CMS",
+  "Upgrade Configuration Files": "تحويل ملفات التكوين",
+  "Runs the artisan command to create an environment file": "يقوم بتشغيل الأمر الحرفي لإنشاء ملف بيئة",
+  "Upgrade Config": "تحويل التكوين",
+  "Upgrading Legacy Site": "ترقية الموقع القديم",
+  "Clearing Cache": "مسح ذاكرة التخزين المؤقت"
 }

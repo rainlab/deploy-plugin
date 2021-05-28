@@ -1,0 +1,11 @@
+// Ouptut
+$result = [
+    'status' => 'ok',
+];
+
+// Remove cache files
+@unlink(__DIR__ . '/../storage/framework/classes.php');
+@unlink(__DIR__ . '/../storage/framework/packages.php');
+@unlink(__DIR__ . '/../storage/framework/services.php');
+
+return $result;

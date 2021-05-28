@@ -35,12 +35,13 @@
   "Open Console": "Konsole öffnen",
   "Update Environment Variables": "Umgebungsvariablen aktualisieren",
   "Modify the configuration values on the server": "Ändern Sie die Konfigurationswerte auf dem Server",
-  "Update Config": "Konfiguration aktualisieren",
+  "Update Environment": "Konfiguration aktualisieren",
   "View Deployment Key": "Bereitstellungsschlüssel anzeigen",
   "Display the private key used to deploy to this server": "Zeigen Sie den privaten Schlüssel an, der für die Bereitstellung auf diesem Server verwendet wird",
   "Show Key": "Schlüssel anzeigen",
   "Current Version": "Aktuelle Version",
   "Active": "Aktiv",
+  "Legacy": "Erbe",
   "Ready": "Bereit",
   "Unreachable": "Nicht erreichbar",
   "Beacon Status": "Beacon Status",
@@ -73,5 +74,11 @@
   "Migrating Database": "Datenbank migrieren",
   "Building :type Archive": "Gebäude :type Archiv",
   "Checking Database Config": "Überprüfen der Datenbankkonfiguration",
-  "Setting Build Number": "Build-Nummer einstellen"
+  "Setting Build Number": "Build-Nummer einstellen",
+  "A Legacy Version of October CMS is Detected": "Eine Legacy-Version des Oktober-CMS wird erkannt",
+  "Upgrade Configuration Files": "Konfigurationsdateien konvertieren",
+  "Runs the artisan command to create an environment file": "Führt den Befehl artisan aus, um eine Umgebungsdatei zu erstellen",
+  "Upgrade Config": "Konvertieren Sie Konfig",
+  "Upgrading Legacy Site": "Aktualisieren der Legacy-Site",
+  "Clearing Cache": "Cache leeren"
 }

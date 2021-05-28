@@ -2,18 +2,18 @@
 <div class="deploy-action">
     <div class="row">
         <div class="col-md-8">
-            <h5><?= __("Update Environment Variables") ?></h5>
-            <p><?= __("Modify the configuration values on the server") ?></p>
+            <h5><?= __("Upgrade Configuration Files") ?></h5>
+            <p><?= __("Runs the artisan command to create an environment file") ?></p>
         </div>
         <div class="col-md-4">
             <div class="deploy-action-button">
                 <button
-                    class="btn btn-secondary"
+                    class="btn btn-primary"
                     data-control="popup"
                     data-size="huge"
                     data-request-data="server_id: '<?= $formModel->id ?>'"
-                    data-handler="onLoadEnvConfig">
-                    <?= __("Update Environment") ?>
+                    data-handler="onLoadUpgradeLegacy">
+                    <?= __("Upgrade Config") ?>
                 </button>
             </div>
         </div>

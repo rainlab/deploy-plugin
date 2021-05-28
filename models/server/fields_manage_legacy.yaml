@@ -1,0 +1,21 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    _tip1:
+        type: hint
+        mode: info
+        label: A Legacy Version of October CMS is Detected
+
+    _action_action_convert_legacy:
+        type: partial
+        path: action_convert_legacy
+
+    _action_run_shell:
+        type: partial
+        path: action_run_shell
+
+    _action_view_key:
+        type: partial
+        path: action_view_key
