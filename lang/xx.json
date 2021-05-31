@@ -78,7 +78,7 @@
   "A Legacy Version of October CMS is Detected": "A Legacy Version of October CMS is Detected",
   "Upgrade Configuration Files": "Convert Configuration Files",
   "Runs the artisan command to create an environment file": "Runs the artisan command to create an environment file",
-  "Upgrade Config": "Convert Config",
+  "Upgrade Config": "Upgrade Config",
   "Upgrading Legacy Site": "Upgrading Legacy Site",
   "Clearing Cache": "Clearing Cache"
 }

@@ -10,4 +10,4 @@ fields:
         mode: textarea
         size: large
         disabled: true
-
+        allowCopy: true

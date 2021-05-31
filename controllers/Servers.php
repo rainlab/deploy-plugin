@@ -499,6 +499,15 @@ class Servers extends SettingsController
         // Create deployment chain
         $deployActions = [];
 
+        $useFiles = [];
+        $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Legacy', 'buildLegacyBundle');
+
+        $deployActions[] = [
+            'label' => 'Extracting Files',
+            'action' => 'extractFiles',
+            'files' => $useFiles
+        ];
+
         $deployActions[] = [
             'label' => 'Upgrading Legacy Site',
             'action' => 'transmitArtisan',
@@ -507,7 +516,8 @@ class Servers extends SettingsController
 
         $deployActions[] = [
             'label' => 'Finishing Up',
-            'action' => 'final'
+            'action' => 'final',
+            'files' => $useFiles
         ];
 
         return $this->deployerWidget->executeSteps($serverId, $deployActions);

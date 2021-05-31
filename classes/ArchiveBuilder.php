@@ -78,6 +78,18 @@ class ArchiveBuilder
     }
 
     /**
+     * buildLegacyBundle builds files for upgrading an older version of October CMS
+     */
+    public function buildLegacyBundle(string $outputFilePath)
+    {
+        static::instance()->buildArchive($outputFilePath, [
+            'dirsSrc' => [
+                'storage' => plugins_path('rainlab/deploy/beacon/templates/storage'),
+            ],
+        ]);
+    }
+
+    /**
      * buildPluginsBundle builds a bundle of plugins from their codes
      */
     public function buildPluginsBundle(string $outputFilePath, array $pluginCodes)
