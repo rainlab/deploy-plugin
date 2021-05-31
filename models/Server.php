@@ -82,7 +82,7 @@ class Server extends Model
             $response = $this->transmit('healthCheck');
             $isInstalled = $response['appInstalled'] ?? false;
             $envFound = $response['envFound'] ?? false;
-            if (!$envFound) {
+            if ($isInstalled && !$envFound) {
                 $wantCode = static::STATUS_LEGACY;
             }
             elseif (!$isInstalled) {
