@@ -416,9 +416,9 @@ class Servers extends SettingsController
                 'type' => post('db_type'),
                 'host' => post('db_host'),
                 'port' => post('db_port'),
-                'name' => post('db_name'),
+                'name' => post('db_type') === 'sqlite' ? post('db_filename') : post('db_name'),
                 'user' => post('db_user'),
-                'pass' => post('db_type') === 'sqlite' ? post('db_filename') : post('db_pass')
+                'pass' => post('db_pass')
             ]
         ];
 

@@ -6,4 +6,4 @@ fields:
     _tip1:
         type: hint
         mode: info
-        label: This step will convert the configuration files to environment files on your server
+        label: This step will set up an .env file on the server needed for deployment.

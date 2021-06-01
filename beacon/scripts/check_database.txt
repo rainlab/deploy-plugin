@@ -11,7 +11,7 @@ $name = $VARS['name'] ?? null;
 $user = $VARS['user'] ?? null;
 $pass = $VARS['pass'] ?? null;
 
-if ($type != 'sqlite' && !strlen($host)) {
+if ($type !== 'sqlite' && !strlen($host)) {
     throw new Exception('Please specify a database host');
 }
 
@@ -19,48 +19,48 @@ if (!strlen($name)) {
     throw new Exception('Please specify the database name');
 }
 
-// Check connection
-switch ($type) {
-    case 'mysql':
-        $dsn = 'mysql:host='.$host.';dbname='.$name;
-        if ($port) {
-            $dsn .= ";port=".$port;
-        }
-        break;
-
-    case 'pgsql':
-        $_host = ($host) ? 'host='.$host.';' : '';
-        $dsn = 'pgsql:'.$_host.'dbname='.$name;
-        if ($port) {
-            $dsn .= ";port=".$port;
-        }
-        break;
-
-    case 'sqlite':
-        $dsn = 'sqlite:'.$name;
-        if (!file_exists($name)) {
-            $directory = dirname($name);
-            if (!is_dir($directory)) {
-                mkdir($directory, 0755, true);
-            }
-
-            new PDO('sqlite:'.$name);
-        }
-        break;
-
-    case 'sqlsrv':
-        $availableDrivers = PDO::getAvailableDrivers();
-        $_port = $port ? ','.$port : '';
-        if (in_array('dblib', $availableDrivers)) {
-            $dsn = 'dblib:host='.$host.$_port.';dbname='.$name;
-        }
-        else {
-            $dsn = 'sqlsrv:Server='.$host.(empty($port) ? '':','.$_port).';Database='.$name;
-        }
-        break;
-}
-
 try {
+    // Check connection
+    switch ($type) {
+        case 'mysql':
+            $dsn = 'mysql:host='.$host.';dbname='.$name;
+            if ($port) {
+                $dsn .= ";port=".$port;
+            }
+            break;
+
+        case 'pgsql':
+            $_host = ($host) ? 'host='.$host.';' : '';
+            $dsn = 'pgsql:'.$_host.'dbname='.$name;
+            if ($port) {
+                $dsn .= ";port=".$port;
+            }
+            break;
+
+        case 'sqlite':
+            $dsn = 'sqlite:'.$name;
+            if (!file_exists($name)) {
+                $directory = dirname($name);
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0755, true);
+                }
+
+                new PDO('sqlite:'.$name);
+            }
+            break;
+
+        case 'sqlsrv':
+            $availableDrivers = PDO::getAvailableDrivers();
+            $_port = $port ? ','.$port : '';
+            if (in_array('dblib', $availableDrivers)) {
+                $dsn = 'dblib:host='.$host.$_port.';dbname='.$name;
+            }
+            else {
+                $dsn = 'sqlsrv:Server='.$host.(empty($port) ? '':','.$_port).';Database='.$name;
+            }
+            break;
+    }
+
     new PDO($dsn, $user, $pass, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
     $result['status'] = 'ok';
 }

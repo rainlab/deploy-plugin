@@ -62,6 +62,7 @@ function processHealthCheck()
         'appWritable' => isAppWritable(),
         'appInstalled' => isAppInstalled(),
         'storageWritable' => isStorageWritable(),
+        'maxUpload' => getUploadMaxFilesize(),
         'envFound' => isEnvFound(),
         'phpVersion' => PHP_VERSION
     ]);
@@ -76,7 +77,7 @@ function processFileUpload()
     $fileHash = $_POST['filehash'] ?? null;
 
     if (!$fileName || !$fileHash) {
-        outputResponseError('Missing filename or filehash');
+        outputResponseError(sprintf('Server did not accept the upload (Max: %sMB)', getUploadMaxFilesize()));
     }
 
     if (!isset($_FILES['file']['name']) || empty($_FILES['file']['name'])) {
@@ -487,4 +488,21 @@ function getStoragePath(): string
     }
 
     return $path;
+}
+
+/**
+ * getUploadMaxFilesize return max upload filesize in MB
+ */
+function getUploadMaxFilesize()
+{
+    $size = ini_get('upload_max_filesize');
+
+    if (preg_match('/^([\d\.]+)([KMG])$/i', $size, $match)) {
+        $pos = array_search($match[2], ['K', 'M', 'G']);
+        if ($pos !== false) {
+            $size = $match[1] * pow(1024, $pos + 1);
+        }
+    }
+
+    return floor($size / 1024 / 1024);
 }
