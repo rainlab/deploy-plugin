@@ -80,5 +80,6 @@
   "Runs the artisan command to create an environment file": "Führt den Befehl artisan aus, um eine Umgebungsdatei zu erstellen",
   "Upgrade Config": "Konvertieren Sie Konfig",
   "Upgrading Legacy Site": "Aktualisieren der Legacy-Site",
-  "Clearing Cache": "Cache leeren"
+  "Clearing Cache": "Cache leeren",
+  "This step will set up an .env file on the server needed for deployment.": "Dieser Schritt richtet eine .env-Datei auf dem Server ein, die für die Bereitstellung benötigt wird."
 }

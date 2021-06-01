@@ -80,5 +80,6 @@
   "Runs the artisan command to create an environment file": "Запускает команду artisan для создания файла среды",
   "Upgrade Config": "Конвертировать конфигурацию",
   "Upgrading Legacy Site": "Обновление устаревшего сайта",
-  "Clearing Cache": "Очистка кеша"
+  "Clearing Cache": "Очистка кеша",
+  "This step will set up an .env file on the server needed for deployment.": "На этом шаге на сервере будет создан файл .env, необходимый для развертывания."
 }

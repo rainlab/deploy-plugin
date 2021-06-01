@@ -80,5 +80,6 @@
   "Runs the artisan command to create an environment file": "Spustí příkaz řemeslník a vytvoří soubor prostředí",
   "Upgrade Config": "Převést konfiguraci",
   "Upgrading Legacy Site": "Aktualizace starších stránek",
-  "Clearing Cache": "Vymazání mezipaměti"
+  "Clearing Cache": "Vymazání mezipaměti",
+  "This step will set up an .env file on the server needed for deployment.": "Tento krok nastaví soubor .env na serveru potřebný pro nasazení."
 }

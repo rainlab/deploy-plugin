@@ -80,5 +80,6 @@
   "Runs the artisan command to create an environment file": "運行artisan命令以創建環境文件",
   "Upgrade Config": "轉換配置",
   "Upgrading Legacy Site": "升級舊版網站",
-  "Clearing Cache": "清除緩存"
+  "Clearing Cache": "清除緩存",
+  "This step will set up an .env file on the server needed for deployment.": "此步驟將在部署所需的服務器上設置一個 .env 文件。"
 }

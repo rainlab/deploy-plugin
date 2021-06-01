@@ -80,5 +80,6 @@
   "Runs the artisan command to create an environment file": "Voert de artisan-opdracht uit om een omgevingsbestand te maken",
   "Upgrade Config": "Converteer Config",
   "Upgrading Legacy Site": "Verouderde site upgraden",
-  "Clearing Cache": "Cache wissen"
+  "Clearing Cache": "Cache wissen",
+  "This step will set up an .env file on the server needed for deployment.": "Met deze stap wordt een .env-bestand ingesteld op de server die nodig is voor implementatie."
 }
