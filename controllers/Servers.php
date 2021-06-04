@@ -535,7 +535,7 @@ class Servers extends SettingsController
             'label' => __('Building :type Archive', ['type' => $typeLabel]),
             'action' => 'archiveBuilder',
             'func' => $buildFunc,
-            'args' => [$filePath, ...$funcArgs]
+            'args' => array_merge([$filePath], $funcArgs)
         ];
 
         $steps[] = [
