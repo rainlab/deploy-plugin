@@ -178,6 +178,11 @@ class Server extends Model
             traceLog($response);
         }
 
+        // Request size too large
+        if ($response->code === 413) {
+            throw new ApplicationException('Server did not accept the upload (Request too large)');
+        }
+
         // Redirects seem to drop the POST variables and this is a security precaution
         if (in_array($response->code, [301, 302])) {
             $redirectTo = array_get($response->info, 'redirect_url');
@@ -192,7 +197,9 @@ class Server extends Model
             throw new ApplicationException(
                 'A valid response from a beacon was not found.'
                 . ' '
-                . 'Add ?debug=1 to your URL, try again and check the logs.'
+                . 'Add ?debug=1 to your URL, try again and check the logs'
+                . ' '
+                . '(Code: '.$response->code.')'
             );
         }
 
