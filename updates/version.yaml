@@ -3,3 +3,4 @@
   - create_servers_table.php
   - create_server_keys_table.php
 1.0.2: Minor fix for PHP 7.2 support
+1.0.3: Improve error messages
