@@ -22,7 +22,7 @@ if (is_array($files)) {
 
 // Zip helper
 function extractZip($source, $destination) {
-    if (file_exists($destination) || mkdir($destination, 0777, true)) {
+    if (file_exists($destination) || mkdir($destination, 0755, true)) {
         $zip = new ZipArchive;
         if ($zip->open($source) === true) {
             $zip->extractTo($destination);

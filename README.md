@@ -35,7 +35,7 @@ In your Beacon ZIP file, you should notice the following files:
 
 You can upload these files anywhere and they will become a target for deployment of October CMS. You can use FTP or the file manager in your hosting control panel.
 
-> **Important**: The directory where the files are uploaded must be writable by your web server (eg: permission 777 for apache).
+> **Important**: The directory where the files are uploaded must be writable by your web server (eg: permission 755 for apache).
 
 #### Run Your First Deployment
 

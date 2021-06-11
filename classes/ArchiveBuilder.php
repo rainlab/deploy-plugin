@@ -224,7 +224,7 @@ class ArchiveBuilder
             // Build directories
             $dirs = $options['dirs'] ?? [];
             foreach ($dirs as $dirName) {
-                File::makeDirectory($tmpPath . '/' . $dirName, 0777, true);
+                File::makeDirectory($tmpPath . '/' . $dirName, 0755, true);
             }
 
             // Build files
@@ -274,7 +274,7 @@ class ArchiveBuilder
         $path = $this->getTempPath() . '/' . $uniqueId;
 
         if (!File::exists($path)) {
-            File::makeDirectory($path, 0777, true);
+            File::makeDirectory($path, 0755, true);
         }
         else {
             File::cleanDirectory($path);
