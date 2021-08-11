@@ -1,6 +1,7 @@
-1.0.1:
+v1.0.1:
   - First version of Deploy plugin
   - create_servers_table.php
   - create_server_keys_table.php
-1.0.2: Minor fix for PHP 7.2 support
-1.0.3: Improve error messages
+v1.0.2: Minor fix for PHP 7.2 support
+v1.0.3: Improve error messages
+v1.0.4: Server will now take build number from parent installation
