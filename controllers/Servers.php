@@ -341,11 +341,7 @@ class Servers extends SettingsController
         ];
 
         if (post('deploy_core')) {
-            $deployActions[] = [
-                'label' => 'Setting Build Number',
-                'action' => 'transmitArtisan',
-                'artisan' => 'october:util set build'
-            ];
+            $this->injectSetBuildStep($deployActions);
         }
 
         $deployActions[] = [
@@ -459,11 +455,7 @@ class Servers extends SettingsController
             'artisan' => 'october:migrate'
         ];
 
-        $deployActions[] = [
-            'label' => 'Setting Build Number',
-            'action' => 'transmitArtisan',
-            'artisan' => 'october:util set build'
-        ];
+        $this->injectSetBuildStep($deployActions);
 
         $deployActions[] = [
             'label' => 'Finishing Up',
@@ -474,6 +466,19 @@ class Servers extends SettingsController
         return $this->deployerWidget->executeSteps($serverId, $deployActions);
     }
 
+    /**
+     * injectSetBuildStep
+     */
+    protected function injectSetBuildStep(array &$deployActions): void
+    {
+        $build = \System\Models\Parameter::get('system::core.build', 0);
+
+        $deployActions[] = [
+            'label' => 'Setting Build Number',
+            'action' => 'transmitArtisan',
+            'artisan' => 'october:util set build --value='.$build
+        ];
+    }
 
     /**
      * manage_onLoadUpgradeLegacy upgrades a legacy version
