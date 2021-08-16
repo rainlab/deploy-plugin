@@ -251,7 +251,7 @@ class Server extends Model
     protected function createNonce(): int
     {
         $mt = explode(' ', microtime());
-        return $mt[1] . substr($mt[0], 2, 6);
+        return intval($mt[1] . substr($mt[0], 2, 6));
     }
 
     /**
