@@ -149,7 +149,7 @@ function processShellScript()
     }
 
     if (!file_exists(__DIR__.'/../vendor/october/rain/src/Support/helpers.php')) {
-        outputResponseError('October CMS installation not detected so the command failed');
+        outputResponseError('October CMS installation not detected so the command failed. (Missing vendor folder or its empty.)');
     }
 
     try {
