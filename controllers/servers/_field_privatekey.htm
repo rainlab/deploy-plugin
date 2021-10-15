@@ -17,7 +17,7 @@
 <script>
 function generatePrivateKey() {
     var $field = $('#<?= $field->getId() ?>');
-    $field.val('<?= __('Please wait...') ?>').attr('disabled', true);
+    $field.val("<?= __('Please wait...') ?>").attr('disabled', true);
 
     generatePrivateKeyFromForge(function(privateKey){
         $field.val(privateKey).attr('disabled', false);
