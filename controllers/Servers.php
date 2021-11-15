@@ -347,7 +347,8 @@ class Servers extends SettingsController
         $deployActions[] = [
             'label' => 'Finishing Up',
             'action' => 'final',
-            'files' => $useFiles
+            'files' => $useFiles,
+            'deploy_core' => post('deploy_core')
         ];
 
         return $this->deployerWidget->executeSteps($serverId, $deployActions);
@@ -460,7 +461,8 @@ class Servers extends SettingsController
         $deployActions[] = [
             'label' => 'Finishing Up',
             'action' => 'final',
-            'files' => $useFiles
+            'files' => $useFiles,
+            'deploy_core' => true
         ];
 
         return $this->deployerWidget->executeSteps($serverId, $deployActions);

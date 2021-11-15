@@ -2,6 +2,8 @@
 
 use Http;
 use Model;
+use Carbon\Carbon;
+use System\Classes\UpdateManager;
 use ValidationException;
 use ApplicationException;
 use Exception;
@@ -30,6 +32,11 @@ class Server extends Model
         'server_name' => 'required',
         'endpoint_url' => 'required'
     ];
+
+    /**
+     * @var array dates
+     */
+    protected $dates = ['last_deploy_at'];
 
     /**
      * @var array jsonable attribute names that are json encoded and decoded from the database
@@ -98,15 +105,44 @@ class Server extends Model
             $wantCode = static::STATUS_UNREACHABLE;
         }
 
+        $differs = false;
+
+        // Version differs
+        if ($this->beacon_version !== $beaconVersion) {
+            $this->beacon_version = $beaconVersion;
+            $differs = true;
+        }
+
         // Status differs
         if ($wantCode !== null && $wantCode !== $this->status_code) {
-            $this->beacon_version = $beaconVersion;
             $this->status_code = $wantCode;
+            $differs = true;
+        }
+
+        if ($differs) {
             $this->save();
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * touchLastDeploy
+     */
+    public function touchLastDeploy()
+    {
+        $this->last_deploy_at = Carbon::now();
+        $this->save();
+    }
+
+    /**
+     * touchLastVersion
+     */
+    public function touchLastVersion()
+    {
+        $this->last_version = UpdateManager::instance()->getCurrentVersion();
+        $this->save();
     }
 
     /**

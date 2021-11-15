@@ -30,10 +30,12 @@
         <?= $formModel->beacon_version ? '('.e($formModel->beacon_version).')' : '(1.0)' ?>
     </p>
 </div>
-<?php /*
-<div class="scoreboard-item title-value">
-    <h4><?= __("Current Version") ?></h4>
-    <p>v2.0.0</p>
-    <p class="description"><?= __("updated") ?>: 18/05/2021</p>
-</div>
-*/ ?>
+<?php if ($formModel->last_deploy_at): ?>
+    <div class="scoreboard-item title-value">
+        <h4><?= __("Current Version") ?></h4>
+        <p>v<?= $formModel->last_version ?: __('Unknown') ?></p>
+        <p class="description" title="<?= $formModel->last_deploy_at->diffForHumans() ?>">
+            <?= __("updated") ?>: <?= $formModel->last_deploy_at->toFormattedDateString() ?>
+        </p>
+    </div>
+<?php endif ?>

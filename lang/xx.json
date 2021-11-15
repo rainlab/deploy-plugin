@@ -81,5 +81,6 @@
   "Upgrade Config": "Upgrade Config",
   "Upgrading Legacy Site": "Upgrading Legacy Site",
   "Clearing Cache": "Clearing Cache",
-  "This step will set up an .env file on the server needed for deployment.": "This step will set up an .env file on the server needed for deployment."
+  "This step will set up an .env file on the server needed for deployment.": "This step will set up an .env file on the server needed for deployment.",
+  "Unknown": "Unknown"
 }
