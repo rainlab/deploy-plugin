@@ -1,7 +1,10 @@
 v1.0.1:
-  - First version of Deploy plugin
-  - create_servers_table.php
-  - create_server_keys_table.php
+    - First version of Deploy plugin
+    - create_servers_table.php
+    - create_server_keys_table.php
 v1.0.2: Minor fix for PHP 7.2 support
 v1.0.3: Improve error messages
 v1.0.4: Server will now take build number from parent installation
+# v1.1.0:
+#     - Transmit payload using POST instead of GET
+#     - servers_add_beacon_version.php

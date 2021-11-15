@@ -15,6 +15,8 @@
  * Program Variables
  */
 
+$beaconVersion = '1.1';
+
 $manifestFile = getStoragePath() . '/.beacon.manifest';
 
 $pubKey = base64_decode('{pub_key_encoded}');
@@ -42,7 +44,7 @@ error_reporting(0);
 
 // Perform action
 switch (getPayloadCommand()) {
-    case 'healthCheck': processHealthCheck(); break;
+    case 'healthCheck': processHealthCheck($beaconVersion); break;
     case 'fileUpload': processFileUpload(); break;
     case 'evalScript': processEvalScript(); break;
     case 'shellScript': processShellScript(); break;
@@ -56,7 +58,7 @@ switch (getPayloadCommand()) {
 /**
  * processHealthCheck
  */
-function processHealthCheck()
+function processHealthCheck($beaconVersion)
 {
     outputResponse([
         'appWritable' => isAppWritable(),
@@ -64,7 +66,8 @@ function processHealthCheck()
         'storageWritable' => isStorageWritable(),
         'maxUpload' => getUploadMaxFilesize(),
         'envFound' => isEnvFound(),
-        'phpVersion' => PHP_VERSION
+        'phpVersion' => PHP_VERSION,
+        'beaconVersion' => $beaconVersion
     ]);
 }
 
@@ -307,7 +310,7 @@ function processArtisanCommand()
  */
 function isBeaconRequest($pubKey): bool
 {
-    $userInput = $_GET['X_OCTOBER_BEACON'] ?? null;
+    $userInput = $_POST['X_OCTOBER_BEACON'] ?? null;
 
     if (!$userInput) {
         return false;
@@ -329,8 +332,8 @@ function isBeaconRequest($pubKey): bool
  */
 function isPayloadSignatureValid($pubKey): bool
 {
-    $userPayload = $_GET['X_OCTOBER_BEACON_PAYLOAD'] ?? null;
-    $userSignature = $_GET['X_OCTOBER_BEACON_SIGNATURE'] ?? null;
+    $userPayload = $_POST['X_OCTOBER_BEACON_PAYLOAD'] ?? null;
+    $userSignature = $_POST['X_OCTOBER_BEACON_SIGNATURE'] ?? null;
 
     if (!$userPayload || !$userSignature) {
         return false;
@@ -419,7 +422,7 @@ function getPayloadCommand(): ?string
  */
 function decodePayload(): array
 {
-    return (array) json_decode(base64_decode($_GET['X_OCTOBER_BEACON_PAYLOAD']), true);
+    return (array) json_decode(base64_decode($_POST['X_OCTOBER_BEACON_PAYLOAD']), true);
 }
 
 /**

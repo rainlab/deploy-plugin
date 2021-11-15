@@ -77,11 +77,13 @@ class Server extends Model
     public function testBeacon(): bool
     {
         $wantCode = null;
+        $beaconVersion = null;
 
         try {
             $response = $this->transmit('healthCheck');
             $isInstalled = $response['appInstalled'] ?? false;
             $envFound = $response['envFound'] ?? false;
+            $beaconVersion = $response['beaconVersion'] ?? '1.0';
             if ($isInstalled && !$envFound) {
                 $wantCode = static::STATUS_LEGACY;
             }
@@ -98,6 +100,7 @@ class Server extends Model
 
         // Status differs
         if ($wantCode !== null && $wantCode !== $this->status_code) {
+            $this->beacon_version = $beaconVersion;
             $this->status_code = $wantCode;
             $this->save();
             return true;
@@ -149,11 +152,20 @@ class Server extends Model
      */
     public function transmitFile(string $filePath, array $params = []): array
     {
-        $response = Http::post($this->buildUrl('fileUpload', $params), function($http) use ($filePath) {
-            $http->maxRedirects = 0;
+        $payload = $this->preparePayload('fileUpload', $params);
+        $endpointUrl = $this->endpoint_url;
+
+        // @deprecated remove in 2.0
+        if ($this->beacon_version === '1.0' || !$this->beacon_version) {
+            $endpointUrl = $this->buildUrl('fileUpload', $params);
+        }
+
+        $response = Http::post($endpointUrl, function($http) use ($payload, $filePath) {
+            $http->data($payload);
             $http->dataFile('file', $filePath);
             $http->data('filename', md5($filePath));
             $http->data('filehash', md5_file($filePath));
+            $http->maxRedirects = 0;
         });
 
         return $this->processTransmitResponse($response);
@@ -164,9 +176,28 @@ class Server extends Model
      */
     public function transmit(string $cmd, array $params = []): array
     {
-        $response = Http::get($this->buildUrl($cmd, $params));
+        $payload = $this->preparePayload($cmd, $params);
+        $endpointUrl = $this->endpoint_url;
+
+        // @deprecated remove in 2.0
+        if ($this->beacon_version === '1.0' || !$this->beacon_version) {
+            $endpointUrl = $this->buildUrl($cmd, $params);
+        }
+
+        $response = Http::post($endpointUrl, function ($http) use ($payload) {
+            $http->data($payload);
+        });
 
         return $this->processTransmitResponse($response);
+    }
+
+    /**
+     * buildUrl for the beacon with GET vars
+     * @deprecated remove in v2.0
+     */
+    protected function buildUrl(string $cmd, array $params = []): string
+    {
+        return $this->endpoint_url . '?' . http_build_query($this->preparePayload($cmd, $params));
     }
 
     /**
@@ -214,14 +245,6 @@ class Server extends Model
         }
 
         return $body;
-    }
-
-    /**
-     * buildUrl for the beacon with GET vars
-     */
-    protected function buildUrl(string $cmd, array $params = []): string
-    {
-        return $this->endpoint_url . '?' . http_build_query($this->preparePayload($cmd, $params));
     }
 
     /**
