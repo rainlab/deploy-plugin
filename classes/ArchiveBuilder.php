@@ -5,6 +5,7 @@ use Exception;
 use System\Classes\PluginManager;
 use October\Rain\Filesystem\Zip;
 use October\Rain\Parse\Bracket;
+use RainLab\Deploy\Classes\GitIgnorer;
 
 /**
  * ArchiveBuilder builds ZIP archives for deployment
@@ -98,7 +99,8 @@ class ArchiveBuilder
             'dirs' => [
                 'plugins'
             ],
-            'dirsSrc' => []
+            'dirsSrc' => [],
+            'gitIgnoreFiles' => []
         ];
 
         // Find plugin paths
@@ -112,6 +114,7 @@ class ArchiveBuilder
 
             $localPath = 'plugins/'.strtolower(str_replace('.', '/', $pluginCode));
             $definition['dirsSrc'][$localPath] = $path;
+            $definition['gitIgnoreFiles'][$localPath] = $path.'/.deployignore';
         }
 
         $this->buildArchive($outputFilePath, $definition);
@@ -126,13 +129,16 @@ class ArchiveBuilder
             'dirs' => [
                 'themes'
             ],
-            'dirsSrc' => []
+            'dirsSrc' => [],
+            'gitIgnoreFiles' => []
         ];
 
         // Find themes paths
         foreach ($themeCodes as $themeCode) {
             $localPath = 'themes/'.$themeCode;
-            $definition['dirsSrc'][$localPath] = themes_path($themeCode);
+            $path = themes_path($themeCode);
+            $definition['dirsSrc'][$localPath] = $path;
+            $definition['gitIgnoreFiles'][$localPath] = $path.'/.deployignore';
         }
 
         $this->buildArchive($outputFilePath, $definition);
@@ -234,8 +240,22 @@ class ArchiveBuilder
                 file_put_contents($tmpPath . '/' . $filename, $contents);
             }
 
+            // Build gitignores
+            $ignoreService = new GitIgnorer;
+            $excludePaths = [];
+            $ignoreFiles = $options['gitIgnoreFiles'] ?? [];
+            foreach ($ignoreFiles as $ignoreFile) {
+                if (!file_exists($ignoreFile)) {
+                    continue;
+                }
+
+                $excludePaths = array_merge($excludePaths, $ignoreService->findSingle($ignoreFile));
+            }
+
             // Build archive file
-            Zip::make($outputFilePath, function($zip) use ($tmpPath, $options) {
+            Zip::make($outputFilePath, function($zip) use ($tmpPath, $options, $excludePaths) {
+                $zip->exclude($excludePaths);
+
                 $zip->add($tmpPath . '/{*,.[!.]*,..?*}');
 
                 $filesSrc = $options['filesSrc'] ?? [];
