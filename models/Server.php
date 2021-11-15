@@ -197,10 +197,10 @@ class Server extends Model
         }
 
         $response = Http::post($endpointUrl, function($http) use ($payload, $filePath) {
-            $http->data($payload);
             $http->dataFile('file', $filePath);
             $http->data('filename', md5($filePath));
             $http->data('filehash', md5_file($filePath));
+            $http->data($payload);
             $http->maxRedirects = 0;
         });
 

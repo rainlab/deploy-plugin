@@ -148,7 +148,8 @@ class ArchiveBuilder
                 'config'
             ],
             'dirsSrc' => [
-                'config' => base_path('config')
+                'config' => base_path('config'),
+                'lang' => base_path('lang')
             ]
         ]);
     }

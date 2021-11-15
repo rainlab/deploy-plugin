@@ -27,7 +27,7 @@
             data-stripe-load-indicator>
             <?= __("Check Beacon") ?>
         </a>
-        <?= $formModel->beacon_version ? '('.e($formModel->beacon_version).')' : '(1.0)' ?>
+        <?= $formModel->beacon_version ? '('.e($formModel->beacon_version).')' : '' ?>
     </p>
 </div>
 <?php if ($formModel->last_deploy_at): ?>
