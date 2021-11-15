@@ -81,5 +81,6 @@
   "Upgrade Config": "Nadgradi konfiguracijo",
   "Upgrading Legacy Site": "Nadgradnja starega spletnega mesta",
   "Clearing Cache": "Brisanje predpomnilnika",
-  "This step will set up an .env file on the server needed for deployment.": "Ta korak bo na strežniku nastavil datoteko .env, potrebno za uvajanje."
+  "This step will set up an .env file on the server needed for deployment.": "Ta korak bo na strežniku nastavil datoteko .env, potrebno za uvajanje.",
+  "Unknown": "neznano"
 }

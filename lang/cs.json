@@ -81,5 +81,6 @@
   "Upgrade Config": "Aktualizovat konfiguraci",
   "Upgrading Legacy Site": "Aktualizace staršího webu",
   "Clearing Cache": "Vymazání mezipaměti",
-  "This step will set up an .env file on the server needed for deployment.": "Tento krok nastaví na serveru soubor .env potřebný pro nasazení."
+  "This step will set up an .env file on the server needed for deployment.": "Tento krok nastaví na serveru soubor .env potřebný pro nasazení.",
+  "Unknown": "Neznámý"
 }

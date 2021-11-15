@@ -81,5 +81,6 @@
   "Upgrade Config": "تحويل التكوين",
   "Upgrading Legacy Site": "ترقية الموقع القديم",
   "Clearing Cache": "مسح ذاكرة التخزين المؤقت",
-  "This step will set up an .env file on the server needed for deployment.": "ستقوم هذه الخطوة بإعداد ملف .env على الخادم المطلوب للنشر."
+  "This step will set up an .env file on the server needed for deployment.": "ستقوم هذه الخطوة بإعداد ملف .env على الخادم المطلوب للنشر.",
+  "Unknown": "مجهول"
 }

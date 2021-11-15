@@ -81,5 +81,6 @@
   "Upgrade Config": "Конвертировать конфигурацию",
   "Upgrading Legacy Site": "Обновление устаревшего сайта",
   "Clearing Cache": "Очистка кеша",
-  "This step will set up an .env file on the server needed for deployment.": "На этом шаге на сервере будет создан файл .env, необходимый для развертывания."
+  "This step will set up an .env file on the server needed for deployment.": "На этом шаге на сервере будет создан файл .env, необходимый для развертывания.",
+  "Unknown": "Неизвестный"
 }

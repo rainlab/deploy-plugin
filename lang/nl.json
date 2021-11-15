@@ -81,5 +81,6 @@
   "Upgrade Config": "Converteer Configuratie",
   "Upgrading Legacy Site": "Verouderde site upgraden",
   "Clearing Cache": "Cache leegmaken",
-  "This step will set up an .env file on the server needed for deployment.": "Met deze stap wordt een .env bestand ingesteld op de server die nodig is voor implementatie."
+  "This step will set up an .env file on the server needed for deployment.": "Met deze stap wordt een .env bestand ingesteld op de server die nodig is voor implementatie.",
+  "Unknown": "Onbekend"
 }

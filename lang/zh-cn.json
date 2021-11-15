@@ -81,5 +81,6 @@
   "Upgrade Config": "转换配置",
   "Upgrading Legacy Site": "升级旧版网站",
   "Clearing Cache": "清除缓存",
-  "This step will set up an .env file on the server needed for deployment.": "此步骤将在部署所需的服务器上设置一个 .env 文件。"
+  "This step will set up an .env file on the server needed for deployment.": "此步骤将在部署所需的服务器上设置一个 .env 文件。",
+  "Unknown": "未知"
 }

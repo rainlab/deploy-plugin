@@ -81,5 +81,6 @@
   "Upgrade Config": "Atualizar configuração",
   "Upgrading Legacy Site": "Atualizando o site legado",
   "Clearing Cache": "Limpando Cache",
-  "This step will set up an .env file on the server needed for deployment.": "Esta etapa irá configurar um arquivo .env no servidor necessário para implantação."
+  "This step will set up an .env file on the server needed for deployment.": "Esta etapa irá configurar um arquivo .env no servidor necessário para implantação.",
+  "Unknown": "Desconhecido"
 }
