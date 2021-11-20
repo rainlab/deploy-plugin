@@ -45,6 +45,16 @@ You can upload these files anywhere and they will become a target for deployment
 
 Once you have the Beacon installed remotely and the server set up locally. It's time to perform your first deployment.
 
+#### Troubleshooting Beacon the Response
+
+Sometimes you may see an error that a valid response from a beacon was not found. To capture the raw response from the beacon, do the following.
+
+1. Add `?debug=1` to the end of the URL in the backend.
+1. Click Check beacon.
+1. Check the log file in **storage/logs** to see what the server is responding with.
+
+This should hopefully provide some insight in to why the response was not accepted.
+
 #### Using `.deployignore` to Ignore Files
 
 There are times when you don't want specific files to be deployed, such as the `node_modules` directory used in plugins and themes. This is possible by creating a `.deployignore` file in the base directory of your plugin or theme. This file behaves the same as `.gitignore` file where you can configure Git to [ignore files you don't want to check in](https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files).
