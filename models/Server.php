@@ -334,7 +334,11 @@ class Server extends Model
      */
     public function getPluginsOptions(): array
     {
-        return \System\Models\PluginVersion::all()->lists('code', 'code');
+        $availablePlugins = \System\Models\PluginVersion::all()->lists('code', 'code');
+
+        unset($availablePlugins['RainLab.Deploy']);
+
+        return $availablePlugins;
     }
 
     /**
