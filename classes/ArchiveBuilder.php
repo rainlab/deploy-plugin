@@ -33,6 +33,7 @@ class ArchiveBuilder
     public function buildBeaconFiles(string $outputFilePath, string $pubKey)
     {
         $beaconContents = Bracket::parse(file_get_contents($this->templatePath . '/bootstrap/beacon.stub'), [
+            'beacon_version' => \RainLab\Deploy\Plugin::PROTOCOL_VERSION,
             'pub_key_encoded' => base64_encode($pubKey)
         ]);
 

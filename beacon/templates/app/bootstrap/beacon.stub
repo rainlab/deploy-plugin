@@ -2,7 +2,7 @@
 
 /**
  * ========================================================================
- * October CMS: Deployment Beacon Script
+ * October CMS: Deployment Beacon Script {beacon_version}
  * https://octobercms.com
  * ========================================================================
  * This file is intended to be audited by security specialists.
@@ -11,501 +11,511 @@
  * ========================================================================
  */
 
-/*
- * Program Variables
- */
+function ocDeployScript($beaconVersion, $pubKey) {
+    //
+    // Program Functions
+    //
 
-$beaconVersion = '1.1';
-
-$manifestFile = getStoragePath() . '/.beacon.manifest';
-
-$pubKey = base64_decode('{pub_key_encoded}');
-
-/*
- * Program Logic
- */
-
-// Cheap flag check
-if (!isBeaconRequest($pubKey)) {
-    return;
-}
-
-// Signature check
-if (!isPayloadSignatureValid($pubKey)) {
-    return;
-}
-
-// Check nonce
-if (!isPayloadNonceValid($manifestFile)) {
-    return;
-}
-
-error_reporting(0);
-
-// Perform action
-switch (getPayloadCommand()) {
-    case 'healthCheck': processHealthCheck($beaconVersion); break;
-    case 'fileUpload': processFileUpload(); break;
-    case 'evalScript': processEvalScript(); break;
-    case 'shellScript': processShellScript(); break;
-    case 'artisanCommand': processArtisanCommand(); break;
-}
-
-/*
- * Program Functions
- */
-
-/**
- * processHealthCheck
- */
-function processHealthCheck($beaconVersion)
-{
-    outputResponse([
-        'appWritable' => isAppWritable(),
-        'appInstalled' => isAppInstalled(),
-        'storageWritable' => isStorageWritable(),
-        'maxUpload' => getUploadMaxFilesize(),
-        'envFound' => isEnvFound(),
-        'phpVersion' => PHP_VERSION,
-        'beaconVersion' => $beaconVersion
-    ]);
-}
-
-/**
- * processFileUpload
- */
-function processFileUpload()
-{
-    $fileName = $_POST['filename'] ?? null;
-    $fileHash = $_POST['filehash'] ?? null;
-
-    if (!$fileName || !$fileHash) {
-        outputResponseError(sprintf('Server did not accept the upload (Max: %sMB)', getUploadMaxFilesize()));
-    }
-
-    if (!isset($_FILES['file']['name']) || empty($_FILES['file']['name'])) {
-        outputResponseError('Missing upload');
-    }
-
-    $tempFileName = 'ocb-' . $fileName . '.arc';
-    $tempFilePath = getStoragePath() . '/' . $tempFileName;
-
-    if (move_uploaded_file($_FILES['file']['tmp_name'], $tempFilePath)) {
-        if ($fileHash !== md5_file($tempFilePath)) {
-            unlink($tempFilePath);
-            outputResponseError('File from server is corrupt');
-        }
-
+    /**
+     * processHealthCheck
+     */
+    function processHealthCheck($beaconVersion)
+    {
         outputResponse([
-            'success' => true,
-            'path' => base64_encode($tempFilePath)
+            'appWritable' => isAppWritable(),
+            'appInstalled' => isAppInstalled(),
+            'storageWritable' => isStorageWritable(),
+            'maxUpload' => getUploadMaxFilesize(),
+            'envFound' => isEnvFound(),
+            'phpVersion' => PHP_VERSION,
+            'beaconVersion' => $beaconVersion
         ]);
     }
-    else {
-        outputResponseError('Could not upload file');
-    }
-}
 
-/**
- * processEvalScript
- */
-function processEvalScript()
-{
-    $scriptContents = decodePayload()['script'] ?? null;
-    $scriptVars = decodePayload()['scriptVars'] ?? [];
+    /**
+     * processFileUpload
+     */
+    function processFileUpload()
+    {
+        $fileName = $_GET['XOB_FILENAME'] ?? null;
+        $fileHash = $_GET['XOB_FILEHASH'] ?? null;
 
-    if (!$scriptContents) {
-        outputResponseError('Missing script');
-    }
-
-    try {
-        $scriptContents = base64_decode($scriptContents);
-
-        define('OCTOBER_BEACON_EVAL', 1);
-
-        $evalFunc = function($scriptContents, $VARS) {
-            return eval($scriptContents);
-        };
-
-        $response = $evalFunc($scriptContents, $scriptVars);
-
-        if (!$response || !is_array($response)) {
-            outputResponseError('Script missing valid output');
+        if (!$fileName || !$fileHash) {
+            outputResponseError('Missing file name or hash');
         }
 
-        outputResponse($response);
+        if (!isset($_FILES['file']['name']) || empty($_FILES['file']['name'])) {
+            outputResponseError(sprintf('Server did not accept the upload (Max: %sMB)', getUploadMaxFilesize()));
+        }
+
+        $tempFileName = 'ocb-' . $fileName . '.arc';
+        $tempFilePath = getStoragePath() . '/' . $tempFileName;
+
+        if (move_uploaded_file($_FILES['file']['tmp_name'], $tempFilePath)) {
+            if ($fileHash !== md5_file($tempFilePath)) {
+                unlink($tempFilePath);
+                outputResponseError('File from server is corrupt');
+            }
+
+            outputResponse([
+                'success' => true,
+                'path' => base64_encode($tempFilePath)
+            ]);
+        }
+        else {
+            outputResponseError('Could not upload file');
+        }
     }
-    catch (Throwable $ex) {
-        outputResponseError($ex->getMessage());
+
+    /**
+     * processEvalScript
+     */
+    function processEvalScript()
+    {
+        $scriptContents = decodePayload()['script'] ?? null;
+        $scriptVars = decodePayload()['scriptVars'] ?? [];
+
+        if (!$scriptContents) {
+            outputResponseError('Missing script');
+        }
+
+        try {
+            $scriptContents = base64_decode($scriptContents);
+
+            define('OCTOBER_BEACON_EVAL', 1);
+
+            $evalFunc = function($scriptContents, $VARS) {
+                return eval($scriptContents);
+            };
+
+            $response = $evalFunc($scriptContents, $scriptVars);
+
+            if (!$response || !is_array($response)) {
+                outputResponseError('Script missing valid output');
+            }
+
+            outputResponse($response);
+        }
+        catch (Throwable $ex) {
+            outputResponseError($ex->getMessage());
+        }
     }
-}
 
-/**
- * processShellScript
- */
-function processShellScript()
-{
-    $scriptContents = decodePayload()['script'] ?? null;
+    /**
+     * processShellScript
+     */
+    function processShellScript()
+    {
+        $scriptContents = decodePayload()['script'] ?? null;
 
-    if (!$scriptContents) {
-        outputResponseError('Missing script');
-    }
+        if (!$scriptContents) {
+            outputResponseError('Missing script');
+        }
 
-    if (!file_exists(__DIR__.'/../vendor/october/rain/src/Support/helpers.php')) {
-        outputResponseError('October CMS installation not detected so the command failed. (Missing vendor folder or its empty.)');
-    }
+        if (!file_exists(__DIR__.'/../vendor/october/rain/src/Support/helpers.php')) {
+            outputResponseError('October CMS installation not detected so the command failed. (Missing vendor folder or its empty.)');
+        }
 
-    try {
-        require_once __DIR__.'/autoload.php';
+        try {
+            require_once __DIR__.'/autoload.php';
 
-        $app = require_once __DIR__.'/app.php';
+            $app = require_once __DIR__.'/app.php';
 
-        $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
+            $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 
-        $kernel->bootstrap();
+            $kernel->bootstrap();
 
-        $scriptContents = base64_decode($scriptContents);
+            $scriptContents = base64_decode($scriptContents);
 
-        /*
-         * ShellClosure is a custom loop closure
-         */
-        class ShellClosure extends Psy\ExecutionClosure
-        {
-            public function __construct($p)
+            /*
+            * ShellClosure is a custom loop closure
+            */
+            class ShellClosure extends Psy\ExecutionClosure
             {
-                $this->setClosure($p, function () use ($p) {
-                    extract($p->getScopeVariables(false));
+                public function __construct($p)
+                {
+                    $this->setClosure($p, function () use ($p) {
+                        extract($p->getScopeVariables(false));
 
-                    do {
-                        $p->beforeLoop();
-
-                        try {
-                            $reflection = new ReflectionClass($p);
-                            $property = $reflection->getProperty('codeBufferOpen');
-                            $property->setAccessible(true);
-                            $property->setValue($p, false);
+                        do {
+                            $p->beforeLoop();
 
                             try {
-                                if ($p->getLastExecSuccess()) {
-                                    extract($p->getScopeVariablesDiff(\get_defined_vars()));
+                                $reflection = new ReflectionClass($p);
+                                $property = $reflection->getProperty('codeBufferOpen');
+                                $property->setAccessible(true);
+                                $property->setValue($p, false);
+
+                                try {
+                                    if ($p->getLastExecSuccess()) {
+                                        extract($p->getScopeVariablesDiff(\get_defined_vars()));
+                                    }
+
+                                    ob_start([$p, 'writeStdout'], 1);
+                                    set_error_handler([$p, 'handleError']);
+                                    $v = eval($p->onExecute($p->flushCode() ?: Psy\ExecutionClosure::NOOP_INPUT));
+                                }
+                                catch (Throwable $e) {
+                                    restore_error_handler();
+                                    if (ob_get_level() > 0) {
+                                        ob_end_clean();
+                                    }
+
+                                    throw $e;
                                 }
 
-                                ob_start([$p, 'writeStdout'], 1);
-                                set_error_handler([$p, 'handleError']);
-                                $v = eval($p->onExecute($p->flushCode() ?: Psy\ExecutionClosure::NOOP_INPUT));
-                            }
-                            catch (Throwable $e) {
                                 restore_error_handler();
-                                if (ob_get_level() > 0) {
-                                    ob_end_clean();
-                                }
+                                ob_end_flush();
 
+                                $p->setScopeVariables(get_defined_vars());
+                                $p->writeReturnValue($v);
+                            }
+                            catch (Psy\Exception\BreakException $e) {
+                                $p->writeException($e);
+                                return;
+                            }
+                            catch (Psy\Exception\ThrowUpException $e) {
+                                $p->writeException($e);
                                 throw $e;
                             }
+                            catch (Exception $e) {
+                                $p->writeException($e);
+                            }
 
-                            restore_error_handler();
-                            ob_end_flush();
-
-                            $p->setScopeVariables(get_defined_vars());
-                            $p->writeReturnValue($v);
-                        }
-                        catch (Psy\Exception\BreakException $e) {
-                            $p->writeException($e);
-                            return;
-                        }
-                        catch (Psy\Exception\ThrowUpException $e) {
-                            $p->writeException($e);
-                            throw $e;
-                        }
-                        catch (Exception $e) {
-                            $p->writeException($e);
-                        }
-
-                        $p->afterLoop();
-                    } while (false);
-                });
+                            $p->afterLoop();
+                        } while (false);
+                    });
+                }
             }
-        }
 
-        /**
-         * ShellEval will eval arbitrary script similar to Python shell
-         */
-        class ShellEval
-        {
-            public function execute($code)
+            /**
+             * ShellEval will eval arbitrary script similar to Python shell
+             */
+            class ShellEval
             {
-                $config = new Psy\Configuration([
-                    'errorLoggingLevel' => 0,
-                    'configDir' => getStoragePath() . '/psysh',
-                    'dataDir' => getStoragePath() . '/psysh',
-                    'updateCheck' => 'never',
-                    'configFile' => null,
-                    'usePcntl' => false,
-                ]);
+                public function execute($code)
+                {
+                    $config = new Psy\Configuration([
+                        'errorLoggingLevel' => 0,
+                        'configDir' => getStoragePath() . '/psysh',
+                        'dataDir' => getStoragePath() . '/psysh',
+                        'updateCheck' => 'never',
+                        'configFile' => null,
+                        'usePcntl' => false,
+                    ]);
 
-                $output = new Symfony\Component\Console\Output\BufferedOutput();
-                $output->setDecorated(true);
+                    $output = new Symfony\Component\Console\Output\BufferedOutput();
+                    $output->setDecorated(true);
 
-                $shell = new Psy\Shell($config);
-                $shell->setOutput($output);
-                $shell->addCode($code);
+                    $shell = new Psy\Shell($config);
+                    $shell->setOutput($output);
+                    $shell->addCode($code);
 
-                $closure = new ShellClosure($shell);
-                $closure->execute();
+                    $closure = new ShellClosure($shell);
+                    $closure->execute();
 
-                $outputCode = $output->fetch();
-                $outputCode = preg_replace('/(?s)(<aside.*?<\/aside>)|Exit:  Ctrl\+D/ms', '$2', $outputCode);
+                    $outputCode = $output->fetch();
+                    $outputCode = preg_replace('/(?s)(<aside.*?<\/aside>)|Exit:  Ctrl\+D/ms', '$2', $outputCode);
 
-                return trim($outputCode);
+                    return trim($outputCode);
+                }
             }
+
+            $response = (new ShellEval())->execute($scriptContents);
+
+            outputResponse(['output' => base64_encode($response)]);
+        }
+        catch (Throwable $ex) {
+            outputResponse(['output' => base64_encode($ex->getMessage())]);
+        }
+    }
+
+    /**
+     * processArtisanCommand
+     */
+    function processArtisanCommand()
+    {
+        $artisanCmd = decodePayload()['artisan'] ?? null;
+
+        if (!$artisanCmd) {
+            outputResponseError('Missing artisan command');
         }
 
-        $response = (new ShellEval())->execute($scriptContents);
+        if (!file_exists(__DIR__.'/../vendor/october/rain/src/Support/helpers.php')) {
+            outputResponseError('October CMS installation not detected so the command failed');
+        }
 
-        outputResponse(['output' => base64_encode($response)]);
-    }
-    catch (Throwable $ex) {
-        outputResponse(['output' => base64_encode($ex->getMessage())]);
-    }
-}
+        try {
+            require_once __DIR__.'/autoload.php';
 
-/**
- * processArtisanCommand
- */
-function processArtisanCommand()
-{
-    $artisanCmd = decodePayload()['artisan'] ?? null;
+            $app = require_once __DIR__.'/app.php';
 
-    if (!$artisanCmd) {
-        outputResponseError('Missing artisan command');
-    }
+            $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 
-    if (!file_exists(__DIR__.'/../vendor/october/rain/src/Support/helpers.php')) {
-        outputResponseError('October CMS installation not detected so the command failed');
-    }
+            $errCode = $kernel->call($artisanCmd);
 
-    try {
-        require_once __DIR__.'/autoload.php';
+            $output = $kernel->output();
 
-        $app = require_once __DIR__.'/app.php';
-
-        $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
-
-        $errCode = $kernel->call($artisanCmd);
-
-        $output = $kernel->output();
-
-        outputResponse([
-            'errCode' => $errCode,
-            'output' => base64_encode($output)
-        ]);
-    }
-    catch (Throwable $ex) {
-        outputResponseError($ex->getMessage());
-    }
-}
-
-/**
- * isBeaconRequest
- */
-function isBeaconRequest($pubKey): bool
-{
-    $userInput = $_POST['X_OCTOBER_BEACON'] ?? null;
-
-    if (!$userInput) {
-        return false;
+            outputResponse([
+                'errCode' => $errCode,
+                'output' => base64_encode($output)
+            ]);
+        }
+        catch (Throwable $ex) {
+            outputResponseError($ex->getMessage());
+        }
     }
 
-    if (!is_string($userInput)) {
-        return false;
-    }
+    /**
+     * isBeaconRequest
+     */
+    function isBeaconRequest($pubKey): bool
+    {
+        $userInput = $_GET['XOB'] ?? null;
 
-    if ($userInput !== md5($pubKey)) {
-        return false;
-    }
-
-    return true;
-}
-
-/**
- * isPayloadSignatureValid
- */
-function isPayloadSignatureValid($pubKey): bool
-{
-    $userPayload = $_POST['X_OCTOBER_BEACON_PAYLOAD'] ?? null;
-    $userSignature = $_POST['X_OCTOBER_BEACON_SIGNATURE'] ?? null;
-
-    if (!$userPayload || !$userSignature) {
-        return false;
-    }
-
-    if (!is_string($userSignature) || !is_string($userPayload)) {
-        return false;
-    }
-
-    try {
-        $signatureDecoded = base64_decode($userSignature);
-        if ($signatureDecoded === false) {
+        if (!$userInput) {
             return false;
         }
 
-        return openssl_verify($userPayload, $signatureDecoded, $pubKey) === 1;
-    }
-    catch (Throwable $ex) {
-        return false;
-    }
-}
+        if (!is_string($userInput)) {
+            return false;
+        }
 
-/**
- * isPayloadNonceValid
- */
-function isPayloadNonceValid(string $manifestFile): bool
-{
-    $lastNonce = getManifestValue($manifestFile, 'nonce') ?: 1;
+        if ($userInput !== md5($pubKey)) {
+            return false;
+        }
 
-    $nonce = decodePayload()['nonce'] ?? null;
-
-    if (!$nonce) {
-        return false;
+        return true;
     }
 
-    if ((int) $lastNonce >= (int) $nonce) {
-        return false;
-    }
+    /**
+     * isPayloadSignatureValid
+     */
+    function isPayloadSignatureValid($pubKey): bool
+    {
+        $userPayload = getPayloadRaw();
+        $userSignature = $_GET['XOB_SIGNATURE'] ?? null;
 
-    putManifestValue($manifestFile, 'nonce', $nonce);
+        if (!$userPayload || !$userSignature) {
+            return false;
+        }
 
-    return true;
-}
+        if (!is_string($userSignature) || !is_string($userPayload)) {
+            return false;
+        }
 
-/**
- * getManifestValue
- */
-function getManifestValue(string $manifestFile, string $key)
-{
-    if (!file_exists($manifestFile)) {
-        return null;
-    }
+        try {
+            $signatureDecoded = base64_decode($userSignature);
+            if ($signatureDecoded === false) {
+                return false;
+            }
 
-    $data = (array) json_decode(file_get_contents($manifestFile), true);
-
-    return $data[$key] ?? null;
-}
-
-/**
- * putManifestValue
- */
-function putManifestValue(string $manifestFile, string $key, $value)
-{
-    if (!file_exists($manifestFile)) {
-        $data = [];
-    }
-    else {
-        $data = (array) json_decode(file_get_contents($manifestFile), true);
-    }
-
-    $data[$key] = $value;
-
-    file_put_contents($manifestFile, json_encode($data));
-}
-
-/**
- * getPayloadCommand
- */
-function getPayloadCommand(): ?string
-{
-    return decodePayload()['cmd'] ?? null;
-}
-
-/**
- * decodePayload
- */
-function decodePayload(): array
-{
-    return (array) json_decode(base64_decode($_POST['X_OCTOBER_BEACON_PAYLOAD']), true);
-}
-
-/**
- * outputResponse to browser
- */
-function outputResponse(array $data): void
-{
-    http_response_code(201);
-    header('Content-Type: application/json');
-    echo json_encode($data);
-    exit;
-}
-
-/**
- * outputResponseError to browser
- */
-function outputResponseError(string $message, array $data = []): void
-{
-    http_response_code(400);
-    header('Content-Type: application/json');
-    echo json_encode(['error' => $message] + $data);
-    exit;
-}
-
-/**
- * isAppInstalled checks if an application is installed
- */
-function isAppInstalled(): bool
-{
-    return file_exists(__DIR__.'/../vendor/october/rain/src/Support/helpers.php');
-}
-
-/**
- * isEnvFound checks if an environment variable file is found
- */
-function isEnvFound(): bool
-{
-    return file_exists(__DIR__.'/../.env');
-}
-
-/**
- * isAppWritable checks if the root directory is writable
- */
-function isAppWritable(): bool
-{
-    return is_writable(__DIR__.'/../');
-}
-
-/**
- * isStorageWritable checks if the temporary storage directory is writable
- */
-function isStorageWritable(): bool
-{
-    return is_writable(getStoragePath());
-}
-
-/**
- * getStoragePath returns the storage path
- */
-function getStoragePath(): string
-{
-    $path = __DIR__.'/../storage/temp';
-
-    if (!file_exists($path)) {
-        mkdir($path, 0755, true);
-    }
-
-    return $path;
-}
-
-/**
- * getUploadMaxFilesize return max upload filesize in MB
- */
-function getUploadMaxFilesize()
-{
-    $size = ini_get('upload_max_filesize');
-
-    if (preg_match('/^([\d\.]+)([KMG])$/i', $size, $match)) {
-        $pos = array_search($match[2], ['K', 'M', 'G']);
-        if ($pos !== false) {
-            $size = $match[1] * pow(1024, $pos + 1);
+            return openssl_verify($userPayload, $signatureDecoded, $pubKey) === 1;
+        }
+        catch (Throwable $ex) {
+            return false;
         }
     }
 
-    return floor($size / 1024 / 1024);
+    /**
+     * isPayloadNonceValid
+     */
+    function isPayloadNonceValid(string $manifestFile): bool
+    {
+        $lastNonce = getManifestValue($manifestFile, 'nonce') ?: 1;
+
+        $nonce = decodePayload()['nonce'] ?? null;
+
+        if (!$nonce) {
+            return false;
+        }
+
+        if ((int) $lastNonce >= (int) $nonce) {
+            return false;
+        }
+
+        putManifestValue($manifestFile, 'nonce', $nonce);
+
+        return true;
+    }
+
+    /**
+     * getManifestValue
+     */
+    function getManifestValue(string $manifestFile, string $key)
+    {
+        if (!file_exists($manifestFile)) {
+            return null;
+        }
+
+        $data = (array) json_decode(file_get_contents($manifestFile), true);
+
+        return $data[$key] ?? null;
+    }
+
+    /**
+     * putManifestValue
+     */
+    function putManifestValue(string $manifestFile, string $key, $value)
+    {
+        if (!file_exists($manifestFile)) {
+            $data = [];
+        }
+        else {
+            $data = (array) json_decode(file_get_contents($manifestFile), true);
+        }
+
+        $data[$key] = $value;
+
+        file_put_contents($manifestFile, json_encode($data));
+    }
+
+    /**
+     * getPayloadCommand
+     */
+    function getPayloadCommand(): ?string
+    {
+        return $_GET['XOB_CMD'] ?? null;
+    }
+
+    /**
+     * getPayloadRaw
+     */
+    function getPayloadRaw(): ?string
+    {
+        $payload = $_POST['XOB_PAYLOAD'] ?? null;
+
+        if ($payload === null) {
+            $payload = $_GET['XOB_PAYLOAD'] ?? null;
+        }
+
+        return $payload;
+    }
+
+    /**
+     * decodePayload
+     */
+    function decodePayload(): array
+    {
+        return (array) json_decode(base64_decode(getPayloadRaw()), true);
+    }
+
+    /**
+     * outputResponse to browser
+     */
+    function outputResponse(array $data): void
+    {
+        http_response_code(201);
+        header('Content-Type: application/json');
+        echo json_encode($data);
+        exit;
+    }
+
+    /**
+     * outputResponseError to browser
+     */
+    function outputResponseError(string $message, array $data = []): void
+    {
+        http_response_code(400);
+        header('Content-Type: application/json');
+        echo json_encode(['error' => $message] + $data);
+        exit;
+    }
+
+    /**
+     * isAppInstalled checks if an application is installed
+     */
+    function isAppInstalled(): bool
+    {
+        return file_exists(__DIR__.'/../vendor/october/rain/src/Support/helpers.php');
+    }
+
+    /**
+     * isEnvFound checks if an environment variable file is found
+     */
+    function isEnvFound(): bool
+    {
+        return file_exists(__DIR__.'/../.env');
+    }
+
+    /**
+     * isAppWritable checks if the root directory is writable
+     */
+    function isAppWritable(): bool
+    {
+        return is_writable(__DIR__.'/../');
+    }
+
+    /**
+     * isStorageWritable checks if the temporary storage directory is writable
+     */
+    function isStorageWritable(): bool
+    {
+        return is_writable(getStoragePath());
+    }
+
+    /**
+     * getStoragePath returns the storage path
+     */
+    function getStoragePath(): string
+    {
+        $path = __DIR__.'/../storage/temp';
+
+        if (!file_exists($path)) {
+            mkdir($path, 0755, true);
+        }
+
+        return $path;
+    }
+
+    /**
+     * getUploadMaxFilesize return max upload filesize in MB
+     */
+    function getUploadMaxFilesize()
+    {
+        $size = ini_get('upload_max_filesize');
+
+        if (preg_match('/^([\d\.]+)([KMG])$/i', $size, $match)) {
+            $pos = array_search($match[2], ['K', 'M', 'G']);
+            if ($pos !== false) {
+                $size = $match[1] * pow(1024, $pos + 1);
+            }
+        }
+
+        return floor($size / 1024 / 1024);
+    }
+
+    //
+    // Program Logic
+    //
+
+    $manifestFile = getStoragePath() . '/.beacon.manifest';
+
+    // Cheap flag check
+    if (!isBeaconRequest($pubKey)) {
+        return;
+    }
+
+    // Signature check
+    if (!isPayloadSignatureValid($pubKey)) {
+        return;
+    }
+
+    // Check nonce
+    if (!isPayloadNonceValid($manifestFile)) {
+        return;
+    }
+
+    error_reporting(0);
+
+    // Perform action
+    switch (getPayloadCommand()) {
+        case 'healthCheck': processHealthCheck($beaconVersion); break;
+        case 'fileUpload': processFileUpload(); break;
+        case 'evalScript': processEvalScript(); break;
+        case 'shellScript': processShellScript(); break;
+        case 'artisanCommand': processArtisanCommand(); break;
+    }
 }
+
+ocDeployScript('{beacon_version}', base64_decode('{pub_key_encoded}'));

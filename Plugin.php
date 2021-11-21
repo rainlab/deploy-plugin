@@ -9,6 +9,11 @@ use System\Classes\CombineAssets;
 class Plugin extends PluginBase
 {
     /**
+     * @var string PROTOCOL_VERSION
+     */
+    const PROTOCOL_VERSION = '2.0';
+
+    /**
      * register
      */
     public function register()

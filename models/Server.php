@@ -188,20 +188,17 @@ class Server extends Model
      */
     public function transmitFile(string $filePath, array $params = []): array
     {
-        $payload = $this->preparePayload('fileUpload', $params);
-        $endpointUrl = $this->endpoint_url;
+        $data = $this->preparePayloadData('fileUpload', $params);
 
-        // @deprecated remove in 2.0
-        if ($this->beacon_version === '1.0' || !$this->beacon_version) {
-            $endpointUrl = $this->buildUrl('fileUpload', $params);
-        }
+        $endpointUrl = $this->buildUrl('fileUpload', [
+            'XOB_PAYLOAD' => $data,
+            'XOB_SIGNATURE' => $this->key->signData($data),
+            'XOB_FILENAME' => md5($filePath),
+            'XOB_FILEHASH' => md5_file($filePath)
+        ]);
 
-        $response = Http::post($endpointUrl, function($http) use ($payload, $filePath) {
+        $response = Http::post($endpointUrl, function($http) use ($filePath) {
             $http->dataFile('file', $filePath);
-            $http->data('filename', md5($filePath));
-            $http->data('filehash', md5_file($filePath));
-            $http->data($payload);
-            $http->header('Expect', '');
             $http->maxRedirects = 0;
         });
 
@@ -213,28 +210,43 @@ class Server extends Model
      */
     public function transmit(string $cmd, array $params = []): array
     {
-        $payload = $this->preparePayload($cmd, $params);
-        $endpointUrl = $this->endpoint_url;
+        $data = $this->preparePayloadData($cmd, $params);
 
-        // @deprecated remove in 2.0
-        if ($this->beacon_version === '1.0' || !$this->beacon_version) {
-            $endpointUrl = $this->buildUrl($cmd, $params);
-        }
+        $endpointUrl = $this->buildUrl($cmd, [
+            'XOB_SIGNATURE' => $this->key->signData($data)
+        ]);
 
-        $response = Http::post($endpointUrl, function ($http) use ($payload) {
-            $http->data($payload);
+        $response = Http::post($endpointUrl, function ($http) use ($data) {
+            $http->data('XOB_PAYLOAD', $data);
         });
 
         return $this->processTransmitResponse($response);
     }
 
     /**
+     * preparePayload for the beacon to process
+     */
+    protected function preparePayloadData(string $cmd, array $params = []): string
+    {
+        $params = [
+            'cmd' => $cmd,
+            'nonce' => $this->createNonce()
+        ] + $params;
+
+        return base64_encode(json_encode($params));
+    }
+
+    /**
      * buildUrl for the beacon with GET vars
-     * @deprecated remove in v2.0
      */
     protected function buildUrl(string $cmd, array $params = []): string
     {
-        return $this->endpoint_url . '?' . http_build_query($this->preparePayload($cmd, $params));
+        $params = [
+            'XOB_CMD' => $cmd,
+            'XOB' => $this->key->keyId()
+        ] + $params;
+
+        return $this->endpoint_url . '?' . http_build_query($params);
     }
 
     /**
@@ -282,27 +294,6 @@ class Server extends Model
         }
 
         return $body;
-    }
-
-    /**
-     * preparePayload for the beacon to process
-     */
-    protected function preparePayload(string $cmd, array $params = []): array
-    {
-        $key = $this->key;
-
-        $params['cmd'] = $cmd;
-        $params['nonce'] = $this->createNonce();
-
-        $data = base64_encode(json_encode($params));
-
-        $toSend = [
-            'X_OCTOBER_BEACON' => $key->keyId(),
-            'X_OCTOBER_BEACON_PAYLOAD' => $data,
-            'X_OCTOBER_BEACON_SIGNATURE' => $key->signData($data)
-        ];
-
-        return $toSend;
     }
 
     /**
