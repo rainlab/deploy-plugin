@@ -201,6 +201,7 @@ class Server extends Model
             $http->data('filename', md5($filePath));
             $http->data('filehash', md5_file($filePath));
             $http->data($payload);
+            $http->header('Expect', '');
             $http->maxRedirects = 0;
         });
 
