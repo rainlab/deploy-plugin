@@ -47,7 +47,11 @@ Once you have the Beacon installed remotely and the server set up locally. It's 
 
 #### Troubleshooting Beacon the Response
 
-Sometimes you may see an error that a valid response from a beacon was not found. To capture the raw response from the beacon, do the following.
+Sometimes you may see an error that a valid response from a beacon was not found.
+
+The first thing to try is the "Check Beacon" link to make sure the beacon is **Active**, if it says **Unreachable**, try downloading the beacon files and uploading them again to your server.
+
+You can perform more advanced troubleshooting by capturing the raw response from the server or beacon. To capture the raw response from the beacon, do the following.
 
 1. Add `?debug=1` to the end of the URL in the backend.
 1. Click Check beacon.

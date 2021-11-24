@@ -330,7 +330,7 @@ function ocDeployScript($beaconVersion, $pubKey) {
             return false;
         }
 
-        if ((int) $lastNonce >= (int) $nonce) {
+        if ((float) $lastNonce >= (float) $nonce) {
             return false;
         }
 
@@ -489,7 +489,7 @@ function ocDeployScript($beaconVersion, $pubKey) {
     // Program Logic
     //
 
-    $manifestFile = getStoragePath() . '/.beacon.manifest';
+    $manifestFile = getStoragePath() . '/beacon-manifest.json';
 
     // Cheap flag check
     if (!isBeaconRequest($pubKey)) {

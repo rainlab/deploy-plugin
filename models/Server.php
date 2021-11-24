@@ -298,10 +298,9 @@ class Server extends Model
     /**
      * createNonce based on millisecond time
      */
-    protected function createNonce(): int
+    protected function createNonce(): float
     {
-        $mt = explode(' ', microtime());
-        return intval($mt[1] . substr($mt[0], 2, 6));
+        return round(microtime(true) * 10);
     }
 
     /**
