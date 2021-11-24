@@ -199,7 +199,6 @@ class Server extends Model
 
         $response = Http::post($endpointUrl, function($http) use ($filePath) {
             $http->dataFile('file', $filePath);
-            $http->maxRedirects = 0;
         });
 
         return $this->processTransmitResponse($response);
