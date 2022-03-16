@@ -30,6 +30,8 @@ If you need support with this process, feel free to [send an email to the helpde
 
 Before starting, you should have set up a new site in your hosting manager and ideally have an empty database. You may also apply these instructions to an existing website, including legacy versions of October CMS, however, please make sure you have taken a complete backup in case something goes wrong.
 
+For safety, the deploy plugin will never delete files. It will overwrite and create new files only. If you need to delete something, you should do it directly on the server.
+
 #### Control Panel Setup
 
 After installing this plugin, navigate to the Settings > Deploy in your October CMS control panel and click **Create Server**.
