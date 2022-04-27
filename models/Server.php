@@ -1,9 +1,9 @@
 <?php namespace RainLab\Deploy\Models;
 
-use Http;
 use Model;
 use Carbon\Carbon;
 use System\Classes\UpdateManager;
+use October\Rain\Network\Http;
 use ValidationException;
 use ApplicationException;
 use Exception;
