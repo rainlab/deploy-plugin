@@ -82,5 +82,7 @@
   "Upgrading Legacy Site": "ارتقاء سایت قدیمی",
   "Clearing Cache": "پاک کردن کش",
   "This step will set up an .env file on the server needed for deployment.": "این مرحله یک فایل .env را روی سرور مورد نیاز برای استقرار راه اندازی می کند.",
-  "Unknown": "ناشناس"
+  "Unknown": "ناشناس",
+  "Deploy App Files": "استقرار فایل های برنامه",
+  "Everything in the app directory (including blueprints)": "همه چیز در فهرست برنامه (از جمله نقشه ها)"
 }

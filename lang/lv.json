@@ -82,5 +82,7 @@
   "Upgrading Legacy Site": "Mantotās vietnes jaunināšana",
   "Clearing Cache": "Kešatmiņas notīrīšana",
   "This step will set up an .env file on the server needed for deployment.": "Veicot šo darbību, serverī tiks iestatīts .env fails, kas nepieciešams izvietošanai.",
-  "Unknown": "Nezināms"
+  "Unknown": "Nezināms",
+  "Deploy App Files": "Izvietojiet lietotņu failus",
+  "Everything in the app directory (including blueprints)": "Viss lietotņu direktorijā (tostarp rasējumi)"
 }

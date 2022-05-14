@@ -82,5 +82,7 @@
   "Upgrading Legacy Site": "Actualització del lloc heretat",
   "Clearing Cache": "Esborrant la memòria cau",
   "This step will set up an .env file on the server needed for deployment.": "Aquest pas configurarà un fitxer .env al servidor necessari per al desplegament.",
-  "Unknown": "Desconegut"
+  "Unknown": "Desconegut",
+  "Deploy App Files": "Desplegueu fitxers d'aplicacions",
+  "Everything in the app directory (including blueprints)": "Tot el que hi ha al directori de l'aplicació (inclosos els plànols)"
 }

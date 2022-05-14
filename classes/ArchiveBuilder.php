@@ -162,6 +162,21 @@ class ArchiveBuilder
     }
 
     /**
+     * buildConfigFiles builds the config files
+     */
+    public function buildAppFiles(string $outputFilePath)
+    {
+        $this->buildArchive($outputFilePath, [
+            'dirs' => [
+                'app'
+            ],
+            'dirsSrc' => [
+                'app' => base_path('app'),
+            ]
+        ]);
+    }
+
+    /**
      * buildCoreModules builds the core modules
      */
     public function buildCoreModules(string $outputFilePath)

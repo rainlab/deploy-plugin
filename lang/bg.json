@@ -82,5 +82,7 @@
   "Upgrading Legacy Site": "Надграждане на наследен сайт",
   "Clearing Cache": "Изчистване на кеша",
   "This step will set up an .env file on the server needed for deployment.": "Тази стъпка ще настрои .env файл на сървъра, необходим за внедряването.",
-  "Unknown": "Неизвестен"
+  "Unknown": "Неизвестен",
+  "Deploy App Files": "Внедряване на файлове на приложения",
+  "Everything in the app directory (including blueprints)": "Всичко в директорията на приложението (включително чертежи)"
 }

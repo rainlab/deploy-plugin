@@ -82,5 +82,7 @@
   "Upgrading Legacy Site": "Αναβάθμιση ιστοτόπου παλαιού τύπου",
   "Clearing Cache": "Εκκαθάριση προσωρινής μνήμης",
   "This step will set up an .env file on the server needed for deployment.": "Αυτό το βήμα θα δημιουργήσει ένα αρχείο .env στον διακομιστή που απαιτείται για την ανάπτυξη.",
-  "Unknown": "Αγνωστος"
+  "Unknown": "Αγνωστος",
+  "Deploy App Files": "Ανάπτυξη αρχείων εφαρμογής",
+  "Everything in the app directory (including blueprints)": "Τα πάντα στον κατάλογο εφαρμογών (συμπεριλαμβανομένων σχεδιαγραμμάτων)"
 }

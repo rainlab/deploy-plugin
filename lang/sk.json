@@ -82,5 +82,7 @@
   "Upgrading Legacy Site": "Aktualizácia staršej stránky",
   "Clearing Cache": "Vymazanie vyrovnávacej pamäte",
   "This step will set up an .env file on the server needed for deployment.": "Tento krok nastaví súbor .env na serveri potrebný na nasadenie.",
-  "Unknown": "Neznámy"
+  "Unknown": "Neznámy",
+  "Deploy App Files": "Nasadiť súbory aplikácií",
+  "Everything in the app directory (including blueprints)": "Všetko v adresári aplikácie (vrátane plánov)"
 }

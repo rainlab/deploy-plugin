@@ -312,6 +312,10 @@ class Servers extends SettingsController
             $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Config', 'buildConfigFiles');
         }
 
+        if (post('deploy_app')) {
+            $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'App', 'buildAppFiles');
+        }
+
         if ($plugins = post('plugins')) {
             $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Plugins', 'buildPluginsBundle', [(array) $plugins]);
         }
@@ -597,7 +601,24 @@ class Servers extends SettingsController
 
             $widget->bindToController();
 
+            $this->applyFormWidgetFilter($key, $widget);
+
             $this->formWidgetInstances[$key] = $widget;
+        }
+    }
+
+    /**
+     * applyFormWidgetFilter
+     */
+    protected function applyFormWidgetFilter($key, $widget)
+    {
+        // Hide the App Files field if no app directory is found
+        if (
+            $key === 'deploy' &&
+            !is_dir(base_path('app')) &&
+            ($appField = $widget->getField('deploy_app'))
+        ) {
+            $appField->hidden = true;
         }
     }
 }

@@ -82,5 +82,7 @@
   "Upgrading Legacy Site": "Оновлення старого сайту",
   "Clearing Cache": "Очищення кешу",
   "This step will set up an .env file on the server needed for deployment.": "Цей крок налаштує файл .env на сервері, необхідний для розгортання.",
-  "Unknown": "Невідомо"
+  "Unknown": "Невідомо",
+  "Deploy App Files": "Розгорнути файли програми",
+  "Everything in the app directory (including blueprints)": "Все в каталозі програми (включаючи креслення)"
 }

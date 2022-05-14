@@ -82,5 +82,7 @@
   "Upgrading Legacy Site": "Pasenusios svetainės atnaujinimas",
   "Clearing Cache": "Talpyklos išvalymas",
   "This step will set up an .env file on the server needed for deployment.": "Šis veiksmas serveryje nustatys .env failą, reikalingą diegimui.",
-  "Unknown": "Nežinoma"
+  "Unknown": "Nežinoma",
+  "Deploy App Files": "Įdiekite programų failus",
+  "Everything in the app directory (including blueprints)": "Viskas, kas yra programų kataloge (įskaitant brėžinius)"
 }

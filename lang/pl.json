@@ -82,5 +82,7 @@
   "Upgrading Legacy Site": "Uaktualnianie starszej witryny",
   "Clearing Cache": "Czyszczenie pamięci podręcznej",
   "This step will set up an .env file on the server needed for deployment.": "Ten krok spowoduje skonfigurowanie pliku .env na serwerze potrzebnym do wdrożenia.",
-  "Unknown": "Nieznany"
+  "Unknown": "Nieznany",
+  "Deploy App Files": "Wdróż pliki aplikacji",
+  "Everything in the app directory (including blueprints)": "Wszystko w katalogu aplikacji (w tym plany)"
 }

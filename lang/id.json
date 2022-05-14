@@ -82,5 +82,7 @@
   "Upgrading Legacy Site": "Meningkatkan Situs Lawas",
   "Clearing Cache": "Membersihkan Cache",
   "This step will set up an .env file on the server needed for deployment.": "Langkah ini akan menyiapkan file .env di server yang diperlukan untuk penerapan.",
-  "Unknown": "Tidak dikenal"
+  "Unknown": "Tidak dikenal",
+  "Deploy App Files": "Menyebarkan File Aplikasi",
+  "Everything in the app directory (including blueprints)": "Semua yang ada di direktori aplikasi (termasuk cetak biru)"
 }

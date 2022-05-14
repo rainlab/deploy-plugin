@@ -82,5 +82,7 @@
   "Upgrading Legacy Site": "Eski Siteyi Yükseltme",
   "Clearing Cache": "Önbelleği Temizleme",
   "This step will set up an .env file on the server needed for deployment.": "Bu adım, dağıtım için gereken sunucuda bir .env dosyası kuracaktır.",
-  "Unknown": "Bilinmeyen"
+  "Unknown": "Bilinmeyen",
+  "Deploy App Files": "Uygulama Dosyalarını Dağıt",
+  "Everything in the app directory (including blueprints)": "Uygulama dizinindeki her şey (planlar dahil)"
 }

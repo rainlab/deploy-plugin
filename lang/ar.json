@@ -82,5 +82,7 @@
   "Upgrading Legacy Site": "ترقية الموقع القديم",
   "Clearing Cache": "مسح ذاكرة التخزين المؤقت",
   "This step will set up an .env file on the server needed for deployment.": "ستقوم هذه الخطوة بإعداد ملف .env على الخادم المطلوب للنشر.",
-  "Unknown": "مجهول"
+  "Unknown": "مجهول",
+  "Deploy App Files": "نشر ملفات التطبيق",
+  "Everything in the app directory (including blueprints)": "كل شيء في دليل التطبيق (بما في ذلك المخططات)"
 }

@@ -82,5 +82,7 @@
   "Upgrading Legacy Site": "Actualizarea site-ului moștenit",
   "Clearing Cache": "Golirea memoriei cache",
   "This step will set up an .env file on the server needed for deployment.": "Acest pas va configura un fișier .env pe serverul necesar pentru implementare.",
-  "Unknown": "Necunoscut"
+  "Unknown": "Necunoscut",
+  "Deploy App Files": "Implementați fișiere de aplicație",
+  "Everything in the app directory (including blueprints)": "Totul din directorul aplicației (inclusiv planuri)"
 }

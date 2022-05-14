@@ -82,5 +82,7 @@
   "Upgrading Legacy Site": "Régi weboldal frissítése",
   "Clearing Cache": "Gyorsítótár törlése",
   "This step will set up an .env file on the server needed for deployment.": "Ez a lépés egy .env fájlt állít be a telepítéshez szükséges kiszolgálón.",
-  "Unknown": "Ismeretlen"
+  "Unknown": "Ismeretlen",
+  "Deploy App Files": "Telepítse az alkalmazásfájlokat",
+  "Everything in the app directory (including blueprints)": "Minden az alkalmazáskönyvtárban (beleértve a tervrajzokat is)"
 }

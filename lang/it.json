@@ -82,5 +82,7 @@
   "Upgrading Legacy Site": "Aggiornamento del sito precedente",
   "Clearing Cache": "Cancellazione della cache",
   "This step will set up an .env file on the server needed for deployment.": "Questo passaggio imposterà un file .env sul server necessario per la distribuzione.",
-  "Unknown": "Sconosciuto"
+  "Unknown": "Sconosciuto",
+  "Deploy App Files": "Distribuisci file di app",
+  "Everything in the app directory (including blueprints)": "Tutto nella directory dell'app (compresi i progetti)"
 }

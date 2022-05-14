@@ -82,5 +82,7 @@
   "Upgrading Legacy Site": "Pärandsaidi täiendamine",
   "Clearing Cache": "Vahemälu tühjendamine",
   "This step will set up an .env file on the server needed for deployment.": "See samm seadistab serveris juurutamiseks vajaliku .env-faili.",
-  "Unknown": "Tundmatu"
+  "Unknown": "Tundmatu",
+  "Deploy App Files": "Rakenduse failide juurutamine",
+  "Everything in the app directory (including blueprints)": "Kõik rakenduste kataloogis (sh joonised)"
 }

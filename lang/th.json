@@ -82,5 +82,7 @@
   "Upgrading Legacy Site": "การอัพเกรดไซต์เดิม",
   "Clearing Cache": "การล้างแคช",
   "This step will set up an .env file on the server needed for deployment.": "ขั้นตอนนี้จะตั้งค่าไฟล์ .env บนเซิร์ฟเวอร์ที่จำเป็นสำหรับการทำให้ใช้งานได้",
-  "Unknown": "ไม่รู้จัก"
+  "Unknown": "ไม่รู้จัก",
+  "Deploy App Files": "ปรับใช้ไฟล์แอป",
+  "Everything in the app directory (including blueprints)": "ทุกอย่างในไดเรกทอรีแอป (รวมถึงพิมพ์เขียว)"
 }

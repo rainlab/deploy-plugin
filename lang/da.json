@@ -82,5 +82,7 @@
   "Upgrading Legacy Site": "Opgradering af ældre websted",
   "Clearing Cache": "Rydder cache",
   "This step will set up an .env file on the server needed for deployment.": "Dette trin opsætter en .env-fil på den server, der er nødvendig for implementering.",
-  "Unknown": "Ukendt"
+  "Unknown": "Ukendt",
+  "Deploy App Files": "Implementer appfiler",
+  "Everything in the app directory (including blueprints)": "Alt i appbiblioteket (inklusive tegninger)"
 }

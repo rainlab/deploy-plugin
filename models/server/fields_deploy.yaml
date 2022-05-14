@@ -1,16 +1,23 @@
 fields:
     deploy_core:
         tab: Deploy
-        span: left
+        span: auto
         label: Deploy Core Files
-        commentAbove: Includes all core modules and vendor libraries
+        comment: All core modules and vendor libraries
         type: checkbox
 
     deploy_config:
         tab: Deploy
-        span: right
+        span: auto
         label: Deploy Config Files
-        commentAbove: Includes everything in the config directory
+        comment: Everything in the config directory
+        type: checkbox
+
+    deploy_app:
+        tab: Deploy
+        span: auto
+        label: Deploy App Files
+        comment: Everything in the app directory (including blueprints)
         type: checkbox
 
     plugins:
@@ -22,7 +29,7 @@ fields:
 
     themes:
         tab: Deploy
-        span: auto
+        span: right
         label: Deploy Themes
         type: checkboxlist
         quickselect: true

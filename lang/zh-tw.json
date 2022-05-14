@@ -82,5 +82,7 @@
   "Upgrading Legacy Site": "升級舊版網站",
   "Clearing Cache": "清除緩存",
   "This step will set up an .env file on the server needed for deployment.": "此步驟將在部署所需的服務器上設置一個 .env 文件。",
-  "Unknown": "未知"
+  "Unknown": "未知",
+  "Deploy App Files": "部署應用程序文件",
+  "Everything in the app directory (including blueprints)": "應用程序目錄中的所有內容（包括藍圖）"
 }
