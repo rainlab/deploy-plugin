@@ -10,7 +10,7 @@ A simple way to deploy your application to a remote location.
 
 ### Why is This Plugin Needed?
 
-This plugin helps in cases where your remote server (production, staging, etc) does not have the ability to run the standard deployment workflow, either due to lack of computational resources or lack of service by the hosting provider. An example of this is shared hosting, where shell access is limited or composer does not have enough memory to execute.
+This plugin helps in cases where your remote server (production, staging, etc) cannot use composer or where shell access is limited, an example of this is shared hosting.
 
 ### How It Works
 
@@ -20,8 +20,8 @@ The Deploy plugin works by creating a secure channel between your local develope
 
 You may use this plugin as a solution to upgrading your website to a newer version of October CMS, for example, if want to upgrade a v1 website to use v2. Always **take a complete site backup** before performing these steps.
 
-1. Install or upgrade to October CMS v2 locally on your machine
-2. Deploy the Beacon files to the v1 site you want to upgrade
+1. Install or upgrade to the latest October CMS version locally on your machine
+2. Deploy the Beacon files to the older site you want to upgrade
 3. The Deploy plugin will attempt to upgrade the site during its first deployment
 
 If you need support with this process, feel free to [send an email to the helpdesk](https://octobercms.com/contact).
