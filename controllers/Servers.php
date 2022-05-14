@@ -615,7 +615,7 @@ class Servers extends SettingsController
         // Hide the App Files field if no app directory is found
         if (
             $key === 'deploy' &&
-            !is_dir(base_path('app')) &&
+            !is_dir(app_path()) &&
             ($appField = $widget->getField('deploy_app'))
         ) {
             $appField->hidden = true;
