@@ -8,6 +8,12 @@ A simple way to deploy your application to a remote location.
 - PHP openssl extension
 - PHP eval function
 
+## Installation
+
+```
+php artisan plugin:install rainlab.deploy
+```
+
 ### Why is This Plugin Needed?
 
 This plugin helps in cases where your remote server (production, staging, etc) cannot use composer or where shell access is limited, an example of this is shared hosting.
