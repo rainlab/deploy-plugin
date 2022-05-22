@@ -8,7 +8,7 @@ A simple way to deploy your application to a remote location.
 - PHP openssl extension
 - PHP eval function
 
-## Installation
+### Installation
 
 ```
 php artisan plugin:install rainlab.deploy
