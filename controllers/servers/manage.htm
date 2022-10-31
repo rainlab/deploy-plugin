@@ -1,7 +1,7 @@
 <?php Block::put('breadcrumb') ?>
     <ul>
         <li><a href="<?= Backend::url('rainlab/deploy/servers') ?>"><?= __("Servers") ?></a></li>
-        <li><?= __($this->pageTitle) ?></li>
+        <li><?= e(__($this->pageTitle)) ?></li>
     </ul>
 <?php Block::endPut() ?>
 
