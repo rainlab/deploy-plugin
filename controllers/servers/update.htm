@@ -1,7 +1,7 @@
 <?php Block::put('breadcrumb') ?>
     <ul>
         <li><a href="<?= Backend::url('rainlab/deploy/servers') ?>"><?= __("Servers") ?></a></li>
-        <li><?= e($this->pageTitle) ?></li>
+        <li><?= __($this->pageTitle) ?></li>
     </ul>
 <?php Block::endPut() ?>
 
@@ -20,18 +20,18 @@
                     data-request="onSave"
                     data-request-data="redirect:0"
                     data-hotkey="ctrl+s, cmd+s"
-                    data-load-indicator="Saving Server..."
+                    data-load-indicator="<?= __("Saving Server...") ?>"
                     class="btn btn-primary">
-                    <u>S</u>ave
+                    <?= __("Save") ?>
                 </button>
                 <button
                     type="button"
                     data-request="onSave"
                     data-request-data="close:1"
                     data-hotkey="ctrl+enter, cmd+enter"
-                    data-load-indicator="Saving Server..."
+                    data-load-indicator="<?= __("Saving Server...") ?>"
                     class="btn btn-default">
-                    Save and Close
+                    <?= __("Save and Close") ?>
                 </button>
                 <button
                     type="button"
@@ -41,7 +41,7 @@
                     data-request-confirm="Delete this server?">
                 </button>
                 <span class="btn-text">
-                    or <a href="<?= Backend::url('rainlab/deploy/servers/manage/'.$formModel->id) ?>"><?= trans('backend::lang.form.cancel') ?></a>
+                    <?= __("or") ?> <a href="<?= Backend::url('rainlab/deploy/servers/manage/'.$formModel->id) ?>"><?= trans('backend::lang.form.cancel') ?></a>
                 </span>
             </div>
         </div>
