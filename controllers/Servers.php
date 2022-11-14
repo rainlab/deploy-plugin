@@ -3,6 +3,7 @@
 use Db;
 use Str;
 use Flash;
+use System;
 use Backend;
 use Redirect;
 use Response;
@@ -604,6 +605,12 @@ class Servers extends SettingsController
             $this->applyFormWidgetFilter($key, $widget);
 
             $this->formWidgetInstances[$key] = $widget;
+        }
+
+        // Remove themes
+        if (!System::hasModule('Cms')) {
+            $deployWidget = $this->formWidgetInstances['deploy'];
+            $deployWidget->removeField('themes');
         }
     }
 
