@@ -593,17 +593,13 @@ class Servers extends SettingsController
 
         foreach ($this->formWidgetDefinitions as $key => $definition) {
             $config = $this->makeConfig(base_path($definition));
-
             $config->model = $server;
-
             $config->alias = Str::camel($key);
 
             $widget = $this->makeWidget(\Backend\Widgets\Form::class, $config);
-
             $widget->bindToController();
 
             $this->applyFormWidgetFilter($key, $widget);
-
             $this->formWidgetInstances[$key] = $widget;
         }
 
