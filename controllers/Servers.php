@@ -603,7 +603,7 @@ class Servers extends SettingsController
             $this->formWidgetInstances[$key] = $widget;
         }
 
-        // Remove themes
+        // Remove themes without module
         if (!System::hasModule('Cms')) {
             $deployWidget = $this->formWidgetInstances['deploy'];
             $deployWidget->removeField('themes');
