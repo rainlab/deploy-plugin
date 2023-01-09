@@ -166,7 +166,7 @@ class Server extends Model
      */
     public function transmitScript($scriptName, array $vars = []): array
     {
-        $scriptPath = plugins_path("rainlab/deploy/beacon/scripts/${scriptName}.txt");
+        $scriptPath = plugins_path("rainlab/deploy/beacon/scripts/{$scriptName}.txt");
 
         $scriptContents = base64_encode(file_get_contents($scriptPath));
 

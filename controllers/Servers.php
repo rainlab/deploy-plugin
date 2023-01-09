@@ -140,7 +140,7 @@ class Servers extends SettingsController
         }
 
         $fileId = md5(uniqid());
-        $filePath = temp_path("ocbl-${fileId}.arc");
+        $filePath = temp_path("ocbl-{$fileId}.arc");
 
         ArchiveBuilder::instance()->buildBeaconFiles($filePath, $pubKey);
 
@@ -541,7 +541,7 @@ class Servers extends SettingsController
     protected function buildArchiveDeployStep(&$steps, string $typeLabel, string $buildFunc, array $funcArgs = []): string
     {
         $fileId = md5(uniqid());
-        $filePath = temp_path("ocbl-${fileId}.arc");
+        $filePath = temp_path("ocbl-{$fileId}.arc");
 
         $steps[] = [
             'label' => __('Building :type Archive', ['type' => $typeLabel]),
