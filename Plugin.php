@@ -1,7 +1,6 @@
 <?php namespace RainLab\Deploy;
 
 use System\Classes\PluginBase;
-use System\Classes\CombineAssets;
 
 /**
  * Plugin
