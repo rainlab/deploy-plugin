@@ -4,6 +4,7 @@ use Db;
 use Str;
 use Flash;
 use System;
+use Config;
 use Backend;
 use Redirect;
 use Response;
@@ -317,6 +318,10 @@ class Servers extends SettingsController
             $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'App', 'buildAppFiles');
         }
 
+        if (post('deploy_media')) {
+            $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Media', 'buildMediaFiles');
+        }
+
         if ($plugins = post('plugins')) {
             $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Plugins', 'buildPluginsBundle', [(array) $plugins]);
         }
@@ -622,6 +627,14 @@ class Servers extends SettingsController
             ($appField = $widget->getField('deploy_app'))
         ) {
             $appField->hidden = true;
+        }
+
+        // Hide the media field is media storage is not local
+        if (
+            Config::get('filesystems.disks.media.driver') !== 'local' &&
+            ($mediaField = $widget->getField('deploy_media'))
+        ) {
+            $mediaField->hidden = true;
         }
     }
 }

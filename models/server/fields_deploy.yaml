@@ -20,6 +20,13 @@ fields:
         comment: Everything in the app directory (including blueprints)
         type: checkbox
 
+    deploy_media:
+        tab: Deploy
+        span: auto
+        label: Deploy Media Files
+        comment: All media files in the storage directory
+        type: checkbox
+
     plugins:
         tab: Deploy
         span: left
