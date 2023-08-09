@@ -31,7 +31,7 @@
 <?php if ($formModel->last_deploy_at): ?>
     <div class="scoreboard-item title-value">
         <h4><?= __("Current Version") ?></h4>
-        <p>v<?= $formModel->last_version ?: __('Unknown') ?></p>
+        <p><?= $formModel->last_version ? 'v'.$formModel->last_version : __('Unknown') ?></p>
         <p class="description" title="<?= $formModel->last_deploy_at->diffForHumans() ?>">
             <?= __("updated") ?>: <?= $formModel->last_deploy_at->toFormattedDateString() ?>
         </p>
