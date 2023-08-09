@@ -84,5 +84,7 @@
   "This step will set up an .env file on the server needed for deployment.": "Acest pas va configura un fișier .env pe serverul necesar pentru implementare.",
   "Unknown": "Necunoscut",
   "Deploy App Files": "Implementați fișiere de aplicație",
-  "Everything in the app directory (including blueprints)": "Totul din directorul aplicației (inclusiv planuri)"
+  "Everything in the app directory (including blueprints)": "Totul din directorul aplicației (inclusiv planuri)",
+  "Deploy Media Files": "Implementați fișiere media",
+  "All media files in the storage directory": "Toate fișierele media din directorul de stocare"
 }

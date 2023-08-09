@@ -84,5 +84,7 @@
   "This step will set up an .env file on the server needed for deployment.": "This step will set up an .env file on the server needed for deployment.",
   "Unknown": "Unknown",
   "Deploy App Files": "Deploy App Files",
-  "Everything in the app directory (including blueprints)": "Everything in the app directory (including blueprints)"
+  "Everything in the app directory (including blueprints)": "Everything in the app directory (including blueprints)",
+  "Deploy Media Files": "Deploy Media Files",
+  "All media files in the storage directory": "All media files in the storage directory"
 }

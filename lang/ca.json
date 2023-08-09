@@ -84,5 +84,7 @@
   "This step will set up an .env file on the server needed for deployment.": "Aquest pas configurarà un fitxer .env al servidor necessari per al desplegament.",
   "Unknown": "Desconegut",
   "Deploy App Files": "Desplegueu fitxers d'aplicacions",
-  "Everything in the app directory (including blueprints)": "Tot el que hi ha al directori de l'aplicació (inclosos els plànols)"
+  "Everything in the app directory (including blueprints)": "Tot el que hi ha al directori de l'aplicació (inclosos els plànols)",
+  "Deploy Media Files": "Desplegueu fitxers multimèdia",
+  "All media files in the storage directory": "Tots els fitxers multimèdia del directori d'emmagatzematge"
 }

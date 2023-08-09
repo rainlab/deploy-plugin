@@ -84,5 +84,7 @@
   "This step will set up an .env file on the server needed for deployment.": "Цей крок налаштує файл .env на сервері, необхідний для розгортання.",
   "Unknown": "Невідомо",
   "Deploy App Files": "Розгорнути файли програми",
-  "Everything in the app directory (including blueprints)": "Все в каталозі програми (включаючи креслення)"
+  "Everything in the app directory (including blueprints)": "Все в каталозі програми (включаючи креслення)",
+  "Deploy Media Files": "Розгортання мультимедійних файлів",
+  "All media files in the storage directory": "Усі мультимедійні файли в каталозі зберігання"
 }

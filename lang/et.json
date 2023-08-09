@@ -84,5 +84,7 @@
   "This step will set up an .env file on the server needed for deployment.": "See samm seadistab serveris juurutamiseks vajaliku .env-faili.",
   "Unknown": "Tundmatu",
   "Deploy App Files": "Rakenduse failide juurutamine",
-  "Everything in the app directory (including blueprints)": "Kõik rakenduste kataloogis (sh joonised)"
+  "Everything in the app directory (including blueprints)": "Kõik rakenduste kataloogis (sh joonised)",
+  "Deploy Media Files": "Meediumifailide juurutamine",
+  "All media files in the storage directory": "Kõik meediumifailid salvestuskataloogis"
 }

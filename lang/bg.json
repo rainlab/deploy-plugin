@@ -84,5 +84,7 @@
   "This step will set up an .env file on the server needed for deployment.": "Тази стъпка ще настрои .env файл на сървъра, необходим за внедряването.",
   "Unknown": "Неизвестен",
   "Deploy App Files": "Внедряване на файлове на приложения",
-  "Everything in the app directory (including blueprints)": "Всичко в директорията на приложението (включително чертежи)"
+  "Everything in the app directory (including blueprints)": "Всичко в директорията на приложението (включително чертежи)",
+  "Deploy Media Files": "Разположете медийни файлове",
+  "All media files in the storage directory": "Всички медийни файлове в директорията за съхранение"
 }

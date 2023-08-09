@@ -84,5 +84,7 @@
   "This step will set up an .env file on the server needed for deployment.": "Tento krok nastaví súbor .env na serveri potrebný na nasadenie.",
   "Unknown": "Neznámy",
   "Deploy App Files": "Nasadiť súbory aplikácií",
-  "Everything in the app directory (including blueprints)": "Všetko v adresári aplikácie (vrátane plánov)"
+  "Everything in the app directory (including blueprints)": "Všetko v adresári aplikácie (vrátane plánov)",
+  "Deploy Media Files": "Nasadiť mediálne súbory",
+  "All media files in the storage directory": "Všetky mediálne súbory v priečinku úložiska"
 }

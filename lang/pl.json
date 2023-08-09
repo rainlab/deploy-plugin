@@ -84,5 +84,7 @@
   "This step will set up an .env file on the server needed for deployment.": "Ten krok spowoduje skonfigurowanie pliku .env na serwerze potrzebnym do wdrożenia.",
   "Unknown": "Nieznany",
   "Deploy App Files": "Wdróż pliki aplikacji",
-  "Everything in the app directory (including blueprints)": "Wszystko w katalogu aplikacji (w tym plany)"
+  "Everything in the app directory (including blueprints)": "Wszystko w katalogu aplikacji (w tym plany)",
+  "Deploy Media Files": "Wdróż pliki multimedialne",
+  "All media files in the storage directory": "Wszystkie pliki multimedialne w katalogu przechowywania"
 }

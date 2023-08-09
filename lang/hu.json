@@ -84,5 +84,7 @@
   "This step will set up an .env file on the server needed for deployment.": "Ez a lépés egy .env fájlt állít be a telepítéshez szükséges kiszolgálón.",
   "Unknown": "Ismeretlen",
   "Deploy App Files": "Telepítse az alkalmazásfájlokat",
-  "Everything in the app directory (including blueprints)": "Minden az alkalmazáskönyvtárban (beleértve a tervrajzokat is)"
+  "Everything in the app directory (including blueprints)": "Minden az alkalmazáskönyvtárban (beleértve a tervrajzokat is)",
+  "Deploy Media Files": "Telepítse a médiafájlokat",
+  "All media files in the storage directory": "Az összes médiafájl a tárolási könyvtárban"
 }

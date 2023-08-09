@@ -84,5 +84,7 @@
   "This step will set up an .env file on the server needed for deployment.": "Tämä vaihe määrittää käyttöönoton edellyttämän .env-tiedoston palvelimelle.",
   "Unknown": "Tuntematon",
   "Deploy App Files": "Ota App Files käyttöön",
-  "Everything in the app directory (including blueprints)": "Kaikki sovellushakemistossa (mukaan lukien suunnitelmat)"
+  "Everything in the app directory (including blueprints)": "Kaikki sovellushakemistossa (mukaan lukien suunnitelmat)",
+  "Deploy Media Files": "Ota mediatiedostot käyttöön",
+  "All media files in the storage directory": "Kaikki mediatiedostot tallennushakemistossa"
 }

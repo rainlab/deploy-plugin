@@ -84,5 +84,7 @@
   "This step will set up an .env file on the server needed for deployment.": "Questo passaggio imposterà un file .env sul server necessario per la distribuzione.",
   "Unknown": "Sconosciuto",
   "Deploy App Files": "Distribuisci file di app",
-  "Everything in the app directory (including blueprints)": "Tutto nella directory dell'app (compresi i progetti)"
+  "Everything in the app directory (including blueprints)": "Tutto nella directory dell'app (compresi i progetti)",
+  "Deploy Media Files": "Distribuisci file multimediali",
+  "All media files in the storage directory": "Tutti i file multimediali nella directory di archiviazione"
 }

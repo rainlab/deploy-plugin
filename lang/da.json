@@ -84,5 +84,7 @@
   "This step will set up an .env file on the server needed for deployment.": "Dette trin opsætter en .env-fil på den server, der er nødvendig for implementering.",
   "Unknown": "Ukendt",
   "Deploy App Files": "Implementer appfiler",
-  "Everything in the app directory (including blueprints)": "Alt i appbiblioteket (inklusive tegninger)"
+  "Everything in the app directory (including blueprints)": "Alt i appbiblioteket (inklusive tegninger)",
+  "Deploy Media Files": "Implementer mediefiler",
+  "All media files in the storage directory": "Alle mediefiler i lagerbiblioteket"
 }
