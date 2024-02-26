@@ -1,12 +1,12 @@
 {
-  "Deploy": "Käyttöönotto",
+  "Deploy": "Käyttöönota",
   "A simple way to deploy your application to a remote location.": "Yksinkertainen tapa ottaa sovelluksesi käyttöön etäsijaintiin.",
   "Manage deployments": "Hallitse käyttöönottoja",
   "Servers": "Palvelimet",
   "Create Server": "Luo palvelin",
   "Creating Server...": "Luodaan palvelinta...",
   "Return to Servers List": "Palaa palvelinluetteloon",
-  "Manage Servers": "Hallitse palvelimia",
+  "Manage Servers": "Hallinnoi palvelimia",
   "Manage Server": "Hallinnoi palvelinta",
   "Deploy sites directly to production from your development environment.": "Ota sivustot käyttöön suoraan tuotantoon kehitysympäristöstäsi.",
   "To get started, click Create Server.": "Aloita napsauttamalla Luo palvelin.",
@@ -62,7 +62,7 @@
   "Danger Zone": "Vaaravyöhyke",
   "Always Protect The Deployment Key": "Suojaa aina käyttöönottoavain",
   "Anyone who has the private deployment key can deploy files to this server. Make sure it is kept a secret.": "Jokainen, jolla on yksityinen käyttöönottoavain, voi ottaa käyttöön tiedostoja tälle palvelimelle. Pidäthän sen salassa.",
-  "update": "päivittää",
+  "update": "päivitä",
   "updated": "päivitetty",
   "Install": "Asenna",
   "Close": "Sulje",
@@ -86,5 +86,6 @@
   "Deploy App Files": "Ota App Files käyttöön",
   "Everything in the app directory (including blueprints)": "Kaikki sovellushakemistossa (mukaan lukien suunnitelmat)",
   "Deploy Media Files": "Ota mediatiedostot käyttöön",
-  "All media files in the storage directory": "Kaikki mediatiedostot tallennushakemistossa"
+  "All media files in the storage directory": "Kaikki mediatiedostot tallennushakemistossa",
+  "Deploy App Files": "Ota käyttöön sovelluksen tiedostot"
 }
