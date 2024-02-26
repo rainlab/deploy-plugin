@@ -1,2 +1,10 @@
-
+# Common
+composer.phar
 .DS_Store
+.idea
+sftp-config.json
+.ftpconfig
+.vscode/
+composer.lock
+package-lock.json
+/vendor
