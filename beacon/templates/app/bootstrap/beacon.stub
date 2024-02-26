@@ -215,7 +215,7 @@ function ocDeployScript($beaconVersion, $pubKey) {
                     $closure->execute();
 
                     $outputCode = $output->fetch();
-                    $outputCode = preg_replace('/(?s)(<aside.*?<\/aside>)|Exit:  Ctrl\+D/ms', '$2', $outputCode);
+                    $outputCode = preg_replace('/(?s)(<aside.*?<\/aside>)|<whisper.*?<\/whisper>|Exit:  Ctrl\+D/ms', '$2', $outputCode);
 
                     return trim($outputCode);
                 }

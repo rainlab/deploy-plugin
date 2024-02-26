@@ -9,7 +9,7 @@
                 </div>
 
                 <div class="loading-indicator-container">
-                    <div id="executeMessage" class="text-center"></div>
+                    <div id="executeMessage" class="mt-2 text-center"></div>
                 </div>
             </div>
         </div>
@@ -21,7 +21,7 @@
         <div class="modal-body modal-no-header">
             <div class="callout callout-danger no-icon">
                 <div class="header">
-                    <h3><?= e(trans('system::lang.updates.update_failed_label')) ?></h3>
+                    <h3><?= __("Update Failed") ?></h3>
                     <p>{{ reason }}</p>
                 </div>
             </div>
@@ -31,7 +31,7 @@
                 type="button"
                 class="btn btn-primary"
                 onclick="$.oc.deployer.retryUpdate()">
-                <?= e(trans('system::lang.updates.retry_label')) ?>
+                <?= __("Try Again") ?>
             </button>
             <button
                 type="button"

@@ -74,6 +74,7 @@
 
                 $.request('onExecuteStep', {
                     data: step,
+                    progressBar: false,
                     success: function(data) {
                         setTimeout(function() { deferred.resolve() }, 600);
 

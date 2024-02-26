@@ -8,7 +8,7 @@
     placeholder="<?= e(trans($field->placeholder)) ?>"
     <?= $field->getAttributes() ?>><?= e($field->value) ?></textarea>
 
-<p class="help-block">
+<p class="help-block form-text">
     <?= __("Paste an existing RSA private key in here or :action.", [
         'action' => '<a href="javascript:generatePrivateKey()">'.__("generate a new one").'</a>'
     ]) ?>

@@ -3,6 +3,8 @@
 use Db;
 use Str;
 use Flash;
+use System;
+use Config;
 use Backend;
 use Redirect;
 use Response;
@@ -139,7 +141,7 @@ class Servers extends SettingsController
         }
 
         $fileId = md5(uniqid());
-        $filePath = temp_path("ocbl-${fileId}.arc");
+        $filePath = temp_path("ocbl-{$fileId}.arc");
 
         ArchiveBuilder::instance()->buildBeaconFiles($filePath, $pubKey);
 
@@ -310,6 +312,14 @@ class Servers extends SettingsController
 
         if (post('deploy_config')) {
             $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Config', 'buildConfigFiles');
+        }
+
+        if (post('deploy_app')) {
+            $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'App', 'buildAppFiles');
+        }
+
+        if (post('deploy_media')) {
+            $useFiles[] = $this->buildArchiveDeployStep($deployActions, 'Media', 'buildMediaFiles');
         }
 
         if ($plugins = post('plugins')) {
@@ -536,7 +546,7 @@ class Servers extends SettingsController
     protected function buildArchiveDeployStep(&$steps, string $typeLabel, string $buildFunc, array $funcArgs = []): string
     {
         $fileId = md5(uniqid());
-        $filePath = temp_path("ocbl-${fileId}.arc");
+        $filePath = temp_path("ocbl-{$fileId}.arc");
 
         $steps[] = [
             'label' => __('Building :type Archive', ['type' => $typeLabel]),
@@ -588,16 +598,43 @@ class Servers extends SettingsController
 
         foreach ($this->formWidgetDefinitions as $key => $definition) {
             $config = $this->makeConfig(base_path($definition));
-
             $config->model = $server;
-
             $config->alias = Str::camel($key);
 
             $widget = $this->makeWidget(\Backend\Widgets\Form::class, $config);
-
             $widget->bindToController();
 
+            $this->applyFormWidgetFilter($key, $widget);
             $this->formWidgetInstances[$key] = $widget;
+        }
+
+        // Remove themes without module
+        if (!System::hasModule('Cms')) {
+            $deployWidget = $this->formWidgetInstances['deploy'];
+            $deployWidget->removeField('themes');
+        }
+    }
+
+    /**
+     * applyFormWidgetFilter
+     */
+    protected function applyFormWidgetFilter($key, $widget)
+    {
+        // Hide the App Files field if no app directory is found
+        if (
+            $key === 'deploy' &&
+            !is_dir(app_path()) &&
+            ($appField = $widget->getField('deploy_app'))
+        ) {
+            $appField->hidden = true;
+        }
+
+        // Hide the media field is media storage is not local
+        if (
+            Config::get('filesystems.disks.media.driver') !== 'local' &&
+            ($mediaField = $widget->getField('deploy_media'))
+        ) {
+            $mediaField->hidden = true;
         }
     }
 }

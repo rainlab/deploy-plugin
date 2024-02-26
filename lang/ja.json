@@ -82,5 +82,9 @@
   "Upgrading Legacy Site": "レガシーサイトのアップグレード",
   "Clearing Cache": "キャッシュのクリア",
   "This step will set up an .env file on the server needed for deployment.": "この手順では、展開に必要なサーバーに.envファイルを設定します。",
-  "Unknown": "未知の"
+  "Unknown": "未知の",
+  "Deploy App Files": "アプリファイルをデプロイする",
+  "Everything in the app directory (including blueprints)": "アプリディレクトリ内のすべて（ブループリントを含む）",
+  "Deploy Media Files": "メディア ファイルの展開",
+  "All media files in the storage directory": "ストレージディレクトリ内のすべてのメディアファイル"
 }

@@ -82,5 +82,9 @@
   "Upgrading Legacy Site": "Uppgradering av äldre webbplats",
   "Clearing Cache": "Rensa cache",
   "This step will set up an .env file on the server needed for deployment.": "Detta steg kommer att skapa en .env-fil på servern som behövs för distribution.",
-  "Unknown": "Okänd"
+  "Unknown": "Okänd",
+  "Deploy App Files": "Distribuera appfiler",
+  "Everything in the app directory (including blueprints)": "Allt i appkatalogen (inklusive ritningar)",
+  "Deploy Media Files": "Distribuera mediefiler",
+  "All media files in the storage directory": "Alla mediefiler i lagringskatalogen"
 }

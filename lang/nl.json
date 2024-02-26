@@ -82,5 +82,9 @@
   "Upgrading Legacy Site": "Verouderde site upgraden",
   "Clearing Cache": "Cache leegmaken",
   "This step will set up an .env file on the server needed for deployment.": "Met deze stap wordt een .env bestand ingesteld op de server die nodig is voor implementatie.",
-  "Unknown": "Onbekend"
+  "Unknown": "Onbekend",
+  "Deploy App Files": "App-bestanden implementeren",
+  "Everything in the app directory (including blueprints)": "Alles in de app-directory (inclusief blauwdrukken)",
+  "Deploy Media Files": "Mediabestanden implementeren",
+  "All media files in the storage directory": "Alle mediabestanden in de opslagdirectory"
 }

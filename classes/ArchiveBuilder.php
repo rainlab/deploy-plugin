@@ -162,6 +162,36 @@ class ArchiveBuilder
     }
 
     /**
+     * buildAppFiles builds the application files
+     */
+    public function buildAppFiles(string $outputFilePath)
+    {
+        $this->buildArchive($outputFilePath, [
+            'dirs' => [
+                'app'
+            ],
+            'dirsSrc' => [
+                'app' => base_path('app'),
+            ]
+        ]);
+    }
+
+    /**
+     * buildMediaFiles builds the media files in the storage directory
+     */
+    public function buildMediaFiles(string $outputFilePath)
+    {
+        $this->buildArchive($outputFilePath, [
+            'dirs' => [
+                'storage/app/media'
+            ],
+            'dirsSrc' => [
+                'storage/app/media' => base_path('storage/app/media'),
+            ]
+        ]);
+    }
+
+    /**
      * buildCoreModules builds the core modules
      */
     public function buildCoreModules(string $outputFilePath)
