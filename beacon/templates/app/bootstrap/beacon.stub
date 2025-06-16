@@ -112,7 +112,7 @@ function ocDeployScript($beaconVersion, $pubKey) {
             outputResponseError('Missing script');
         }
 
-        if (!file_exists(__DIR__.'/../vendor/october/rain/init/function.php')) {
+        if (!file_exists(__DIR__.'/../vendor/october/rain/init/functions.php')) {
             outputResponseError('October CMS installation not detected so the command failed. (Missing vendor folder or its empty.)');
         }
 
@@ -241,7 +241,7 @@ function ocDeployScript($beaconVersion, $pubKey) {
             outputResponseError('Missing artisan command');
         }
 
-        if (!file_exists(__DIR__.'/../vendor/october/rain/init/function.php')) {
+        if (!file_exists(__DIR__.'/../vendor/october/rain/init/functions.php')) {
             outputResponseError('October CMS installation not detected so the command failed');
         }
 
@@ -427,7 +427,7 @@ function ocDeployScript($beaconVersion, $pubKey) {
      */
     function isAppInstalled(): bool
     {
-        return file_exists(__DIR__.'/../vendor/october/rain/init/function.php');
+        return file_exists(__DIR__.'/../vendor/october/rain/init/functions.php');
     }
 
     /**
