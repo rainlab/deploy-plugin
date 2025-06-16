@@ -13,7 +13,7 @@ define('LARAVEL_START', microtime(true));
 |
 */
 
-$helperPath = __DIR__.'/../vendor/october/rain/init/function.php';
+$helperPath = __DIR__.'/../vendor/october/rain/init/functions.php';
 
 if (!file_exists($helperPath)) {
     echo 'Missing vendor files, try running "composer install" to install October CMS'.PHP_EOL;
