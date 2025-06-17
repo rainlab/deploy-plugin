@@ -4,7 +4,7 @@ A simple way to deploy your application to a remote location.
 
 ## Requirements
 
-- October CMS 2.1.20 or above
+- October CMS 4.0 or above
 - PHP openssl extension
 - PHP eval function
 
