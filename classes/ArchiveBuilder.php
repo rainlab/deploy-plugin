@@ -45,6 +45,7 @@ class ArchiveBuilder
                 'index.php' => file_get_contents($this->templatePath . '/index.stub'),
                 'bootstrap/app.php' => file_get_contents($this->templatePath . '/bootstrap/app.stub'),
                 'bootstrap/autoload.php' => file_get_contents($this->templatePath . '/bootstrap/autoload.stub'),
+                'bootstrap/providers.php' => file_get_contents($this->templatePath . '/bootstrap/providers.stub'),
                 'bootstrap/beacon.php' => $beaconContents,
             ]
         ]);
