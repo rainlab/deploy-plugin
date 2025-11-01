@@ -377,7 +377,7 @@ class Servers extends SettingsController
             'app_url' => $model->endpoint_url,
             'backend_uri' => Backend::uri(),
             'db_type' => Db::getDriverName(),
-            'db_host' => Db::getConfig('host'),
+            'db_host' => Db::getConfig('host') ?: '127.0.0.1',
             'db_port' => Db::getConfig('port'),
             'db_name' => Db::getConfig('database'),
             'db_user' => Db::getConfig('username'),
