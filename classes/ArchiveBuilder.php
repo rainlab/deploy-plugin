@@ -274,14 +274,17 @@ class ArchiveBuilder
 
             // Build gitignores
             $ignoreService = new GitIgnorer;
-            $excludePaths = [];
+            $excludePaths = null;
             $ignoreFiles = $options['gitIgnoreFiles'] ?? [];
             foreach ($ignoreFiles as $ignoreFile) {
-                if (!file_exists($ignoreFile)) {
-                    continue;
+                if (file_exists($ignoreFile)) {
+                    $excludePaths = array_merge((array) $excludePaths, $ignoreService->findSingle($ignoreFile));
                 }
+            }
 
-                $excludePaths = array_merge($excludePaths, $ignoreService->findSingle($ignoreFile));
+            // This just makes sense
+            if ($excludePaths === null) {
+                $excludePaths = ['node_modules/'];
             }
 
             // Build archive file

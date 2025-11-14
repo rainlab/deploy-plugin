@@ -5,6 +5,7 @@ A simple way to deploy your application to a remote location.
 ## Requirements
 
 - October CMS 4.0 or above
+- PHP cURL extension
 - PHP openssl extension
 - PHP eval function
 
@@ -81,9 +82,11 @@ This should hopefully provide some insight in to why the response was not accept
 
 There are times when you don't want specific files to be deployed, such as the `node_modules` directory used in plugins and themes. This is possible by creating a `.deployignore` file in the base directory of your plugin or theme. This file behaves the same as `.gitignore` file where you can configure Git to [ignore files you don't want to check in](https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files).
 
-The following `.deployignore` file will exclude the **node_modules** directory:
+The following `.deployignore` file will exclude the **node_modules** directory. This is also the default contents if no file exists.
 
-    node_modules/
+```
+node_modules/
+```
 
 The file must be located at the base directory of the theme or plugin. For example:
 
