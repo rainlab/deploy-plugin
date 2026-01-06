@@ -10,19 +10,12 @@ class Plugin extends PluginBase
     /**
      * @var string PROTOCOL_VERSION
      */
-    const PROTOCOL_VERSION = '2.0';
+    const PROTOCOL_VERSION = '2.1';
 
     /**
      * register
      */
     public function register()
-    {
-    }
-
-    /**
-     * boot
-     */
-    public function boot()
     {
     }
 }

@@ -116,6 +116,17 @@ function ocDeployScript($beaconVersion, $pubKey) {
             outputResponseError('October CMS installation not detected so the command failed. (Missing vendor folder or its empty.)');
         }
 
+        // Define CLI constants for web context (required by PsySH and Artisan)
+        if (!defined('STDIN')) {
+            define('STDIN', fopen('php://input', 'r'));
+        }
+        if (!defined('STDOUT')) {
+            define('STDOUT', fopen('php://output', 'w'));
+        }
+        if (!defined('STDERR')) {
+            define('STDERR', fopen('php://output', 'w'));
+        }
+
         try {
             require_once __DIR__.'/autoload.php';
 
@@ -127,101 +138,28 @@ function ocDeployScript($beaconVersion, $pubKey) {
 
             $scriptContents = base64_decode($scriptContents);
 
-            /*
-            * ShellClosure is a custom loop closure
-            */
-            class ShellClosure extends Psy\ExecutionClosure
-            {
-                public function __construct($p)
-                {
-                    $this->setClosure($p, function () use ($p) {
-                        extract($p->getScopeVariables(false));
+            // Configure PsySH for non-interactive web context
+            $config = new Psy\Configuration([
+                'configDir' => getStoragePath() . '/psysh',
+                'dataDir' => getStoragePath() . '/psysh',
+                'updateCheck' => Psy\VersionUpdater\Checker::NEVER,
+                'usePcntl' => false,
+                'useReadline' => false,
+                'rawOutput' => true,
+            ]);
 
-                        do {
-                            $p->beforeLoop();
+            $output = new Symfony\Component\Console\Output\BufferedOutput(
+                Symfony\Component\Console\Output\OutputInterface::VERBOSITY_NORMAL,
+                false
+            );
 
-                            try {
-                                $reflection = new ReflectionClass($p);
-                                $property = $reflection->getProperty('codeBufferOpen');
-                                $property->setAccessible(true);
-                                $property->setValue($p, false);
+            $shell = new Psy\Shell($config);
+            $shell->setOutput($output);
+            $shell->execute($scriptContents);
 
-                                try {
-                                    if ($p->getLastExecSuccess()) {
-                                        extract($p->getScopeVariablesDiff(\get_defined_vars()));
-                                    }
-
-                                    ob_start([$p, 'writeStdout'], 1);
-                                    set_error_handler([$p, 'handleError']);
-                                    $v = eval($p->onExecute($p->flushCode() ?: Psy\ExecutionClosure::NOOP_INPUT));
-                                }
-                                catch (Throwable $e) {
-                                    restore_error_handler();
-                                    if (ob_get_level() > 0) {
-                                        ob_end_clean();
-                                    }
-
-                                    throw $e;
-                                }
-
-                                restore_error_handler();
-                                ob_end_flush();
-
-                                $p->setScopeVariables(get_defined_vars());
-                                $p->writeReturnValue($v);
-                            }
-                            catch (Psy\Exception\BreakException $e) {
-                                $p->writeException($e);
-                                return;
-                            }
-                            catch (Psy\Exception\ThrowUpException $e) {
-                                $p->writeException($e);
-                                throw $e;
-                            }
-                            catch (Exception $e) {
-                                $p->writeException($e);
-                            }
-
-                            $p->afterLoop();
-                        } while (false);
-                    });
-                }
-            }
-
-            /**
-             * ShellEval will eval arbitrary script similar to Python shell
-             */
-            class ShellEval
-            {
-                public function execute($code)
-                {
-                    $config = new Psy\Configuration([
-                        'errorLoggingLevel' => 0,
-                        'configDir' => getStoragePath() . '/psysh',
-                        'dataDir' => getStoragePath() . '/psysh',
-                        'updateCheck' => 'never',
-                        'configFile' => null,
-                        'usePcntl' => false,
-                    ]);
-
-                    $output = new Symfony\Component\Console\Output\BufferedOutput();
-                    $output->setDecorated(true);
-
-                    $shell = new Psy\Shell($config);
-                    $shell->setOutput($output);
-                    $shell->addCode($code);
-
-                    $closure = new ShellClosure($shell);
-                    $closure->execute();
-
-                    $outputCode = $output->fetch();
-                    $outputCode = preg_replace('/(?s)(<aside.*?<\/aside>)|<whisper.*?<\/whisper>|Exit:  Ctrl\+D/ms', '$2', $outputCode);
-
-                    return trim($outputCode);
-                }
-            }
-
-            $response = (new ShellEval())->execute($scriptContents);
+            $response = $output->fetch();
+            $response = preg_replace('/(?s)(<aside.*?<\/aside>)|<whisper.*?<\/whisper>|Exit:  Ctrl\+D/ms', '$2', $response);
+            $response = trim($response);
 
             outputResponse(['output' => base64_encode($response)]);
         }
