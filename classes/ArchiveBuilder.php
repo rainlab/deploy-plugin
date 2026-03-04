@@ -1,6 +1,7 @@
 <?php namespace RainLab\Deploy\Classes;
 
 use File;
+use Config;
 use Exception;
 use System\Classes\PluginManager;
 use October\Rain\Filesystem\Zip;
@@ -182,12 +183,15 @@ class ArchiveBuilder
      */
     public function buildMediaFiles(string $outputFilePath)
     {
+        $mediaRoot = Config::get('filesystems.disks.media.root', storage_path('app/media'));
+        $mediaPath = ltrim(str_replace(base_path(), '', $mediaRoot), '/\\');
+
         $this->buildArchive($outputFilePath, [
             'dirs' => [
-                'storage/app/media'
+                $mediaPath
             ],
             'dirsSrc' => [
-                'storage/app/media' => base_path('storage/app/media'),
+                $mediaPath => $mediaRoot,
             ]
         ]);
     }
