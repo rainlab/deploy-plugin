@@ -183,6 +183,17 @@ function ocDeployScript($beaconVersion, $pubKey) {
             outputResponseError('October CMS installation not detected so the command failed');
         }
 
+        // Define CLI constants for web context (required by Symfony Console)
+        if (!defined('STDIN')) {
+            define('STDIN', fopen('php://input', 'r'));
+        }
+        if (!defined('STDOUT')) {
+            define('STDOUT', fopen('php://output', 'w'));
+        }
+        if (!defined('STDERR')) {
+            define('STDERR', fopen('php://output', 'w'));
+        }
+
         try {
             require_once __DIR__.'/autoload.php';
 
