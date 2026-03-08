@@ -10,7 +10,7 @@ class Plugin extends PluginBase
     /**
      * @var string PROTOCOL_VERSION
      */
-    const PROTOCOL_VERSION = '2.1';
+    const PROTOCOL_VERSION = '2.2';
 
     /**
      * register

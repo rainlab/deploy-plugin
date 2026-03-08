@@ -54,13 +54,13 @@ class ServerKey extends Model
     /**
      * signData using the server key
      */
-    public function signData(string $data): string
+    public function signData(string $data, int $algorithm = OPENSSL_ALGO_SHA256): string
     {
         $resource = $this->openPrivateKey($this->privkey);
 
         $signature = null;
 
-        openssl_sign($data, $signature, $resource);
+        openssl_sign($data, $signature, $resource, $algorithm);
 
         return base64_encode($signature);
     }
@@ -75,7 +75,7 @@ class ServerKey extends Model
 
         $resource = openssl_pkey_get_public($this->pubkey);
 
-        return openssl_verify($data, $sigBin, $resource);
+        return openssl_verify($data, $sigBin, $resource, OPENSSL_ALGO_SHA256);
     }
 
     /**

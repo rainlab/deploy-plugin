@@ -259,7 +259,7 @@ function ocDeployScript($beaconVersion, $pubKey) {
                 return false;
             }
 
-            return openssl_verify($userPayload, $signatureDecoded, $pubKey) === 1;
+            return openssl_verify($userPayload, $signatureDecoded, $pubKey, OPENSSL_ALGO_SHA256) === 1;
         }
         catch (Throwable $ex) {
             return false;

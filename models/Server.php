@@ -192,7 +192,7 @@ class Server extends Model
 
         $endpointUrl = $this->buildUrl('fileUpload', [
             'XOB_PAYLOAD' => $data,
-            'XOB_SIGNATURE' => $this->key->signData($data),
+            'XOB_SIGNATURE' => $this->key->signData($data, $this->getSignatureAlgorithm()),
             'XOB_FILENAME' => md5($filePath),
             'XOB_FILEHASH' => md5_file($filePath)
         ]);
@@ -212,7 +212,7 @@ class Server extends Model
         $data = $this->preparePayloadData($cmd, $params);
 
         $endpointUrl = $this->buildUrl($cmd, [
-            'XOB_SIGNATURE' => $this->key->signData($data)
+            'XOB_SIGNATURE' => $this->key->signData($data, $this->getSignatureAlgorithm())
         ]);
 
         $response = Http::post($endpointUrl, function ($http) use ($data) {
@@ -293,6 +293,18 @@ class Server extends Model
         }
 
         return $body;
+    }
+
+    /**
+     * getSignatureAlgorithm returns SHA1 only for known old beacons, SHA256 otherwise
+     */
+    protected function getSignatureAlgorithm(): int
+    {
+        if ($this->beacon_version && version_compare($this->beacon_version, '2.2', '<')) {
+            return OPENSSL_ALGO_SHA1;
+        }
+
+        return OPENSSL_ALGO_SHA256;
     }
 
     /**
