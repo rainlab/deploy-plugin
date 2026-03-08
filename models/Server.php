@@ -88,6 +88,24 @@ class Server extends Model
 
         try {
             $response = $this->transmit('healthCheck');
+        }
+        catch (Exception $ex) {
+            // Retry with updated algorithm in case the beacon was redeployed
+            if ($this->beacon_version && $this->beacon_version !== \RainLab\Deploy\Plugin::PROTOCOL_VERSION) {
+                $this->beacon_version = null;
+                try {
+                    $response = $this->transmit('healthCheck');
+                }
+                catch (Exception $ex) {
+                    $response = null;
+                }
+            }
+            else {
+                $response = null;
+            }
+        }
+
+        if ($response) {
             $isInstalled = $response['appInstalled'] ?? false;
             $envFound = $response['envFound'] ?? false;
             $beaconVersion = $response['beaconVersion'] ?? '1.0';
@@ -101,7 +119,7 @@ class Server extends Model
                 $wantCode = static::STATUS_ACTIVE;
             }
         }
-        catch (Exception $ex) {
+        else {
             $wantCode = static::STATUS_UNREACHABLE;
         }
 
