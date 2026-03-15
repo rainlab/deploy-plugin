@@ -17,7 +17,7 @@ class Plugin extends PluginBase
      */
     public function register()
     {
-        $this->registerConsoleCommand('deploy.deploy', \RainLab\Deploy\Console\Deploy::class);
+        $this->registerConsoleCommand('deploy.server', \RainLab\Deploy\Console\DeployServer::class);
         $this->registerConsoleCommand('deploy.build', \RainLab\Deploy\Console\DeployBuild::class);
         $this->registerConsoleCommand('deploy.test', \RainLab\Deploy\Console\DeployTest::class);
         $this->registerConsoleCommand('deploy.list', \RainLab\Deploy\Console\DeployList::class);

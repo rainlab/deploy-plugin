@@ -114,19 +114,19 @@ php artisan deploy:build --all --output=/path/to/output
 
 #### Deploying to a Server
 
-Use the `deploy` command to perform a full deployment to a remote server. This mirrors the deployment workflow available in the backend interface.
+Use the `deploy:server` command to perform a full deployment to a remote server. This mirrors the deployment workflow available in the backend interface.
 
 ```
-php artisan deploy "My Server" --all
-php artisan deploy "My Server" --core --config
-php artisan deploy "My Server" --plugins=Acme.Blog --themes=demo
-php artisan deploy "My Server" --all --force
+php artisan deploy:server "My Server" --all
+php artisan deploy:server "My Server" --core --config
+php artisan deploy:server "My Server" --plugins=Acme.Blog --themes=demo
+php artisan deploy:server "My Server" --all --force
 ```
 
 If no options are specified, the command will prompt interactively for what to deploy.
 
 ```
-php artisan deploy "My Server"
+php artisan deploy:server "My Server"
 ```
 
 #### Using `.deployignore` to Ignore Files

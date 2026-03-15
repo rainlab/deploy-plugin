@@ -12,14 +12,14 @@ use Exception;
  * @package rainlab/deploy
  * @author Alexey Bobkov, Samuel Georges
  */
-class Deploy extends Command
+class DeployServer extends Command
 {
     use \RainLab\Deploy\Console\Traits\ResolvesServer;
 
     /**
      * @var string signature for the console command
      */
-    protected $signature = 'deploy
+    protected $signature = 'deploy:server
         {server : Server name or ID}
         {--core : Deploy core modules and vendor packages}
         {--config : Deploy config files}
