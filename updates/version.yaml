@@ -23,3 +23,4 @@ v3.0.1: Minor updates to the Beacon files
 v3.1.0: Fixes compatibility with Laravel 12 (beacon redeploy needed)
 v3.1.1: Fixes hard coded media path
 v3.2.0: Fixes support with OpenSSL 3
+v3.3.0: Adds CLI commands for deploy plugin (deploy, deploy:build, deploy:test, deploy:list)

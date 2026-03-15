@@ -78,6 +78,57 @@ You can perform more advanced troubleshooting by capturing the raw response from
 
 This should hopefully provide some insight in to why the response was not accepted.
 
+## Console Commands
+
+The deploy plugin provides several console commands that can be used as an alternative to the backend interface. These are useful for automating deployments or when building large archives (such as vendor packages) that may time out in the browser.
+
+#### Listing Servers
+
+Use the `deploy:list` command to see all configured deployment servers.
+
+```
+php artisan deploy:list
+```
+
+#### Testing Beacon Connectivity
+
+Use the `deploy:test` command to check if a server's beacon is reachable. The server can be specified by name or ID.
+
+```
+php artisan deploy:test "My Server"
+php artisan deploy:test 1
+```
+
+#### Building Archives
+
+Use the `deploy:build` command to build deployment archives locally without transmitting them. This is useful for verifying that large archives (especially vendor packages) can be built successfully.
+
+```
+php artisan deploy:build --vendor
+php artisan deploy:build --core --config
+php artisan deploy:build --all
+php artisan deploy:build --plugins=Acme.Blog --plugins=Acme.Pages
+php artisan deploy:build --themes=demo
+php artisan deploy:build --all --output=/path/to/output
+```
+
+#### Deploying to a Server
+
+Use the `deploy` command to perform a full deployment to a remote server. This mirrors the deployment workflow available in the backend interface.
+
+```
+php artisan deploy "My Server" --all
+php artisan deploy "My Server" --core --config
+php artisan deploy "My Server" --plugins=Acme.Blog --themes=demo
+php artisan deploy "My Server" --all --force
+```
+
+If no options are specified, the command will prompt interactively for what to deploy.
+
+```
+php artisan deploy "My Server"
+```
+
 #### Using `.deployignore` to Ignore Files
 
 There are times when you don't want specific files to be deployed, such as the `node_modules` directory used in plugins and themes. This is possible by creating a `.deployignore` file in the base directory of your plugin or theme. This file behaves the same as `.gitignore` file where you can configure Git to [ignore files you don't want to check in](https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files).
