@@ -184,7 +184,7 @@ class ArchiveBuilder
     public function buildMediaFiles(string $outputFilePath)
     {
         $mediaRoot = Config::get('filesystems.disks.media.root', storage_path('app/media'));
-        $mediaPath = ltrim(str_replace(base_path(), '', $mediaRoot), '/\\');
+        $mediaPath = str_replace('\\', '/', ltrim(str_replace(base_path(), '', $mediaRoot), '/\\'));
 
         $this->buildArchive($outputFilePath, [
             'dirs' => [
