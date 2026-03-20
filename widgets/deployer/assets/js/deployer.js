@@ -92,7 +92,7 @@
                     },
                     error: function(data) {
                         self.setLoadingBar(false);
-                        deferred.reject(data.responseText);
+                        deferred.reject(data.responseText || (data.$env ? data.$env.message : 'An unexpected error has occurred'));
                     }
                 });
 
