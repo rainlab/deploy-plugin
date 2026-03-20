@@ -33,7 +33,7 @@
             .fail(function(reason) {
                 var
                     template = $('#executeFailed').html(),
-                    html = Mustache.to_html(template, { reason: reason });
+                    html = (Mustache.render || Mustache.to_html)(template, { reason: reason });
 
                 $('#executeActivity').hide();
                 $('#executeStatus').html(html);

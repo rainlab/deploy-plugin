@@ -24,3 +24,4 @@ v3.1.0: Fixes compatibility with Laravel 12 (beacon redeploy needed)
 v3.1.1: Fixes hard coded media path
 v3.2.0: Fixes support with OpenSSL 3
 v3.3.0: Adds CLI commands for deploy plugin (deploy:server, deploy:build, deploy:test, deploy:list)
+v3.3.1: Compatibility with October CMS v4.2
