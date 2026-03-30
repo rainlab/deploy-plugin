@@ -236,6 +236,14 @@ class DeployServer extends Command
             'artisan' => 'october:migrate'
         ];
 
+        if ($deployApp || !empty($themes)) {
+            $steps[] = [
+                'label' => 'Migrating Tailor',
+                'action' => 'transmitArtisan',
+                'artisan' => 'tailor:migrate'
+            ];
+        }
+
         if ($deployCore) {
             $build = \System\Models\Parameter::get('system::core.build', 0);
             $steps[] = [

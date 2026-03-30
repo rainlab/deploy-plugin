@@ -350,6 +350,14 @@ class Servers extends SettingsController
             'artisan' => 'october:migrate'
         ];
 
+        if (post('deploy_app') || post('themes')) {
+            $deployActions[] = [
+                'label' => 'Migrating Tailor',
+                'action' => 'transmitArtisan',
+                'artisan' => 'tailor:migrate'
+            ];
+        }
+
         if (post('deploy_core')) {
             $this->injectSetBuildStep($deployActions);
         }
@@ -464,6 +472,12 @@ class Servers extends SettingsController
             'label' => 'Migrating Database',
             'action' => 'transmitArtisan',
             'artisan' => 'october:migrate'
+        ];
+
+        $deployActions[] = [
+            'label' => 'Migrating Tailor',
+            'action' => 'transmitArtisan',
+            'artisan' => 'tailor:migrate'
         ];
 
         $this->injectSetBuildStep($deployActions);
